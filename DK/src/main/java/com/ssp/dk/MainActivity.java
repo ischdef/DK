@@ -1,21 +1,18 @@
 package com.ssp.dk;
 
 import android.app.Activity;
-;
+
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class MainActivity extends Activity
@@ -29,18 +26,24 @@ public class MainActivity extends Activity
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private CharSequence mTitle;
+    private CharSequence mActionBarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set the activity content from a layout resource.
+        // The resource will be inflated, adding all top-level views to the activity.
         setContentView(R.layout.activity_main);
 
+        // Get navigationDrawer fragment
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
 
-        // Set up the drawer.
+        // Set actionBarTitle to name of app
+        mActionBarTitle = getTitle();
+
+        // Set up the drawer, align with layout
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
@@ -48,23 +51,47 @@ public class MainActivity extends Activity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+
+        /* Example Code
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
+         */
+
+        // Trigger fragment change depending on selected drawer
+        switch (position) {
+            case 0:
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                // Show PlayerList
+                PlayerListFragment fragment = new PlayerListFragment();
+                fragmentTransaction.add(R.id.container, fragment);
+                fragmentTransaction.commit();
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+                // TODO exception
+        }
+
+
     }
 
     public void onSectionAttached(int number) {
+        // Set actionBarTitle to name of selected drawer
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mActionBarTitle = getString(R.string.title_section1);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mActionBarTitle = getString(R.string.title_section2);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mActionBarTitle = getString(R.string.title_section3);
                 break;
         }
     }
@@ -72,8 +99,9 @@ public class MainActivity extends Activity
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        // show selected navigation drawer (if any)
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        actionBar.setTitle(mActionBarTitle);
     }
 
 
