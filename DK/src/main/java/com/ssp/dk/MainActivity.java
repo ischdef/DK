@@ -13,7 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -43,7 +45,7 @@ public class MainActivity extends Activity
         // Set actionBarTitle to name of app
         mActionBarTitle = getTitle();
 
-        // Set up the drawer, align with layout
+        // Set up the drawer, align with layout (also calls onCreate())
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
@@ -51,31 +53,35 @@ public class MainActivity extends Activity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-
-        /* Example Code
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-         */
+        if (mNavigationDrawerFragment == null) {
+            Toast.makeText(getApplicationContext(), "Drawer Fragment error.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Trigger fragment change depending on selected drawer
-        switch (position) {
-            case 0:
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                // Show PlayerList
-                PlayerListFragment fragment = new PlayerListFragment();
-                fragmentTransaction.add(R.id.container, fragment);
-                fragmentTransaction.commit();
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                // TODO exception
+        ListView drawerView = (ListView) mNavigationDrawerFragment.getView();
+        if (drawerView == null) {
+            Toast.makeText(getApplicationContext(), "Drawer View error.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String DrawerTitle = drawerView.getItemAtPosition(position).toString();
+
+        if (DrawerTitle.equals(getString(R.string.drawer_title_playersList))) {
+            // Show PlayerList fragment
+            FragmentManager fragmentManager = getFragmentManager();
+            PlayerListFragment fragment = new PlayerListFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+        } else if (DrawerTitle.equals(getString(R.string.drawer_title_session))) {
+            // TODO Nothing new to show yet
+            Toast.makeText(getApplicationContext(), getString(R.string.drawer_title_session), Toast.LENGTH_SHORT).show();
+        } else if (DrawerTitle.equals(getString(R.string.drawer_title_game))) {
+            // TODO Nothing new to show yet
+            Toast.makeText(getApplicationContext(), getString(R.string.drawer_title_game), Toast.LENGTH_SHORT).show();
+        } else {
+            // TODO exception
+            Toast.makeText(getApplicationContext(), "Drawer Selection Error!", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -85,13 +91,13 @@ public class MainActivity extends Activity
         // Set actionBarTitle to name of selected drawer
         switch (number) {
             case 1:
-                mActionBarTitle = getString(R.string.title_section1);
+                mActionBarTitle = getString(R.string.drawer_title_playersList);
                 break;
             case 2:
-                mActionBarTitle = getString(R.string.title_section2);
+                mActionBarTitle = getString(R.string.drawer_title_session);
                 break;
             case 3:
-                mActionBarTitle = getString(R.string.title_section3);
+                mActionBarTitle = getString(R.string.drawer_title_game);
                 break;
         }
     }
@@ -128,48 +134,6 @@ public class MainActivity extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
     }
 
 }
