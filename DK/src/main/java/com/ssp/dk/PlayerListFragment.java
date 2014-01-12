@@ -8,12 +8,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -100,8 +101,20 @@ public class PlayerListFragment extends Fragment {
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // TODO anything to do?
+        // Indicate that this fragment would like to influence the set of actions in the action bar.
+        setHasOptionsMenu(true);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Show playersList specific actions only - delete prev. actions
+        menu.clear();
+        inflater.inflate(R.menu.players_list, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
 
     @Override
     public void onPause() {

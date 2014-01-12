@@ -1,20 +1,13 @@
 package com.ssp.dk;
 
 import android.app.Activity;
-
 import android.app.ActionBar;
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity
@@ -54,11 +47,11 @@ public class MainActivity extends Activity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         if (mNavigationDrawerFragment == null) {
-            Toast.makeText(getApplicationContext(), "Drawer Fragment error.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Drawer Fragment error.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Trigger fragment change depending on selected drawer
+        // get title of current selected drawer
         ListView drawerView = (ListView) mNavigationDrawerFragment.getView();
         if (drawerView == null) {
             Toast.makeText(getApplicationContext(), "Drawer View error.", Toast.LENGTH_SHORT).show();
@@ -66,6 +59,7 @@ public class MainActivity extends Activity
         }
         String DrawerTitle = drawerView.getItemAtPosition(position).toString();
 
+        // Trigger fragment change depending on selected drawer
         if (DrawerTitle.equals(getString(R.string.drawer_title_playersList))) {
             // Show PlayerList fragment
             FragmentManager fragmentManager = getFragmentManager();
@@ -74,32 +68,20 @@ public class MainActivity extends Activity
                     .replace(R.id.container, fragment)
                     .commit();
         } else if (DrawerTitle.equals(getString(R.string.drawer_title_session))) {
-            // TODO Nothing new to show yet
+            // TODO Show session fragment
             Toast.makeText(getApplicationContext(), getString(R.string.drawer_title_session), Toast.LENGTH_SHORT).show();
         } else if (DrawerTitle.equals(getString(R.string.drawer_title_game))) {
-            // TODO Nothing new to show yet
+            // TODO Show game fragment
             Toast.makeText(getApplicationContext(), getString(R.string.drawer_title_game), Toast.LENGTH_SHORT).show();
         } else {
             // TODO exception
             Toast.makeText(getApplicationContext(), "Drawer Selection Error!", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-
-    }
-
-    public void onSectionAttached(int number) {
-        // Set actionBarTitle to name of selected drawer
-        switch (number) {
-            case 1:
-                mActionBarTitle = getString(R.string.drawer_title_playersList);
-                break;
-            case 2:
-                mActionBarTitle = getString(R.string.drawer_title_session);
-                break;
-            case 3:
-                mActionBarTitle = getString(R.string.drawer_title_game);
-                break;
-        }
+        // Update action bar title to selected drawer title
+        mActionBarTitle = DrawerTitle;
+        getActionBar().setTitle(mActionBarTitle);
     }
 
     public void restoreActionBar() {
@@ -117,9 +99,9 @@ public class MainActivity extends Activity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
+            menu.clear();
             getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
-            return true;
         }
         return super.onCreateOptionsMenu(menu);
     }

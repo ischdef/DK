@@ -53,6 +53,7 @@ public class NavigationDrawerFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
+    private MenuInflater mMenuInflater;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
@@ -103,8 +104,8 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.id.text1,
                 new String[]{
                         getString(R.string.drawer_title_playersList),
-                        getString(R.string.drawer_title_session),
-                        getString(R.string.drawer_title_game),
+                        //getString(R.string.drawer_title_session),
+                        //getString(R.string.drawer_title_game),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
@@ -232,13 +233,27 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        mMenuInflater = inflater;
         // If the drawer is open, show the global app actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
+            menu.clear();
             inflater.inflate(R.menu.global, menu);
             showGlobalContextActionBar();
         }
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (isDrawerOpen() && mMenuInflater != null) {
+            // If the drawer is open, show the global app actions in the action bar. See also
+            // showGlobalContextActionBar, which controls the top-left area of the action bar.
+            menu.clear();
+            mMenuInflater.inflate(R.menu.global, menu);
+            //showGlobalContextActionBar();
+        }
+        super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -247,8 +262,8 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.action_players_list_new_player) {
+            Toast.makeText(getActivity(), "Add new player.", Toast.LENGTH_SHORT).show();
             return true;
         }
 
