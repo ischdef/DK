@@ -5,11 +5,13 @@ package com.ssp.dk;
  */
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -66,7 +68,19 @@ public class PlayerListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        if (item.getItemId() == R.id.action_players_list_new_player) {
+            // Show 'add new player' dialog window
+            DialogFragment dialog = new PlayerAddDialogFragment();
+            dialog.show(getFragmentManager(), "NoticeDialogFragment");
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onPause() {
