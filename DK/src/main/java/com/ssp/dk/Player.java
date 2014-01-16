@@ -5,6 +5,7 @@
 
 package com.ssp.dk;
 
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 /**
@@ -13,25 +14,29 @@ import android.net.Uri;
 
 public class Player {
     // Player details
-    private String mPlayerName;
-    private Uri mImageUri;
+    private String mName;
+    private Drawable mImage;
     private int mPlayedGames;
     private int mWonGames;
     private int mLostGames;
 
-    private Player(String playerName, Uri imageUri) {
-        mPlayerName = playerName;
-        mImageUri = imageUri;
+    public Player(String playerName, Drawable image) {
+        mName = playerName;
+        mImage = image;
         mPlayedGames = 0;
         mWonGames = 0;
         mLostGames = 0;
     }
 
-    public String getPlayerName() {
-        return mPlayerName;
+    private Player() {
+        // shall not be used
     }
 
-    public void setPlayerName(String playerName) { mPlayerName = playerName; }
+    public String getPlayerName() {
+        return mName;
+    }
+
+    public void setPlayerName(String playerName) { mName = playerName; }
 
     public int getPlayedGames() {
         return mPlayedGames;
@@ -57,8 +62,8 @@ public class Player {
         mLostGames = lostGames;
     }
 
-    public Uri getImageUri() { return mImageUri; }
+    public Drawable getImage() { return mImage; }
 
-    public void setImageUri(Uri imageUri) { mImageUri = imageUri; }
+    public void setImage(Drawable image) { mImage = image; }
 }
 

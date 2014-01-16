@@ -15,13 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class PlayerListFragment extends Fragment {
 
-    List<Player> mPlayerList = new ArrayList<Player>();
     private View mPlayersListView;
 
     public PlayerListFragment() {
@@ -30,9 +26,6 @@ public class PlayerListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        // TODO Init Player details needed?
-        mPlayerList.clear();
     }
 
     @Override
@@ -74,7 +67,7 @@ public class PlayerListFragment extends Fragment {
         if (item.getItemId() == R.id.action_players_list_new_player) {
             // Show 'add new player' dialog window
             DialogFragment dialog = new PlayerAddDialogFragment();
-            dialog.show(getFragmentManager(), "NoticeDialogFragment");
+            dialog.show(getFragmentManager(), "PlayerAddDialogFragment");
 
             return true;
         }
