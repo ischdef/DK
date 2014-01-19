@@ -27,8 +27,8 @@ import android.widget.Toast;
 public class PlayerAddDialogFragment extends DialogFragment {
 
     /* The activity that creates an instance of this dialog fragment must
- * implement this interface in order to receive event callbacks.
- * Each method passes the DialogFragment in case the host needs to query it. */
+     * implement this interface in order to receive event callbacks.
+     * Each method passes the DialogFragment in case the host needs to query it. */
     public interface PlayerAddDialogCallbacks {
         public void onPlayerAddDialogPositiveClick(String PlayerName, Drawable PlayerImage);
         public void onPlayerAddDialogNegativeClick();
@@ -49,7 +49,7 @@ public class PlayerAddDialogFragment extends DialogFragment {
         super.onAttach(activity);
         // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
+            // Instantiate the Listener so we can send events to the host
             mListener = (PlayerAddDialogCallbacks) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception

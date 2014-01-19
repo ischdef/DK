@@ -13,7 +13,8 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        PlayerAddDialogFragment.PlayerAddDialogCallbacks {
+        PlayerAddDialogFragment.PlayerAddDialogCallbacks,
+        PlayerOptionsDialogFragment.PlayerOptionsDialogCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -61,12 +62,11 @@ public class MainActivity extends Activity
                 .replace(R.id.container, fragment)
                 .commit();
 
-        /** Add test player
+        // Add test player
         Drawable playerImage = getResources().getDrawable(R.drawable.no_user_logo);
-        mPlayerList.addPlayer("Test Player 1", playerImage);
         mPlayerList.addPlayer("Test Player 2", playerImage);
+        mPlayerList.addPlayer("Test Player 1", playerImage);
         mPlayerList.addPlayer("Test Player 3", playerImage);
-         */
     }
 
     public void restoreActionBar() {
@@ -158,7 +158,7 @@ public class MainActivity extends Activity
     public void onPlayerAddDialogPositiveClick(String PlayerName, Drawable PlayerImage) {
         // save new player
         mPlayerList.addPlayer(PlayerName, PlayerImage);
-        Toast.makeText(getApplicationContext(), "Added player '" + PlayerName + "'.",
+        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_added) + " '" + PlayerName + "'.",
                 Toast.LENGTH_SHORT).show();
         // Inform PlayerListView about new player
         mPlayerListFragment.updatePlayerListView();
@@ -166,7 +166,24 @@ public class MainActivity extends Activity
 
     @Override
     public void onPlayerAddDialogNegativeClick() {
-        Toast.makeText(getApplicationContext(), "No player added.",
+        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_add_canceled) + ".",
                 Toast.LENGTH_SHORT).show();
+    }
+
+
+    /*********************************
+     * Callbacks PlayerOptionsDialog *
+     *********************************/
+
+    @Override
+    public void onPlayerOptionsDialogDeleteClick(int position) {
+        // get player name
+        String name = mPlayerList.getPlayer(position).getName();
+        // remove player from list
+        mPlayerList.deletePlayer(position);
+        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_deleted) + " '" + name + "'.",
+                Toast.LENGTH_SHORT).show();
+        // Inform PlayerListView about removed player
+        mPlayerListFragment.updatePlayerListView();
     }
 }

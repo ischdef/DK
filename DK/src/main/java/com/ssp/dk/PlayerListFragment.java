@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -56,6 +57,19 @@ public class PlayerListFragment extends Fragment {
         mPlayerListAdapter = new PlayerListAdapter();
         mPlayerListView.setAdapter(mPlayerListAdapter);
 
+        // Add callback for long clicking single player
+        mPlayerListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int listPosition, long rowId) {
+                // show menu to delete or change item
+                PlayerOptionsDialogFragment dialog = new PlayerOptionsDialogFragment(listPosition);
+                dialog.show(getFragmentManager(), "PlayerOptionsDialogFragment");
+
+                // Callback consumed
+                return true;
+            }
+        });
+
         return mPlayerListFragmentView;
     }
 
@@ -90,12 +104,7 @@ public class PlayerListFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
 
-        // TODO check if anything to store
-    }
 
 
 
@@ -118,7 +127,8 @@ public class PlayerListFragment extends Fragment {
     private class PlayerListAdapter extends ArrayAdapter<Player> {
         public PlayerListAdapter() {
             // Link with PlayerList and PlayerListLayout
-            super (getActivity().getApplicationContext(), R.layout.player_list_item, PlayerList.getInstance().getList());
+            super (getActivity().getApplicationContext(), R.layout.player_list_item,
+                    PlayerList.getInstance().getList());
         }
 
 

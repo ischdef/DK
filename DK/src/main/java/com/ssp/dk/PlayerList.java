@@ -36,6 +36,10 @@ public class PlayerList {
         return mPlayerList;
     }
 
+    public Player getPlayer(int listPosition) {
+        return mPlayerList.get(listPosition);
+    }
+
     /**
      * get previous playerList from internal storage and copy to temporary PlayerList
      */
@@ -62,4 +66,13 @@ public class PlayerList {
         return true;
     }
 
+    public boolean deletePlayer(int position) {
+        // First remove from temporary PlayerList
+        mPlayerList.remove(position);
+
+        // TODO Second remove from internal storage
+        // ...
+
+        return true;
+    }
 }
