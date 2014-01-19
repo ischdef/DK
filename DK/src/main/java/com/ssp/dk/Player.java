@@ -32,38 +32,16 @@ public class Player {
         // shall not be used
     }
 
-    public String getPlayerName() {
+    public String getName() {
         return mName;
     }
-
-    public void setPlayerName(String playerName) { mName = playerName; }
-
     public int getPlayedGames() {
         return mPlayedGames;
     }
-
-    public void setPlayedGames(int playedGames) {
-        mPlayedGames = playedGames;
-    }
-
     public int getWonGames() {
         return mWonGames;
     }
-
-    public void setWonGames(int wonGames) {
-        mWonGames = wonGames;
-    }
-
-    public int getLostGames() {
-        return mLostGames;
-    }
-
-    public void setLostGames(int lostGames) {
-        mLostGames = lostGames;
-    }
-
+    public int getLostGames() { return mLostGames; }
     public Drawable getImage() { return mImage; }
-
-    public void setImage(Drawable image) { mImage = image; }
 }
 

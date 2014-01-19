@@ -32,6 +32,9 @@ public class PlayerList {
         return mInstance;
     }
 
+    public List<Player> getList() {
+        return mPlayerList;
+    }
 
     /**
      * get previous playerList from internal storage and copy to temporary PlayerList
@@ -44,7 +47,7 @@ public class PlayerList {
     /**
      * Add a player to the permanent PlayerList
      * @param playerName Name of player to be added
-     * @param imageUri Link to image of player to be added
+     * @param playerImage Link to image of player to be added
      * @return true if player was successfully stored
      */
     public boolean addPlayer(String playerName, Drawable playerImage) {

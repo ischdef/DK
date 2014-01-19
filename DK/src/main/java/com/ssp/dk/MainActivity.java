@@ -4,16 +4,12 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -33,7 +29,7 @@ public class MainActivity extends Activity
     /**
      * List with all stored players
      */
-    PlayerList mPlayerList = PlayerList.getInstance();
+    private PlayerList mPlayerList = PlayerList.getInstance();
 
 
     @Override
@@ -62,6 +58,12 @@ public class MainActivity extends Activity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
+
+        // Add test player
+        Drawable playerImage = getResources().getDrawable(R.drawable.no_user_logo);
+        mPlayerList.addPlayer("Test Player 1", playerImage);
+        mPlayerList.addPlayer("Test Player 2", playerImage);
+        mPlayerList.addPlayer("Test Player 3", playerImage);
     }
 
     public void restoreActionBar() {
@@ -98,6 +100,8 @@ public class MainActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     /******************************
      * Callbacks NavigationDrawer *
      ******************************/
@@ -118,7 +122,7 @@ public class MainActivity extends Activity
         String DrawerTitle = drawerView.getItemAtPosition(position).toString();
 
         // Trigger fragment change depending on selected drawer
-        if (DrawerTitle.equals(getString(R.string.drawer_title_playersList))) {
+        if (DrawerTitle.equals(getString(R.string.drawer_title_playerList))) {
             // Show PlayerList fragment
             FragmentManager fragmentManager = getFragmentManager();
             PlayerListFragment fragment = new PlayerListFragment();

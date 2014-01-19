@@ -14,11 +14,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class PlayerListFragment extends Fragment {
 
-    private View mPlayersListView;
+    private View mPlayerListFragmentView;
+    private ListView mPlayerListView;
+    private ArrayAdapter<Player> mPlayerListAdapter;
+    private LayoutInflater mInflater;
 
     public PlayerListFragment() {
     }
@@ -38,10 +45,18 @@ public class PlayerListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mPlayersListView = inflater.inflate(
-                R.layout.fragment_players_list, container, false);
+        mInflater = inflater;
+        mPlayerListFragmentView = inflater.inflate(
+                R.layout.fragment_player_list, container, false);
 
-        return mPlayersListView;
+        // set listView shortcut
+        mPlayerListView = (ListView) mPlayerListFragmentView.findViewById(R.id.player_list);
+
+        // populate player list by using adapter
+        mPlayerListAdapter = new PlayerListAdapter();
+        mPlayerListView.setAdapter(mPlayerListAdapter);
+
+        return mPlayerListFragmentView;
     }
 
     @Override
@@ -54,9 +69,9 @@ public class PlayerListFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Show playersList specific actions only - delete prev. actions
+        // Show playerList specific actions only - delete prev. actions
         menu.clear();
-        inflater.inflate(R.menu.players_list, menu);
+        inflater.inflate(R.menu.player_list, menu);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -64,7 +79,7 @@ public class PlayerListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.action_players_list_new_player) {
+        if (item.getItemId() == R.id.action_player_list_new_player) {
             // Show 'add new player' dialog window
             DialogFragment dialog = new PlayerAddDialogFragment();
             dialog.show(getFragmentManager(), "PlayerAddDialogFragment");
@@ -80,5 +95,61 @@ public class PlayerListFragment extends Fragment {
         super.onPause();
 
         // TODO check if anything to store
+    }
+
+
+
+    /**
+     * Adapter
+     */
+
+    static class PlayerListItemViewHolder {
+        ImageView image;
+        TextView name;
+        TextView playedGames;
+        TextView wonGames;
+        TextView lostGames;
+    }
+
+    private class PlayerListAdapter extends ArrayAdapter<Player> {
+        public PlayerListAdapter() {
+            // Link with PlayerList and PlayerListLayout
+            super (getActivity().getApplicationContext(), R.layout.player_list_item, PlayerList.getInstance().getList());
+        }
+
+
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            PlayerListItemViewHolder holder; // used for faster view access
+
+            // Check for initial inflation
+            if (convertView == null) {
+                // inflate
+                convertView = mInflater.inflate(R.layout.player_list_item, parent, false);
+
+                // set shortcuts
+                holder = new PlayerListItemViewHolder();
+                holder.image = (ImageView) convertView.findViewById(R.id.playerImage);
+                holder.name = (TextView) convertView.findViewById(R.id.playerName);
+                holder.playedGames = (TextView) convertView.findViewById(R.id.playerGamesCount);
+                holder.wonGames = (TextView) convertView.findViewById(R.id.playerGamesWins);
+                holder.lostGames = (TextView) convertView.findViewById(R.id.playerGamesLosses);
+
+                convertView.setTag(holder);
+            } else {
+                holder = (PlayerListItemViewHolder) convertView.getTag();
+            }
+
+            // Set player parameters to list view item
+            Player player = PlayerList.getInstance().getList().get(position);
+            holder.image.setImageDrawable(player.getImage());
+            holder.name.setText(player.getName());
+            holder.playedGames.setText(getString(R.string.player_games_count) + ": " + player.getPlayedGames());
+            holder.wonGames.setText(getString(R.string.player_games_wins) + ": " + player.getWonGames());
+            holder.lostGames.setText(getString(R.string.player_games_losses) + ": " + player.getLostGames());
+
+            return convertView;
+        }
     }
 }

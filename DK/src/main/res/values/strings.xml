@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">DK</string>
-    <string name="drawer_title_playersList">Players</string>
+    <string name="drawer_title_playerList">Players</string>
     <string name="drawer_title_session">Session</string>
     <string name="drawer_title_game">Game</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -15,7 +15,7 @@
 
     <string name="player_name">Player Name</string>
     <string name="player_games_count">Played Games</string>
-    <string name="player_games_wins">Won Games</string>
-    <string name="player_games_loses">Lost Games</string>
+    <string name="player_games_wins">Wins</string>
+    <string name="player_games_losses">Losses</string>
 
 </resources>

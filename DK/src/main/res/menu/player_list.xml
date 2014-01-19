@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ssp.dk.PlayerListFragment" >
 
-    <item android:id="@+id/action_players_list_new_player"
+    <item android:id="@+id/action_player_list_new_player"
         android:title="@string/action_add_player"
         android:icon="@drawable/ic_action_add_person"
         android:showAsAction="withText|ifRoom" />

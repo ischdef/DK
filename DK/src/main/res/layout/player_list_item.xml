@@ -4,15 +4,16 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:id="@+id/playerImage"
         android:src="@drawable/no_user_logo"/>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,8 +41,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/player_games_loses"
-            android:id="@+id/playerGamesLoses"
+            android:text="@string/player_games_losses"
+            android:id="@+id/playerGamesLosses"
             android:layout_gravity="left|center_vertical"/>
     </LinearLayout>
 
