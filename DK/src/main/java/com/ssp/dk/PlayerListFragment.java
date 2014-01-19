@@ -103,6 +103,10 @@ public class PlayerListFragment extends Fragment {
      * Adapter
      */
 
+    public void updatePlayerListView () {
+        mPlayerListAdapter.notifyDataSetChanged();
+    }
+
     static class PlayerListItemViewHolder {
         ImageView image;
         TextView name;

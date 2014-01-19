@@ -31,6 +31,8 @@ public class MainActivity extends Activity
      */
     private PlayerList mPlayerList = PlayerList.getInstance();
 
+    // Shortcuts
+    private PlayerListFragment mPlayerListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +61,12 @@ public class MainActivity extends Activity
                 .replace(R.id.container, fragment)
                 .commit();
 
-        // Add test player
+        /** Add test player
         Drawable playerImage = getResources().getDrawable(R.drawable.no_user_logo);
         mPlayerList.addPlayer("Test Player 1", playerImage);
         mPlayerList.addPlayer("Test Player 2", playerImage);
         mPlayerList.addPlayer("Test Player 3", playerImage);
+         */
     }
 
     public void restoreActionBar() {
@@ -125,9 +128,9 @@ public class MainActivity extends Activity
         if (DrawerTitle.equals(getString(R.string.drawer_title_playerList))) {
             // Show PlayerList fragment
             FragmentManager fragmentManager = getFragmentManager();
-            PlayerListFragment fragment = new PlayerListFragment();
+            mPlayerListFragment= new PlayerListFragment();
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, fragment)
+                    .replace(R.id.container, mPlayerListFragment)
                     .commit();
         } else if (DrawerTitle.equals(getString(R.string.drawer_title_session))) {
             // TODO Show session fragment
@@ -157,6 +160,8 @@ public class MainActivity extends Activity
         mPlayerList.addPlayer(PlayerName, PlayerImage);
         Toast.makeText(getApplicationContext(), "Added player '" + PlayerName + "'.",
                 Toast.LENGTH_SHORT).show();
+        // Inform PlayerListView about new player
+        mPlayerListFragment.updatePlayerListView();
     }
 
     @Override
