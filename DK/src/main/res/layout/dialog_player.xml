@@ -8,14 +8,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <ImageView
-        android:id="@+id/AddPlayerDialog_Image"
+        android:id="@+id/PlayerDialog_Image"
         android:src="@drawable/no_user_logo"
         android:layout_width="match_parent"
         android:layout_height="270dp"
         android:scaleType="center"
-        android:contentDescription="@string/dialog_add_player_title" />
+        android:contentDescription="@string/dialog_player_image" />
     <EditText
-        android:id="@+id/AddPlayerDialog_Name"
+        android:id="@+id/PlayerDialog_Name"
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,5 +23,5 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="@string/player_name" />
+        android:hint="@string/dialog_player_name" />
 </LinearLayout>

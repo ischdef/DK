@@ -27,15 +27,26 @@ public class PlayerList {
         initPlayerList();
     }
 
-     // Get only available PlayerList instance
+    /**
+     * Get only available PlayerList instance
+     */
     public static PlayerList getInstance() {
         return mInstance;
     }
 
+    /**
+     * Get PlayerList array
+     * @return PlayerList array
+     */
     public List<Player> getList() {
         return mPlayerList;
     }
 
+    /**
+     * Get player from playerList by position in list
+     * @param listPosition position of player to be received
+     * @return selected player
+     */
     public Player getPlayer(int listPosition) {
         return mPlayerList.get(listPosition);
     }
@@ -50,8 +61,8 @@ public class PlayerList {
 
     /**
      * Add a player to the permanent PlayerList
-     * @param playerName Name of player to be added
-     * @param playerImage Link to image of player to be added
+     * @param playerName name of player to be added
+     * @param playerImage image of player to be added
      * @return true if player was successfully stored
      */
     public boolean addPlayer(String playerName, Drawable playerImage) {
@@ -66,11 +77,36 @@ public class PlayerList {
         return true;
     }
 
+    /**
+     * Permanently delete player from playerList
+     * @param position position of player in list to be deleted
+     * @return true if player was deleted
+     */
     public boolean deletePlayer(int position) {
         // First remove from temporary PlayerList
         mPlayerList.remove(position);
 
         // TODO Second remove from internal storage
+        // ...
+
+        return true;
+    }
+
+    /**
+     * Change name and/or picture of player
+     * @param position position of player in list to be changed
+     * @param playerName name of player to be changed
+     * @param playerImage image of player to be changed
+     * @return true if player was changed
+     */
+    public boolean editPlayer(int position, String playerName, Drawable playerImage) {
+        // Create Player
+        Player player = new Player(playerName, playerImage);
+
+        // First overwrite in temporary PlayerList
+        mPlayerList.set(position, player);
+
+        // TODO Second update internal storage
         // ...
 
         return true;

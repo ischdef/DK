@@ -13,17 +13,16 @@
     <string name="action_add_player">Add Player</string>
     <string name="action_settings">Settings</string>
 
-    <string name="dialog_add_player_title">Add New Player</string>
+    <string name="dialog_player_image">Player Image</string>
+    <string name="dialog_player_name">Player Name</string>
     <string name="dialog_add_player_cancel">Cancel</string>
     <string name="dialog_add_player_ok">Add</string>
+    <string name="dialog_edit_player_cancel">Cancel</string>
+    <string name="dialog_edit_player_ok">OK</string>
 
     <string name="dialog_player_options_title">Player Options</string>
     <string name="dialog_player_options_delete">Delete Player</string>
     <string name="dialog_player_options_edit">Edit Player</string>
-
-    <string name="dialog_edit_player_title">Edit Player</string>
-    <string name="dialog_edit_player_cancel">Cancel</string>
-    <string name="dialog_edit_player_ok">OK</string>
 
     <string name="player_name">Player Name</string>
     <string name="player_games_count">Played Games</string>
@@ -32,6 +31,8 @@
 
     <string name="toast_player_added">Added player</string>
     <string name="toast_player_add_canceled">No player added</string>
+    <string name="toast_player_edit">Changed player</string>
+    <string name="toast_player_edit_canceled">No player changed</string>
     <string name="toast_player_deleted">Deleted player</string>
 
 </resources>

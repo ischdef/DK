@@ -2,6 +2,7 @@ package com.ssp.dk;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        PlayerAddDialogFragment.PlayerAddDialogCallbacks,
+        PlayerDialogFragment.PlayerAddDialogCallbacks,
         PlayerOptionsDialogFragment.PlayerOptionsDialogCallbacks {
 
     /**
@@ -151,7 +152,7 @@ public class MainActivity extends Activity
 
 
     /*****************************
-     * Callbacks PlayerAddDialog *
+     * Callbacks PlayerDialog *
      *****************************/
 
     @Override
@@ -170,6 +171,22 @@ public class MainActivity extends Activity
                 Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onPlayerEditDialogPositiveClick(int listPosition, String PlayerName, Drawable PlayerImage) {
+        // save player changes
+        mPlayerList.editPlayer(listPosition, PlayerName, PlayerImage);
+        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_edit) + " '" + PlayerName + "'.",
+                Toast.LENGTH_SHORT).show();
+        // Inform PlayerListView about changed player
+        mPlayerListFragment.updatePlayerListView();
+    }
+
+    @Override
+    public void onPlayerEditDialogNegativeClick() {
+        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_edit_canceled) + ".",
+                Toast.LENGTH_SHORT).show();
+    }
+
 
     /*********************************
      * Callbacks PlayerOptionsDialog *
@@ -185,5 +202,12 @@ public class MainActivity extends Activity
                 Toast.LENGTH_SHORT).show();
         // Inform PlayerListView about removed player
         mPlayerListFragment.updatePlayerListView();
+    }
+
+    @Override
+    public void onPlayerOptionsDialogEditClick(int position) {
+        // Show 'edit player' dialog window
+        DialogFragment dialog = new PlayerDialogFragment(position);
+        dialog.show(getFragmentManager(), "PlayerDialogFragment");
     }
 }
