@@ -58,7 +58,7 @@ public class PlayerOptionsDialogFragment extends DialogFragment {
         builder.setTitle(R.string.dialog_player_options_title)
                 .setItems(options, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // Forward delete back to caller
+                        // Forward selection back to caller
                         switch (which) {
                             case 0: // delete
                                 // Delete selected player

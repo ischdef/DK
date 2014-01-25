@@ -24,6 +24,13 @@
     <string name="dialog_player_options_delete">Delete Player</string>
     <string name="dialog_player_options_edit">Edit Player</string>
 
+    <string name="dialog_player_image_options_title">Select Player Image</string>
+    <string name="dialog_player_image_options_camera">Take Picture</string>
+    <string name="dialog_player_image_options_file">Select Image File</string>
+    <string name="dialog_player_image_options_contact">Select Contact Image</string>
+    <string name="dialog_player_image_options_default">Default Image</string>
+    <string name="dialog_player_image_options_cancel">Cancel</string>
+
     <string name="player_name">Player Name</string>
     <string name="player_games_count">Played Games</string>
     <string name="player_games_wins">Wins</string>

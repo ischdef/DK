@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -35,6 +39,10 @@ public class MainActivity extends Activity
 
     // Shortcuts
     private PlayerListFragment mPlayerListFragment;
+
+    // Content Resolver related parameter
+    public static final int PICK_CONTACT_REQUEST = 1;  // Request code used for selecting a contact
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,5 +217,58 @@ public class MainActivity extends Activity
         // Show 'edit player' dialog window
         DialogFragment dialog = new PlayerDialogFragment(position);
         dialog.show(getFragmentManager(), "PlayerDialogFragment");
+    }
+
+
+
+    /****************************************
+     * handle Intent results from Fragments *
+     ****************************************/
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        Toast.makeText(getApplicationContext(), "onActivityResult called", Toast.LENGTH_SHORT).show();
+
+        // Check which request we're responding to
+        if (requestCode == PICK_CONTACT_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == Activity.RESULT_OK) {
+                // The user picked a contact - The Intent's data Uri identifies which contact was selected.
+                Uri resultUri = intent.getData();
+                // get the contact id from the Uri
+                String contactId = resultUri.getLastPathSegment();
+
+                // Create cursor for contact data search
+                Cursor cursor = getContentResolver().query(
+                        ContactsContract.Data.CONTENT_URI,
+                        null, null, null, null);
+                if (cursor.getCount() > 0) {
+                    while (cursor.moveToNext()) {
+                        String id = cursor.getString(
+                                cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                        String name = cursor.getString(
+                                cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                        // Check if we found selected contact
+                        if (contactId.equals(id)) {
+                            try {
+                                Uri imageUri = Uri.parse(cursor.getString(
+                                        cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
+                                // Inform PlayerDialogFragment about selected contact
+                                ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
+                                        setSelectedContact(name, imageUri);
+                                return;
+                            } catch (Exception e) {
+                                // do nothing
+                            }
+
+                        }
+                    }
+                }
+            }
+            Toast.makeText(getApplicationContext(), "No contact selected", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "No valid request", Toast.LENGTH_SHORT).show();
+        }
     }
 }

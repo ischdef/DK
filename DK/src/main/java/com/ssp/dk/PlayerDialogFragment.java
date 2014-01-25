@@ -11,6 +11,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -63,6 +64,26 @@ public class PlayerDialogFragment extends DialogFragment {
     public PlayerDialogFragment(int listPosition) {
         mDialogTypeAdd = false;
         mListPosition = listPosition;
+    }
+
+    public void setSelectedPlayerImageUri(Uri playerImageUri) {
+        // Show newly selected player image
+        if (mPlayerImageView != null) {
+            mPlayerImageView.setImageURI(playerImageUri);
+        }
+    }
+
+    public void setSelectedContact(String playerName, Uri playerImageUri) {
+        // Show newly selected player image
+        if (mPlayerImageView != null) {
+            mPlayerImageView.setImageURI(playerImageUri);
+        }
+        // Show playerName only if new player to be added
+        if (mPlayerNameText != null && mDialogTypeAdd) {
+            mPlayerNameText.setText(playerName);
+            // enable Add button
+            mAddButton.setEnabled(true);
+        }
     }
 
     @Override
@@ -133,6 +154,9 @@ public class PlayerDialogFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
 
+        /* TODO this should not be done in onStart() because it will overwrite all settings when it
+           goes into background and coming back in focus*/
+
         // save object shortcuts
         mAddButton = ((AlertDialog)mDialog).getButton(AlertDialog.BUTTON_POSITIVE);
         mPlayerNameText = (EditText)mDialogView.findViewById(R.id.PlayerDialog_Name);
@@ -170,6 +194,14 @@ public class PlayerDialogFragment extends DialogFragment {
             }
         });
 
+        mPlayerImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Show 'Player Image' dialog window
+                DialogFragment dialog = new PlayerImageOptionsDialogFragment();
+                dialog.show(getFragmentManager(), "PlayerImageDialogFragment");
+            }
+        });
 
     }
 }
