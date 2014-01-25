@@ -12,6 +12,7 @@ import android.app.DialogFragment;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -52,8 +53,16 @@ public class PlayerImageOptionsDialogFragment extends DialogFragment {
                                 getActivity().startActivityForResult(pickContactIntent, MainActivity.PICK_CONTACT_REQUEST);
 
                             case 3: // default
-                                // TODO Set default player image
-
+                                // Get default user log Uri
+                                int resId = R.drawable.no_user_logo;
+                                Resources resources = getActivity().getApplicationContext().getResources();
+                                Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                                        resources.getResourcePackageName(resId) +
+                                        '/' + resources.getResourceTypeName(resId) +
+                                        '/' + resources.getResourceEntryName(resId) );
+                                // Set default player image
+                                ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
+                                        setSelectedPlayerImage(imageUri);
                             case 4: // Cancel
                                 // player image selection
                                 // Don't do anything - dialog will be closed automatically
