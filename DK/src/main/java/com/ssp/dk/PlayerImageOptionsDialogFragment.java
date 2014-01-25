@@ -42,9 +42,9 @@ public class PlayerImageOptionsDialogFragment extends DialogFragment {
                                 //mListener.onPlayerImageOptionsDialogImageSelected(image);
                                 break;
                             case 1: // file
-                                // TODO Start file manager
-
-                                //mListener.onPlayerImageOptionsDialogImageSelected(image);
+                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                photoPickerIntent.setType("image/*");
+                                getActivity().startActivityForResult(photoPickerIntent, MainActivity.PICK_PHOTO_REQUEST);
                                 break;
                             case 2: // contact
                                 // Start contact selection

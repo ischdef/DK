@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -41,7 +42,8 @@ public class MainActivity extends Activity
     private PlayerListFragment mPlayerListFragment;
 
     // Content Resolver related parameter
-    public static final int PICK_CONTACT_REQUEST = 1;  // Request code used for selecting a contact
+    public static final int PICK_CONTACT_REQUEST = 1; // Request code used for selecting a contact
+    public static final int PICK_PHOTO_REQUEST = 2;   // Request code used for selecting a image from storage
 
 
     @Override
@@ -231,32 +233,66 @@ public class MainActivity extends Activity
         //Toast.makeText(getApplicationContext(), "onActivityResult called", Toast.LENGTH_SHORT).show();
 
         // Check which request we're responding to
-        if (requestCode == PICK_CONTACT_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == Activity.RESULT_OK) {
-                // The user picked a contact - The Intent's data Uri identifies which contact was selected.
-                Uri resultUri = intent.getData();
+        switch (requestCode) {
 
-                Cursor cursor =  getContentResolver().query(resultUri, null, null, null, null);
-                if (cursor.moveToFirst()) {
-                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                    try {
-                        Uri imageUri = Uri.parse(cursor.getString(
-                                cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
-                        // Inform PlayerDialogFragment about selected contact
-                        ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
-                                setSelectedContact(name, imageUri);
-                    } catch (Exception e) {
-                        // Inform PlayerDialogFragment only about selected contact name
-                        ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
-                                setSelectedContact(name, null);
+            case PICK_CONTACT_REQUEST: {
+                // Make sure the request was successful
+                if (resultCode == Activity.RESULT_OK) {
+                    // The user picked a contact - The Intent's data Uri identifies which contact was selected.
+                    Uri resultUri = intent.getData();
+
+                    Cursor cursor =  getContentResolver().query(resultUri, null, null, null, null);
+                    if (cursor.moveToFirst()) {
+                        String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                        try {
+                            Uri imageUri = Uri.parse(cursor.getString(
+                                    cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
+                            // Inform PlayerDialogFragment about selected contact
+                            ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
+                                    setSelectedContact(name, imageUri);
+                        } catch (Exception e) {
+                            // Inform PlayerDialogFragment only about selected contact name
+                            ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
+                                    setSelectedContact(name, null);
+                        }
+                        cursor.close();
+                        return;
                     }
-                    return;
                 }
+                Toast.makeText(getApplicationContext(), "No contact selected", Toast.LENGTH_SHORT).show();
+                break;
             }
-            Toast.makeText(getApplicationContext(), "No contact selected", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "No valid request", Toast.LENGTH_SHORT).show();
+
+            case PICK_PHOTO_REQUEST: {
+                if (resultCode == RESULT_OK){
+                    Uri selectedImage = intent.getData();
+
+                    ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
+                            setSelectedPlayerImage(selectedImage);
+                    return;
+
+                    /*
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(
+                            selectedImage, filePathColumn, null, null, null);
+                    if (cursor.moveToFirst()) {
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String filePath = cursor.getString(columnIndex);
+                        Uri imageUri = Uri.parse(filePath);
+                        cursor.close();
+                        ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
+                                setSelectedPlayerImage(imageUri);
+                        return;
+                    }
+                    */
+                }
+                Toast.makeText(getApplicationContext(), "No image selected", Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+            default: {
+                Toast.makeText(getApplicationContext(), "No valid request", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
