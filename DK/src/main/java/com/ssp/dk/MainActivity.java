@@ -228,7 +228,7 @@ public class MainActivity extends Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        Toast.makeText(getApplicationContext(), "onActivityResult called", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "onActivityResult called", Toast.LENGTH_SHORT).show();
 
         // Check which request we're responding to
         if (requestCode == PICK_CONTACT_REQUEST) {
@@ -236,34 +236,22 @@ public class MainActivity extends Activity
             if (resultCode == Activity.RESULT_OK) {
                 // The user picked a contact - The Intent's data Uri identifies which contact was selected.
                 Uri resultUri = intent.getData();
-                // get the contact id from the Uri
-                String contactId = resultUri.getLastPathSegment();
 
-                // Create cursor for contact data search
-                Cursor cursor = getContentResolver().query(
-                        ContactsContract.Data.CONTENT_URI,
-                        null, null, null, null);
-                if (cursor.getCount() > 0) {
-                    while (cursor.moveToNext()) {
-                        String id = cursor.getString(
-                                cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                        String name = cursor.getString(
-                                cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                        // Check if we found selected contact
-                        if (contactId.equals(id)) {
-                            try {
-                                Uri imageUri = Uri.parse(cursor.getString(
-                                        cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
-                                // Inform PlayerDialogFragment about selected contact
-                                ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
-                                        setSelectedContact(name, imageUri);
-                                return;
-                            } catch (Exception e) {
-                                // do nothing
-                            }
-
-                        }
+                Cursor cursor =  getContentResolver().query(resultUri, null, null, null, null);
+                if (cursor.moveToFirst()) {
+                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    try {
+                        Uri imageUri = Uri.parse(cursor.getString(
+                                cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
+                        // Inform PlayerDialogFragment about selected contact
+                        ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
+                                setSelectedContact(name, imageUri);
+                    } catch (Exception e) {
+                        // Inform PlayerDialogFragment only about selected contact name
+                        ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
+                                setSelectedContact(name, null);
                     }
+                    return;
                 }
             }
             Toast.makeText(getApplicationContext(), "No contact selected", Toast.LENGTH_SHORT).show();

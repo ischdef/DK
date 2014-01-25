@@ -48,6 +48,7 @@ public class PlayerDialogFragment extends DialogFragment {
     // Dialog type dependent parameters
     private boolean mDialogTypeAdd; // true->addPlayerDialog; false->editPlayerDialog
     private int mListPosition; // Player to be changed
+    private boolean mViewInitDone = false;
 
     /**
      * Constructor to create AddPlayerDialog
@@ -66,7 +67,7 @@ public class PlayerDialogFragment extends DialogFragment {
         mListPosition = listPosition;
     }
 
-    public void setSelectedPlayerImageUri(Uri playerImageUri) {
+    public void setSelectedPlayerImage(Uri playerImageUri) {
         // Show newly selected player image
         if (mPlayerImageView != null) {
             mPlayerImageView.setImageURI(playerImageUri);
@@ -154,54 +155,55 @@ public class PlayerDialogFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
 
-        /* TODO this should not be done in onStart() because it will overwrite all settings when it
-           goes into background and coming back in focus*/
+        // Only init dialog parameter once
+        if (!mViewInitDone) {
+            mViewInitDone = true;
+            // save object shortcuts
+            mAddButton = ((AlertDialog)mDialog).getButton(AlertDialog.BUTTON_POSITIVE);
+            mPlayerNameText = (EditText)mDialogView.findViewById(R.id.PlayerDialog_Name);
+            mPlayerImageView = (ImageView)mDialogView.findViewById(R.id.PlayerDialog_Image);
 
-        // save object shortcuts
-        mAddButton = ((AlertDialog)mDialog).getButton(AlertDialog.BUTTON_POSITIVE);
-        mPlayerNameText = (EditText)mDialogView.findViewById(R.id.PlayerDialog_Name);
-        mPlayerImageView = (ImageView)mDialogView.findViewById(R.id.PlayerDialog_Image);
+            if (mDialogTypeAdd) {
+                // Disable "Add button" because no Name entered yet
+                mAddButton.setEnabled(false);
+            } else { // EditPlayerDialog
+                // Get selected player
+                Player player = PlayerList.getInstance().getPlayer(mListPosition);
+                // Set image and text from Player
+                mPlayerImageView.setImageDrawable(player.getImage());
+                mPlayerNameText.setText(player.getName());
+                // Enable "Edit button" because Name already entered
+                mAddButton.setEnabled(true);
+            }
 
-        if (mDialogTypeAdd) {
-            // Disable "Add button" because no Name entered yet
-            mAddButton.setEnabled(false);
-        } else { // EditPlayerDialog
-            // Get selected player
-            Player player = PlayerList.getInstance().getPlayer(mListPosition);
-            // Set image and text from Player
-            mPlayerImageView.setImageDrawable(player.getImage());
-            mPlayerNameText.setText(player.getName());
-            // Enable "Edit button" because Name already entered
-            mAddButton.setEnabled(true);
+            // Add PlayerNameText Listeners
+            mPlayerNameText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                    // Enable Add/Edit button when user added a player name
+                    mAddButton.setEnabled(mPlayerNameText.getText().toString().trim().length() > 0);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
+            mPlayerImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Show 'Player Image' dialog window
+                    DialogFragment dialog = new PlayerImageOptionsDialogFragment();
+                    dialog.show(getFragmentManager(), "PlayerImageDialogFragment");
+                }
+            });
+
         }
-
-        // Add PlayerNameText Listeners
-        mPlayerNameText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                // Enable Add/Edit button when user added a player name
-                mAddButton.setEnabled(mPlayerNameText.getText().toString().trim().length() > 0);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        mPlayerImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Show 'Player Image' dialog window
-                DialogFragment dialog = new PlayerImageOptionsDialogFragment();
-                dialog.show(getFragmentManager(), "PlayerImageDialogFragment");
-            }
-        });
-
     }
 }
