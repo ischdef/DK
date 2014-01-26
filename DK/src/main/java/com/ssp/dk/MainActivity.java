@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -115,7 +116,18 @@ public class MainActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
+        // Check orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // TODO Change to landscape mode -> always show drawer open?
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            // TODO Change back portrait mode -> close open drawer open?
+        }
+
+    }
 
     /******************************
      * Callbacks NavigationDrawer *
