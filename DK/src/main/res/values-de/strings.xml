@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2014.                                                       ~
+  ~ Stefan Schulze Programs.                                                  ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<resources>
+
+    <string name="app_name">DK</string>
+
+    <string name="drawer_title_playerList">Spieler</string>
+    <string name="drawer_title_session">Sitzung</string>
+    <string name="drawer_title_game">Spiel</string>
+
+    <string name="navigation_drawer_open">Öffne Schublade</string>
+    <string name="navigation_drawer_close">Schließe Schublade</string>
+
+    <string name="action_add_player">Neuer Spieler</string>
+    <string name="action_settings">Einstellungen</string>
+
+    <string name="dialog_player_image">Spielerbild</string>
+    <string name="dialog_player_name">Spielername</string>
+    <string name="dialog_add_player_cancel">Zurück</string>
+    <string name="dialog_add_player_ok">Hinzufügen</string>
+    <string name="dialog_edit_player_cancel">Zurück</string>
+    <string name="dialog_edit_player_ok">Übernehmen</string>
+
+    <string name="dialog_player_options_title">Spieleroptionen</string>
+    <string name="dialog_player_options_delete">Spieler löschen</string>
+    <string name="dialog_player_options_edit">Spieler bearbeiten</string>
+
+    <string name="dialog_player_image_options_title">Spielerbild auswählen</string>
+    <string name="dialog_player_image_options_camera">Bild aufnehmen</string>
+    <string name="dialog_player_image_options_file">Bild auswählen</string>
+    <string name="dialog_player_image_options_contact">Bild von Kontakt auswählen</string>
+    <string name="dialog_player_image_options_default">Standardbild asuwählen</string>
+    <string name="dialog_player_image_options_cancel">Zurück</string>
+
+    <string name="player_name">Spielername</string>
+    <string name="player_games_count">Anzahl Spiele</string>
+    <string name="player_games_wins">Gewonnen</string>
+    <string name="player_games_losses">Verloren</string>
+
+    <string name="toast_player_added">Spieler hinzugefügt:</string>
+    <string name="toast_player_add_canceled">Kein Spieler hinzugefügt</string>
+    <string name="toast_player_edit">Spieler bearbeitet:</string>
+    <string name="toast_player_edit_canceled">Kein Spieler bearbeitet.</string>
+    <string name="toast_player_deleted">Spieler gelöscht:</string>
+
+</resources>
