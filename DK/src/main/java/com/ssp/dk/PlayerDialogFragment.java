@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -71,6 +72,13 @@ public class PlayerDialogFragment extends DialogFragment {
         // Show newly selected player image
         if (mPlayerImageView != null) {
             mPlayerImageView.setImageURI(playerImageUri);
+        }
+    }
+
+    public void setSelectedPlayerImage(Bitmap playerImage) {
+        // Show newly selected player image
+        if (mPlayerImageView != null) {
+            mPlayerImageView.setImageBitmap(playerImage);
         }
     }
 

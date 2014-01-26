@@ -5,17 +5,19 @@
 
 package com.ssp.dk;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
+import android.widget.Toast;
 
 /**
  * Created by Stefan Schulze on 2014/01/21.
@@ -38,19 +40,27 @@ public class PlayerImageOptionsDialogFragment extends DialogFragment {
                         // Forward selection back to caller
                         switch (which) {
                             case 0: // camera
-                                // TODO Start camera
-
-                                //mListener.onPlayerImageOptionsDialogImageSelected(image);
+                                // Check if Camera is available
+                                if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                                    // Start camera
+                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                    if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                                        getActivity().startActivityForResult(takePictureIntent, MainActivity.REQUEST_IMAGE_CAPTURE);
+                                    }
+                                } else {
+                                    Toast.makeText(getActivity().getApplicationContext(),
+                                            "No camera available", Toast.LENGTH_SHORT).show();
+                                }
                                 break;
                             case 1: // file
                                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                                 photoPickerIntent.setType("image/*");
-                                getActivity().startActivityForResult(photoPickerIntent, MainActivity.PICK_PHOTO_REQUEST);
+                                getActivity().startActivityForResult(photoPickerIntent, MainActivity.REQUEST_PICK_PHOTO);
                                 break;
                             case 2: // contact
                                 // Start contact selection
                                 Intent pickContactIntent = new Intent( Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI );
-                                getActivity().startActivityForResult(pickContactIntent, MainActivity.PICK_CONTACT_REQUEST);
+                                getActivity().startActivityForResult(pickContactIntent, MainActivity.REQUEST_PICK_CONTACT);
 
                             case 3: // default
                                 // Get default user log Uri

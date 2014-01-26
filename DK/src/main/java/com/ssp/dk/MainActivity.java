@@ -6,11 +6,11 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -42,8 +42,9 @@ public class MainActivity extends Activity
     private PlayerListFragment mPlayerListFragment;
 
     // Content Resolver related parameter
-    public static final int PICK_CONTACT_REQUEST = 1; // Request code used for selecting a contact
-    public static final int PICK_PHOTO_REQUEST = 2;   // Request code used for selecting a image from storage
+    public static final int REQUEST_PICK_CONTACT  = 1; // Request code used for selecting a contact
+    public static final int REQUEST_PICK_PHOTO    = 2; // Request code used for selecting a image from storage
+    public static final int REQUEST_IMAGE_CAPTURE = 3; // Request code used for taking a photo via camera
 
 
     @Override
@@ -235,7 +236,7 @@ public class MainActivity extends Activity
         // Check which request we're responding to
         switch (requestCode) {
 
-            case PICK_CONTACT_REQUEST: {
+            case REQUEST_PICK_CONTACT: {
                 // Make sure the request was successful
                 if (resultCode == Activity.RESULT_OK) {
                     // The user picked a contact - The Intent's data Uri identifies which contact was selected.
@@ -263,30 +264,29 @@ public class MainActivity extends Activity
                 break;
             }
 
-            case PICK_PHOTO_REQUEST: {
+            case REQUEST_PICK_PHOTO: {
                 if (resultCode == RESULT_OK){
                     Uri selectedImage = intent.getData();
-
+                    // Inform PlayerDialogFragment about selected picture
                     ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
                             setSelectedPlayerImage(selectedImage);
                     return;
-
-                    /*
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getContentResolver().query(
-                            selectedImage, filePathColumn, null, null, null);
-                    if (cursor.moveToFirst()) {
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String filePath = cursor.getString(columnIndex);
-                        Uri imageUri = Uri.parse(filePath);
-                        cursor.close();
-                        ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
-                                setSelectedPlayerImage(imageUri);
-                        return;
-                    }
-                    */
                 }
                 Toast.makeText(getApplicationContext(), "No image selected", Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+            case REQUEST_IMAGE_CAPTURE: {
+                if (resultCode == RESULT_OK) {
+                    // Get Thumbnail
+                    Bundle extras = intent.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    // Inform PlayerDialogFragment about taken picture
+                    ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
+                            setSelectedPlayerImage(imageBitmap);
+                    return;
+                }
+                Toast.makeText(getApplicationContext(), "No image captured", Toast.LENGTH_SHORT).show();
                 break;
             }
 
