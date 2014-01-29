@@ -178,7 +178,11 @@ public class PlayerDialogFragment extends DialogFragment {
                 // Get selected player
                 Player player = PlayerList.getInstance().getPlayer(mListPosition);
                 // Set image and text from Player
-                mPlayerImageView.setImageDrawable(player.getImage());
+                if (player.getImage() == null) {
+                    mPlayerImageView.setImageDrawable(getResources().getDrawable(R.drawable.no_user_logo));
+                } else {
+                    mPlayerImageView.setImageDrawable(player.getImage());
+                }
                 mPlayerNameText.setText(player.getName());
                 // Enable "Edit button" because Name already entered
                 mAddButton.setEnabled(true);

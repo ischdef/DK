@@ -165,7 +165,12 @@ public class PlayerListFragment extends Fragment {
 
             // Set player parameters to list view item
             Player player = PlayerList.getInstance().getList().get(position);
-            holder.image.setImageDrawable(player.getImage());
+            if (player.getImage() == null) {
+                // Picture is optional -> set default picture if no player picture is set
+                holder.image.setImageDrawable(getResources().getDrawable(R.drawable.no_user_logo));
+            } else {
+                holder.image.setImageDrawable(player.getImage());
+            }
             holder.name.setText(player.getName());
             holder.playedGames.setText(getString(R.string.player_games_count) + ": " + player.getPlayedGames());
             holder.wonGames.setText(getString(R.string.player_games_wins) + ": " + player.getWonGames());
