@@ -33,7 +33,7 @@
     <string name="dialog_player_image_options_camera">Bild aufnehmen</string>
     <string name="dialog_player_image_options_file">Bild auswählen</string>
     <string name="dialog_player_image_options_contact">Bild von Kontakt auswählen</string>
-    <string name="dialog_player_image_options_default">Standardbild asuwählen</string>
+    <string name="dialog_player_image_options_default">Standardbild auswählen</string>
     <string name="dialog_player_image_options_cancel">Zurück</string>
 
     <string name="player_name">Spielername</string>
@@ -44,7 +44,7 @@
     <string name="toast_player_added">Spieler hinzugefügt:</string>
     <string name="toast_player_add_canceled">Kein Spieler hinzugefügt</string>
     <string name="toast_player_edit">Spieler bearbeitet:</string>
-    <string name="toast_player_edit_canceled">Kein Spieler bearbeitet.</string>
+    <string name="toast_player_edit_canceled">Kein Spieler bearbeitet</string>
     <string name="toast_player_deleted">Spieler gelöscht:</string>
 
 </resources>
