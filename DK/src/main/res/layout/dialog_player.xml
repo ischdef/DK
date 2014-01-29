@@ -12,17 +12,15 @@
         android:id="@+id/PlayerDialog_Image"
         android:src="@drawable/no_user_logo"
         android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:scaleType="center"
-        android:contentDescription="@string/dialog_player_image" />
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/dialog_player_image"
+        android:padding="5dp" />
     <EditText
         android:id="@+id/PlayerDialog_Name"
-        android:inputType="textEmailAddress"
+        android:inputType="textPersonName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:hint="@string/dialog_player_name" />
+        android:hint="@string/dialog_player_name"
+        android:layout_margin="4dp" />
 </LinearLayout>
