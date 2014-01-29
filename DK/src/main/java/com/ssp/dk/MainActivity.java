@@ -74,12 +74,6 @@ public class MainActivity extends Activity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
-
-        // Add test player
-        Drawable playerImage = getResources().getDrawable(R.drawable.no_user_logo);
-        mPlayerList.addPlayer("Test Player 2", playerImage);
-        mPlayerList.addPlayer("Test Player 1", playerImage);
-        mPlayerList.addPlayer("Test Player 3", playerImage);
     }
 
     public void restoreActionBar() {

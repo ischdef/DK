@@ -6,8 +6,6 @@
 package com.ssp.dk;
 
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +55,11 @@ public class PlayerList {
     private void initPlayerList() {
         // TODO get previous playerList from internal storage and copy to temporary PlayerList
         // ...
+        // Add test player
+        Drawable playerImage = null; // = getResources().getDrawable(R.drawable.no_user_logo);
+        addPlayer("Test Player 2", playerImage);
+        addPlayer("Test Player 1", playerImage);
+        addPlayer("Test Player 3", playerImage);
     }
 
     /**
