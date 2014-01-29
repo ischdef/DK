@@ -64,9 +64,17 @@ public class PlayerListFragment extends Fragment {
                 // show menu to delete or change item
                 PlayerOptionsDialogFragment dialog = new PlayerOptionsDialogFragment(listPosition);
                 dialog.show(getFragmentManager(), "PlayerOptionsDialogFragment");
-
                 // Callback consumed
                 return true;
+            }
+        });
+
+        mPlayerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int listPosition, long rowId) {
+                // show menu to delete or change item
+                PlayerOptionsDialogFragment dialog = new PlayerOptionsDialogFragment(listPosition);
+                dialog.show(getFragmentManager(), "PlayerOptionsDialogFragment");
             }
         });
 
