@@ -14,24 +14,30 @@ import android.net.Uri;
 
 public class Player {
     // Player details
+    private long mId;
     private String mName;
     private Drawable mImage;
     private int mPlayedGames;
     private int mWonGames;
     private int mLostGames;
 
-    public Player(String playerName, Drawable image) {
+    public Player(long id, String playerName, Drawable image,
+                  int playerGames, int wonGames, int lostGames) {
+        mId = id;
         mName = playerName;
         mImage = image;
-        mPlayedGames = 0;
-        mWonGames = 0;
-        mLostGames = 0;
+        mPlayedGames = playerGames;
+        mWonGames = wonGames;
+        mLostGames = lostGames;
     }
 
     private Player() {
         // shall not be used
     }
 
+    public long getId() {
+        return mId;
+    }
     public String getName() {
         return mName;
     }
@@ -43,5 +49,11 @@ public class Player {
     }
     public int getLostGames() { return mLostGames; }
     public Drawable getImage() { return mImage; }
+
+    public void setName(String name) { mName = name; }
+    public void setImage(Drawable image) { mImage = image; }
+    public void setPlayedGames(int playedGames) { mPlayedGames = playedGames; }
+    public void setWonGames(int wonGames) {mWonGames = wonGames; }
+    public void setLostGames(int lostGames) {mLostGames = lostGames; }
 }
 

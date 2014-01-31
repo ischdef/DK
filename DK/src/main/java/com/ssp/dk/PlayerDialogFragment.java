@@ -32,7 +32,7 @@ public class PlayerDialogFragment extends DialogFragment {
     public interface PlayerAddDialogCallbacks {
         public void onPlayerAddDialogPositiveClick(String PlayerName, Drawable PlayerImage);
         public void onPlayerAddDialogNegativeClick();
-        public void onPlayerEditDialogPositiveClick(int listPosition, String PlayerName, Drawable PlayerImage);
+        public void onPlayerEditDialogPositiveClick(long playerId, String PlayerName, Drawable PlayerImage);
         public void onPlayerEditDialogNegativeClick();
     }
 
@@ -48,7 +48,7 @@ public class PlayerDialogFragment extends DialogFragment {
 
     // Dialog type dependent parameters
     private boolean mDialogTypeAdd; // true->addPlayerDialog; false->editPlayerDialog
-    private int mListPosition; // Player to be changed
+    private long mPlayerId; // Player to be changed
     private boolean mViewInitDone = false;
 
     /**
@@ -56,16 +56,16 @@ public class PlayerDialogFragment extends DialogFragment {
      */
     public PlayerDialogFragment() {
         mDialogTypeAdd = true;
-        mListPosition = 0; // not used
+        mPlayerId = -1; // not used
     }
 
     /**
      * Constructor to create EditPlayerDialog
-     * @param listPosition position of player to be changed
+     * @param playerId ID of player to be changed
      */
-    public PlayerDialogFragment(int listPosition) {
+    public PlayerDialogFragment(long playerId) {
         mDialogTypeAdd = false;
-        mListPosition = listPosition;
+        mPlayerId = playerId;
     }
 
     public void setSelectedPlayerImage(Uri playerImageUri) {
@@ -141,7 +141,7 @@ public class PlayerDialogFragment extends DialogFragment {
                         public void onClick(DialogInterface dialog, int id) {
                             final String playerName = mPlayerNameText.getText().toString().trim();
                             // Send the positive button event back to the host activity
-                            mListener.onPlayerEditDialogPositiveClick(mListPosition, playerName, mPlayerImageView.getDrawable());
+                            mListener.onPlayerEditDialogPositiveClick(mPlayerId, playerName, mPlayerImageView.getDrawable());
                         }
                     })
                     .setNegativeButton(R.string.dialog_edit_player_cancel, new DialogInterface.OnClickListener() {
@@ -176,7 +176,7 @@ public class PlayerDialogFragment extends DialogFragment {
                 mAddButton.setEnabled(false);
             } else { // EditPlayerDialog
                 // Get selected player
-                Player player = PlayerList.getInstance().getPlayer(mListPosition);
+                Player player = PlayerList.getInstance().getPlayerById(mPlayerId);
                 // Set image and text from Player
                 if (player.getImage() == null) {
                     mPlayerImageView.setImageDrawable(getResources().getDrawable(R.drawable.no_user_logo));

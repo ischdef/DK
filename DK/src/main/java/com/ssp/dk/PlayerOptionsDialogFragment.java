@@ -21,17 +21,17 @@ public class PlayerOptionsDialogFragment extends DialogFragment {
  * implement this interface in order to receive event callbacks.
  * Each method passes the DialogFragment in case the host needs to query it. */
     public interface PlayerOptionsDialogCallbacks {
-        public void onPlayerOptionsDialogDeleteClick(int position);
-        public void onPlayerOptionsDialogEditClick(int position);
+        public void onPlayerOptionsDialogDeleteClick(long playerId);
+        public void onPlayerOptionsDialogEditClick(long playerId);
     }
     // Instance of the interface to deliver action events
     PlayerOptionsDialogCallbacks mListener;
 
-    // Selected Player
-    int mListPosition;
+    // Unique ID of selected Player
+    long mPlayerId;
 
-    public PlayerOptionsDialogFragment(int listPosition) {
-        mListPosition = listPosition;
+    public PlayerOptionsDialogFragment(long playerId) {
+        mPlayerId = playerId;
     }
 
     @Override
@@ -62,11 +62,11 @@ public class PlayerOptionsDialogFragment extends DialogFragment {
                         switch (which) {
                             case 0: // delete
                                 // Delete selected player
-                                mListener.onPlayerOptionsDialogDeleteClick(mListPosition);
+                                mListener.onPlayerOptionsDialogDeleteClick(mPlayerId);
                                 break;
                             case 1: // edit
                                 // Open Edit Player dialog
-                                mListener.onPlayerOptionsDialogEditClick(mListPosition);
+                                mListener.onPlayerOptionsDialogEditClick(mPlayerId);
                                 break;
                             default:
                                 // TODO exception

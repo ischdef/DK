@@ -37,7 +37,7 @@ public class MainActivity extends Activity
     /**
      * List with all stored players
      */
-    private PlayerList mPlayerList = PlayerList.getInstance();
+    private PlayerList mPlayerList = null;
 
     // Shortcuts
     private PlayerListFragment mPlayerListFragment;
@@ -51,6 +51,11 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Create DB if not already available
+        if (mPlayerList == null) {
+            mPlayerList = PlayerList.createInstance(getApplicationContext());
+        }
 
         // Set the activity content from a layout resource.
         // The resource will be inflated, adding all top-level views to the activity.
@@ -178,7 +183,8 @@ public class MainActivity extends Activity
         mPlayerList.addPlayer(PlayerName, PlayerImage);
         Toast.makeText(getApplicationContext(), getText(R.string.toast_player_added) + " '" + PlayerName + "'.",
                 Toast.LENGTH_SHORT).show();
-        // Inform PlayerListView about new player
+
+        // Inform PlayerListView about new player - refresh list view
         mPlayerListFragment.updatePlayerListView();
     }
 
@@ -189,12 +195,20 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onPlayerEditDialogPositiveClick(int listPosition, String PlayerName, Drawable PlayerImage) {
+    public void onPlayerEditDialogPositiveClick(long playerId, String PlayerName, Drawable PlayerImage) {
+        // Change name and image of edited player
+        Player player = mPlayerList.getPlayerById(playerId);
+        player.setName(PlayerName);
+        player.setImage(PlayerImage);
+
         // save player changes
-        mPlayerList.editPlayer(listPosition, PlayerName, PlayerImage);
+        mPlayerList.updatePlayer(player);
+
+        // Inform user about saved update
         Toast.makeText(getApplicationContext(), getText(R.string.toast_player_edit) + " '" + PlayerName + "'.",
                 Toast.LENGTH_SHORT).show();
-        // Inform PlayerListView about changed player
+
+        // Inform PlayerListView about changed player - refresh list view
         mPlayerListFragment.updatePlayerListView();
     }
 
@@ -210,21 +224,24 @@ public class MainActivity extends Activity
      *********************************/
 
     @Override
-    public void onPlayerOptionsDialogDeleteClick(int position) {
+    public void onPlayerOptionsDialogDeleteClick(long playerId) {
         // get player name
-        String name = mPlayerList.getPlayer(position).getName();
+        String name = mPlayerList.getPlayerById(playerId).getName();
+
         // remove player from list
-        mPlayerList.deletePlayer(position);
+        mPlayerList.deletePlayer(playerId);
+
         Toast.makeText(getApplicationContext(), getText(R.string.toast_player_deleted) + " '" + name + "'.",
                 Toast.LENGTH_SHORT).show();
-        // Inform PlayerListView about removed player
+
+        // Inform PlayerListView about removed player - refresh list view
         mPlayerListFragment.updatePlayerListView();
     }
 
     @Override
-    public void onPlayerOptionsDialogEditClick(int position) {
+    public void onPlayerOptionsDialogEditClick(long playerId) {
         // Show 'edit player' dialog window
-        DialogFragment dialog = new PlayerDialogFragment(position);
+        DialogFragment dialog = new PlayerDialogFragment(playerId);
         dialog.show(getFragmentManager(), "PlayerDialogFragment");
     }
 

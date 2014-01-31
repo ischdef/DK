@@ -61,8 +61,10 @@ public class PlayerListFragment extends Fragment {
         mPlayerListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int listPosition, long rowId) {
+                // get ID of selected player
+                long playerId = PlayerList.getInstance().getPlayerByPosition(listPosition).getId();
                 // show menu to delete or change item
-                PlayerOptionsDialogFragment dialog = new PlayerOptionsDialogFragment(listPosition);
+                PlayerOptionsDialogFragment dialog = new PlayerOptionsDialogFragment(playerId);
                 dialog.show(getFragmentManager(), "PlayerOptionsDialogFragment");
                 // Callback consumed
                 return true;
@@ -72,8 +74,10 @@ public class PlayerListFragment extends Fragment {
         mPlayerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int listPosition, long rowId) {
+                // get ID of selected player
+                long playerId = PlayerList.getInstance().getPlayerByPosition(listPosition).getId();
                 // show menu to delete or change item
-                PlayerOptionsDialogFragment dialog = new PlayerOptionsDialogFragment(listPosition);
+                PlayerOptionsDialogFragment dialog = new PlayerOptionsDialogFragment(playerId);
                 dialog.show(getFragmentManager(), "PlayerOptionsDialogFragment");
             }
         });
