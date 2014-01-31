@@ -15,12 +15,14 @@
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
         android:contentDescription="@string/dialog_player_image"
-        android:padding="5dp" />
+        android:clickable="true"
+        android:padding="5dp"
+        android:adjustViewBounds="true" />
     <EditText
         android:id="@+id/PlayerDialog_Name"
         android:inputType="textPersonName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:hint="@string/dialog_player_name"
         android:layout_margin="4dp" />
 </LinearLayout>
