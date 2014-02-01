@@ -113,9 +113,12 @@ public class PlayerList {
      * get previous playerList from internal storage and copy to temporary PlayerList
      */
     private void initPlayerList() {
-        // get previous playerList from database and copy to temporary PlayerList
+        // Create SQL Database Helper
         mDbHelper = new PlayerListDbHelper(mContext);
+
+        // Open database
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
         // Define a projection that specifies which columns will be used after query
         String[] projection = {
                 PlayerListDbEntry._ID,
@@ -125,8 +128,7 @@ public class PlayerList {
                 PlayerListDbEntry.COLUMN_LOST_GAMES
         };
         // Sort by ID in the resulting Cursor
-        String sortOrder =
-                PlayerListDbEntry._ID + " ASC";
+        String sortOrder = PlayerListDbEntry._ID + " ASC";
         // Query all players
         Cursor cursor = db.query(
                 PlayerListDbEntry.TABLE_NAME,  // The table to query
@@ -138,7 +140,7 @@ public class PlayerList {
                 sortOrder                      // The sort order
         );
 
-        // Copy players in DB to temporary playerList
+        // Copy players from DB to temporary playerList
         if (cursor != null) {
             // cursor position after query is before first row
             while (cursor.moveToNext()) {
@@ -153,6 +155,9 @@ public class PlayerList {
                 mPlayerList.add(player);
             }
         }
+
+        // Close database again after usage
+        db.close();
 
         /* Add test players
         Drawable playerImage = mContext.getResources().getDrawable(R.drawable.no_user_logo);
@@ -169,8 +174,7 @@ public class PlayerList {
      * @return true if player was successfully stored
      */
     public boolean addPlayer(String playerName, Drawable playerImage) {
-        // Add to database
-        // Gets the data repository in write mode
+        // Open database
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -179,16 +183,18 @@ public class PlayerList {
         values.put(PlayerListDbEntry.COLUMN_WON_GAMES, 0);
         values.put(PlayerListDbEntry.COLUMN_LOST_GAMES, 0);
         // TODO add playerImage
-        // Insert the new row, returning the primary key value of the new row
+        // Insert player as new row, returning the primary key value of the new row
         long playerId = db.insert(PlayerListDbEntry.TABLE_NAME, null, values);
+        // Close database again after usage
+        db.close();
 
         // Add to temporary PlayerList
-        // Create new Player
         Player player = new Player(playerId, playerName, playerImage, 0, 0, 0);
         mPlayerList.add(player);
 
         // Debug printout
-        Toast.makeText(mContext, "Player added with ID " + playerId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, "Player " + player.getName() + " added with ID "
+        //        + playerId, Toast.LENGTH_SHORT).show();
 
         return true;
     }
@@ -202,16 +208,16 @@ public class PlayerList {
         // Remove from temporary PlayerList
         mPlayerList.remove(getPlayerListPositionByPlayerId(playerId));
 
-        // Remove from database
+        // Open database
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         // Define 'where' part of query.
         String selection = PlayerListDbEntry._ID + " LIKE ?";
         // Specify arguments in placeholder order.
         String[] selectionArgs = { String.valueOf(playerId) };
-        // Issue SQL statement.
-        int rowsEffectedCount =db.delete(PlayerListDbEntry.TABLE_NAME, selection, selectionArgs);
-        // Debug printout
-        //Toast.makeText(mContext, "Number of players deleted: " + rowsEffectedCount, Toast.LENGTH_SHORT).show();
+        // Remove from database
+        db.delete(PlayerListDbEntry.TABLE_NAME, selection, selectionArgs);
+        // Close database again after usage
+        db.close();
 
         return true;
     }
