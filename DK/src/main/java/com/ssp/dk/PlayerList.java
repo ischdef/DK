@@ -10,10 +10,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.provider.BaseColumns;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,14 +152,18 @@ public class PlayerList {
         if (cursor != null) {
             // cursor position after query is before first row
             while (cursor.moveToNext()) {
+                // Get player parameters from database
                 long playerId = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerListDbEntry._ID));
                 String playerName = cursor.getString(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_PLAYER_NAME));
                 int playedGames = cursor.getInt(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_PLAYED_GAMES));
                 int wonGames = cursor.getInt(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_WON_GAMES));
                 int lostGames = cursor.getInt(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_LOST_GAMES));
-                // TODO get playerImage
+
+                // Get player image from internal storage
+                Drawable playerImage = Drawable.createFromPath(getPlayerImageFilePath(playerId));
+
                 // add player to temporary playerList
-                Player player = new Player(playerId, playerName, null, playedGames, wonGames, lostGames);
+                Player player = new Player(playerId, playerName, playerImage, playedGames, wonGames, lostGames);
                 mPlayerList.add(player);
             }
         }
@@ -182,11 +194,13 @@ public class PlayerList {
         values.put(PlayerListDbEntry.COLUMN_PLAYED_GAMES, 0);
         values.put(PlayerListDbEntry.COLUMN_WON_GAMES, 0);
         values.put(PlayerListDbEntry.COLUMN_LOST_GAMES, 0);
-        // TODO add playerImage
         // Insert player as new row, returning the primary key value of the new row
         long playerId = db.insert(PlayerListDbEntry.TABLE_NAME, null, values);
         // Close database again after usage
         db.close();
+
+        // Save image to internal storage
+        savePlayerImageToStorage(playerImage, playerId);
 
         // Add to temporary PlayerList
         Player player = new Player(playerId, playerName, playerImage, 0, 0, 0);
@@ -219,35 +233,119 @@ public class PlayerList {
         // Close database again after usage
         db.close();
 
+        // Delete playerImage on internal storage
+        deletePlayerImageFromStorage(playerId);
+
         return true;
     }
 
     /**
-     * Change any kind of player parameter, but playerId must not change
-     * @param player updated Player
-     * @return true if player was changed
+     * Update player statistics values
+     * @param playerId Unique player ID
+     * @param playedGames Number of played games
+     * @param wonGames Number of won games
+     * @param lostGames Number of lost games
      */
-    public boolean updatePlayer(Player player) {
+    public void updatePlayerStats(long playerId, int playedGames, int wonGames, int lostGames) {
         // Edit temporary playerList
-         mPlayerList.set(getPlayerListPositionByPlayerId(player.getId()), player);
+        Player player = getPlayerById(playerId);
+        player.setPlayedGames(playedGames);
+        player.setWonGames(wonGames);
+        player.setLostGames(lostGames);
+        mPlayerList.set(getPlayerListPositionByPlayerId(player.getId()), player);
 
-        // Edit database entry
+        // Open database
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        // Create a new map of values, where column names are the keys
+        // Create a new map of values, to only update stats values
         ContentValues values = new ContentValues();
-        values.put(PlayerListDbEntry.COLUMN_PLAYER_NAME, player.getName());
-        values.put(PlayerListDbEntry.COLUMN_PLAYED_GAMES, player.getPlayedGames());
-        values.put(PlayerListDbEntry.COLUMN_WON_GAMES, player.getWonGames());
-        values.put(PlayerListDbEntry.COLUMN_LOST_GAMES, player.getLostGames());
-        // TODO add playerImage
+        values.put(PlayerListDbEntry.COLUMN_PLAYED_GAMES, playedGames);
+        values.put(PlayerListDbEntry.COLUMN_WON_GAMES, wonGames);
+        values.put(PlayerListDbEntry.COLUMN_LOST_GAMES, lostGames);
         // Which row to update, based on the ID
         String selection = PlayerListDbEntry._ID + " LIKE ?";
-        String[] selectionArgs = { String.valueOf(player.getId()) };
-        int rowsEffectedCount = db.update(PlayerListDbEntry.TABLE_NAME, values, selection, selectionArgs);
-        // Debug printout
-        //Toast.makeText(mContext, "Number of players changed: " + rowsEffectedCount, Toast.LENGTH_SHORT).show();
+        String[] selectionArgs = { String.valueOf(playerId) };
+        db.update(PlayerListDbEntry.TABLE_NAME, values, selection, selectionArgs);
+        // Close database again after usage
+        db.close();
+    }
 
-        return true;
+    /**
+     * Change player name or image
+     * @param playerId Unique player ID
+     * @param playerName Changed player name
+     * @param playerImage Changed player image
+     */
+    public void editPlayer(Long playerId, String playerName, Drawable playerImage) {
+        // Edit temporary playerList
+        Player player = getPlayerById(playerId);
+        player.setName(playerName);
+        player.setImage(playerImage);
+        mPlayerList.set(getPlayerListPositionByPlayerId(player.getId()), player);
+
+        // Open database
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        // Create a new map of values, to only update the player's name
+        ContentValues values = new ContentValues();
+        values.put(PlayerListDbEntry.COLUMN_PLAYER_NAME, playerName);
+        // Which row to update, based on the ID
+        String selection = PlayerListDbEntry._ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(playerId) };
+        db.update(PlayerListDbEntry.TABLE_NAME, values, selection, selectionArgs);
+        // Close database again after usage
+        db.close();
+
+        // Save image to internal storage
+        savePlayerImageToStorage(playerImage, playerId);
+    }
+
+
+
+    /**
+     * Get filename of stored player image
+     * @param playerId Unique player ID
+     * @return String of filename
+     */
+    private String getPlayerImageFileName(long playerId) {
+        return "PlayerImage_" + playerId + ".png";
+    }
+
+    private String getPlayerImageFilePath(long playerId) {
+        return mContext.getFilesDir().getAbsolutePath() + "/" + getPlayerImageFileName(playerId);
+    }
+
+    /**
+     * Saves given player image as PNG to internal storage
+     * @param drawable player image
+     * @param playerId Unique player ID
+     * @return Absolute file path of saved image
+     */
+    private String savePlayerImageToStorage(Drawable drawable, long playerId) {
+        // Convert Drawable to Bitmap
+        Bitmap bmp = ((BitmapDrawable)drawable).getBitmap();
+        // Try to save bitmap to default application directory
+        try
+        {
+            // File name is defined by th unique player ID
+            final FileOutputStream fos =
+                    mContext.openFileOutput(getPlayerImageFileName(playerId), Context.MODE_PRIVATE);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos); // PNG is lossless, so only storage
+            fos.close();
+            return getPlayerImageFilePath(playerId);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Delete playerImage from storage
+     * @param playerId Unique player ID
+     * @return true if file was deleted
+     */
+    private boolean deletePlayerImageFromStorage(long playerId) {
+        return mContext.deleteFile(getPlayerImageFileName(playerId));
     }
 
 

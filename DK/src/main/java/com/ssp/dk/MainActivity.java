@@ -195,17 +195,12 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onPlayerEditDialogPositiveClick(long playerId, String PlayerName, Drawable PlayerImage) {
-        // Change name and image of edited player
-        Player player = mPlayerList.getPlayerById(playerId);
-        player.setName(PlayerName);
-        player.setImage(PlayerImage);
-
+    public void onPlayerEditDialogPositiveClick(long playerId, String playerName, Drawable playerImage) {
         // save player changes
-        mPlayerList.updatePlayer(player);
+        mPlayerList.editPlayer(playerId, playerName, playerImage);
 
         // Inform user about saved update
-        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_edit) + " '" + PlayerName + "'.",
+        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_edit) + " '" + playerName + "'.",
                 Toast.LENGTH_SHORT).show();
 
         // Inform PlayerListView about changed player - refresh list view
