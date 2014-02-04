@@ -200,6 +200,9 @@ public class PlayerList {
         db.close();
 
         // Save image to internal storage
+        if (playerImage == null) {
+            playerImage = mContext.getResources().getDrawable(R.drawable.no_user_logo);
+        }
         savePlayerImageToStorage(playerImage, playerId);
 
         // Add to temporary PlayerList
