@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2014.                                                       ~
+  ~ Stefan Schulze Programs.                                                  ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<resources>
+
+    <color name="navigation_drawer_divider">@android:color/transparent</color>
+    <color name="navigation_drawer_bg">#cccc</color>
+
+</resources>
