@@ -6,7 +6,12 @@
 
 <resources>
 
-    <color name="navigation_drawer_divider">@android:color/transparent</color>
+    <!--<color name="navigation_drawer_divider">@android:color/transparent</color>-->
+    <color name="navigation_drawer_divider">#ff000000</color>
     <color name="navigation_drawer_bg">#cccc</color>
+    <color name="navigation_drawer_item_selected">#cc6d6d6d</color>
+    <color name="navigation_drawer_item_counter_bg">#ffd1d1d1</color>
+    <color name="navigation_drawer_item_counter">#ff000000</color>
+    <color name="navigation_drawer_item_text">#ff000000</color>
 
 </resources>

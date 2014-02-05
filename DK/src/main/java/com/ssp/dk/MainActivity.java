@@ -61,7 +61,7 @@ public class MainActivity extends Activity
         // The resource will be inflated, adding all top-level views to the activity.
         setContentView(R.layout.activity_main);
 
-        // Get navigationDrawer fragment
+        // Get navigationDrawer fragment after inflation by setContentView()
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
@@ -133,42 +133,48 @@ public class MainActivity extends Activity
      ******************************/
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
+    public void onNavigationDrawerItemSelected(int position, String itemTitle) {
         if (mNavigationDrawerFragment == null) {
             //Toast.makeText(getApplicationContext(), "Drawer Fragment error.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // get title of current selected drawer
-        ListView drawerView = (ListView) mNavigationDrawerFragment.getView();
-        if (drawerView == null) {
-            Toast.makeText(getApplicationContext(), "Drawer View error.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String DrawerTitle = drawerView.getItemAtPosition(position).toString();
-
         // Trigger fragment change depending on selected drawer
-        if (DrawerTitle.equals(getString(R.string.drawer_title_playerList))) {
-            // Show PlayerList fragment
-            FragmentManager fragmentManager = getFragmentManager();
-            mPlayerListFragment= new PlayerListFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, mPlayerListFragment)
-                    .commit();
-        } else if (DrawerTitle.equals(getString(R.string.drawer_title_session))) {
-            // TODO Show session fragment
-            Toast.makeText(getApplicationContext(), getString(R.string.drawer_title_session), Toast.LENGTH_SHORT).show();
-        } else if (DrawerTitle.equals(getString(R.string.drawer_title_game))) {
-            // TODO Show game fragment
-            Toast.makeText(getApplicationContext(), getString(R.string.drawer_title_game), Toast.LENGTH_SHORT).show();
-        } else {
-            // TODO exception
-            Toast.makeText(getApplicationContext(), "Drawer Selection Error!", Toast.LENGTH_SHORT).show();
-            return;
+        FragmentManager fragmentManager = getFragmentManager();
+        switch (position) {
+            case 0:
+                // Show Title fragment
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new TitleFragment())
+                        .commit();
+                break;
+            case 1:
+                // Show PlayerList fragment
+                mPlayerListFragment = new PlayerListFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, mPlayerListFragment)
+                        .commit();
+                break;
+            case 2:
+                // TODO Show current session fragment
+                Toast.makeText(getApplicationContext(),
+                        getString(R.string.navigation_drawer_list_item_title_current_session),
+                        Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                // TODO show sessions fragment
+                Toast.makeText(getApplicationContext(),
+                        getString(R.string.navigation_drawer_list_item_title_sessions),
+                        Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                // TODO add exception
+                Toast.makeText(getApplicationContext(), "Drawer Selection Error!", Toast.LENGTH_SHORT).show();
+                return;
         }
 
         // Update action bar title to selected drawer title
-        mActionBarTitle = DrawerTitle;
+        mActionBarTitle = itemTitle;
         getActionBar().setTitle(mActionBarTitle);
     }
 

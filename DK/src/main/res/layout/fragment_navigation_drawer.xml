@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:choiceMode="singleChoice"
     android:divider="@color/navigation_drawer_divider"
-    android:dividerHeight="0dp"
+    android:dividerHeight="1dp"
+    android:listSelector="@drawable/navigation_drawer_list_selector"
     android:background="@color/navigation_drawer_bg"
     tools:context="com.ssp.dk.NavigationDrawerFragment" />

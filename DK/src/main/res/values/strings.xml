@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2014.                                                       ~
+  ~ Stefan Schulze Programs.                                                  ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
+<resources>
+    <!-- Application -->
     <string name="app_name">DK</string>
 
-    <string name="drawer_title_playerList">Players</string>
-    <string name="drawer_title_session">Session</string>
-    <string name="drawer_title_game">Game</string>
-
+    <!-- Navigation Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_list_item_icon_description">Item Icon</string>
+    <string name="navigation_drawer_list_item_title_title_screen">Title Screen</string>
+    <string name="navigation_drawer_list_item_title_players">Players</string>
+    <string name="navigation_drawer_list_item_title_current_session">Current Session</string>
+    <string name="navigation_drawer_list_item_title_sessions">Sessions</string>
+    <item type="id" name="navigation_drawer_list_item_icon_title_screen">@drawable/no_user_logo</item>
+    <item type="id" name="navigation_drawer_list_item_icon_players">@drawable/no_user_logo</item>
+    <item type="id" name="navigation_drawer_list_item_icon_current_session">@drawable/no_user_logo</item>
+    <item type="id" name="navigation_drawer_list_item_icon_sessions">@drawable/no_user_logo</item>
 
+    <!-- Menu bar actions -->
     <string name="action_add_player">Add Player</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Add/Edit player dialog window -->
     <string name="dialog_player_image">Player Image</string>
     <string name="dialog_player_name">Player Name</string>
     <string name="dialog_add_player_cancel">Cancel</string>
@@ -20,10 +33,12 @@
     <string name="dialog_edit_player_cancel">Cancel</string>
     <string name="dialog_edit_player_ok">OK</string>
 
+    <!-- Player options dialog window -->
     <string name="dialog_player_options_title">Player Options</string>
     <string name="dialog_player_options_delete">Delete Player</string>
     <string name="dialog_player_options_edit">Edit Player</string>
 
+    <!-- Player image dialog window -->
     <string name="dialog_player_image_options_title">Select Player Image</string>
     <string name="dialog_player_image_options_camera">Take Picture</string>
     <string name="dialog_player_image_options_file">Select Image File</string>
@@ -31,11 +46,13 @@
     <string name="dialog_player_image_options_default">Default Image</string>
     <string name="dialog_player_image_options_cancel">Cancel</string>
 
+    <!-- Player parameter -->
     <string name="player_name">Player Name</string>
     <string name="player_games_count">Played Games</string>
     <string name="player_games_wins">Wins</string>
     <string name="player_games_losses">Losses</string>
 
+    <!-- Information window descriptions -->
     <string name="toast_player_added">Added player</string>
     <string name="toast_player_add_canceled">No player added</string>
     <string name="toast_player_edit">Changed player</string>

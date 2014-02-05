@@ -4,6 +4,8 @@ package com.ssp.dk;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,7 +21,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -58,6 +65,11 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    private LayoutInflater mInflater;
+
+    private ArrayList<NavigationDrawerItem> mNavDrawerItemList;
+    private NavigationDrawerListAdapter mNavDrawerItemListAdapter;
+
     public NavigationDrawerFragment() {
     }
 
@@ -89,6 +101,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        mInflater = inflater;
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,15 +110,30 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.drawer_title_playerList),
-                        //getString(R.string.drawer_title_session),
-                        //getString(R.string.drawer_title_game),
-                }));
+
+        // set up the drawer's list view with items
+        mNavDrawerItemList = new ArrayList<NavigationDrawerItem>();
+        NavigationDrawerItem itemTitleScreen = new NavigationDrawerItem(
+                getString(R.string.navigation_drawer_list_item_title_title_screen),
+                R.id.navigation_drawer_list_item_icon_title_screen);
+        NavigationDrawerItem itemPlayer = new NavigationDrawerItem(
+                getString(R.string.navigation_drawer_list_item_title_players),
+                R.id.navigation_drawer_list_item_icon_players,
+                true, String.valueOf(PlayerList.getInstance().getNumberOfPlayers()));
+        NavigationDrawerItem itemCurrentSession = new NavigationDrawerItem(
+                getString(R.string.navigation_drawer_list_item_title_current_session),
+                R.id.navigation_drawer_list_item_icon_current_session);
+        NavigationDrawerItem itemSessions = new NavigationDrawerItem(
+                getString(R.string.navigation_drawer_list_item_title_sessions),
+                R.id.navigation_drawer_list_item_icon_sessions);
+        mNavDrawerItemList.add(itemTitleScreen);
+        mNavDrawerItemList.add(itemPlayer);
+        mNavDrawerItemList.add(itemCurrentSession);
+        mNavDrawerItemList.add(itemSessions);
+        // setting the nav drawer list adapter
+        mNavDrawerItemListAdapter = new NavigationDrawerListAdapter(mNavDrawerItemList);
+        mDrawerListView.setAdapter(mNavDrawerItemListAdapter);
+
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -126,8 +154,8 @@ public class NavigationDrawerFragment extends Fragment {
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        // set up the drawer's list view with items and click listener
 
+        // Enabling action bar app icon and behaving it as toggle button
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
@@ -166,7 +194,7 @@ public class NavigationDrawerFragment extends Fragment {
                             .getDefaultSharedPreferences(getActivity());
                     sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
                 }
-
+                // hide action bar menu items
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
         };
@@ -189,15 +217,21 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void selectItem(int position) {
+        // Save selection
         mCurrentSelectedPosition = position;
+
+        //  Highlight selection in drawer (if later open again)
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
+        // Close drawer, because selection was made
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
-        if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
+        // Inform caller about selection -> trigger fragment change
+        if (mCallbacks != null && mDrawerListView != null) {
+            String itemTitle = ((NavigationDrawerItem)mDrawerListView.getItemAtPosition(position)).getTitle();
+            mCallbacks.onNavigationDrawerItemSelected(position, itemTitle);
         }
     }
 
@@ -286,6 +320,75 @@ public class NavigationDrawerFragment extends Fragment {
         /**
          * Called when an item in the navigation drawer is selected.
          */
-        void onNavigationDrawerItemSelected(int position);
+        void onNavigationDrawerItemSelected(int position, String itemTitle);
     }
+
+
+    /**********************************
+     * Navigation drawer list adapter *
+     **********************************/
+
+    static class NavigationDrawerItemViewHolder {
+        ImageView imgIcon;
+        TextView txtTitle;
+        TextView txtCount;
+    }
+
+    public class NavigationDrawerListAdapter extends BaseAdapter {
+
+        private ArrayList<NavigationDrawerItem> mNavDrawerItems;
+
+        public NavigationDrawerListAdapter(ArrayList<NavigationDrawerItem> navDrawerItems) {
+            mNavDrawerItems = navDrawerItems;
+        }
+
+        @Override
+        public int getCount() {
+            return mNavDrawerItems.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mNavDrawerItems.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            NavigationDrawerItemViewHolder holder; // used for faster view access
+
+            // Check for initial inflation
+            if (convertView == null) {
+                // inflate
+                convertView = mInflater.inflate(R.layout.navigation_drawer_item, null);
+                // set shortcuts
+                holder = new NavigationDrawerItemViewHolder();
+                holder.imgIcon = (ImageView) convertView.findViewById(R.id.navigation_drawer_icon);
+                holder.txtTitle = (TextView) convertView.findViewById(R.id.navigation_drawer_title);
+                holder.txtCount = (TextView) convertView.findViewById(R.id.navigation_drawer_counter);
+                convertView.setTag(holder);
+            } else {
+                holder = (NavigationDrawerItemViewHolder) convertView.getTag();
+            }
+
+            // Set drawer item parameters to view items
+            holder.imgIcon.setImageResource(mNavDrawerItems.get(position).getIcon());
+            holder.txtTitle.setText(mNavDrawerItems.get(position).getTitle());
+            // displaying count - check whether it set visible or not
+            if (mNavDrawerItems.get(position).getCounterVisibility()) {
+                holder.txtCount.setText(mNavDrawerItems.get(position).getCount());
+                holder.txtCount.setVisibility(View.VISIBLE);
+            } else {
+                // hide the counter view
+                holder.txtCount.setVisibility(View.GONE);
+            }
+
+            return convertView;
+        }
+    }
+
 }

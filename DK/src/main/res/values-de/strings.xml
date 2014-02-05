@@ -5,19 +5,27 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <resources>
-
+    <!-- Application -->
     <string name="app_name">DK</string>
 
-    <string name="drawer_title_playerList">Spieler</string>
-    <string name="drawer_title_session">Sitzung</string>
-    <string name="drawer_title_game">Spiel</string>
-
+    <!-- Navigation Drawer -->
     <string name="navigation_drawer_open">Öffne Schublade</string>
     <string name="navigation_drawer_close">Schließe Schublade</string>
+    <string name="navigation_drawer_list_item_icon">Logo</string>
+    <string name="navigation_drawer_list_item_title_title_screen">Titelbild</string>
+    <string name="navigation_drawer_list_item_title_players">Spieler</string>
+    <string name="navigation_drawer_list_item_title_current_session">Aktuelle Sitzung</string>
+    <string name="navigation_drawer_list_item_title_sessions">Sitzungen</string>
+    <item type="id" name="navigation_drawer_list_item_icon_title_screen">@drawable/no_user_logo</item>
+    <item type="id" name="navigation_drawer_list_item_icon_players">@drawable/no_user_logo</item>
+    <item type="id" name="navigation_drawer_list_item_icon_current_session">@drawable/no_user_logo</item>
+    <item type="id" name="navigation_drawer_list_item_icon_sessions">@drawable/no_user_logo</item>
 
+    <!-- Menu bar actions -->
     <string name="action_add_player">Neuer Spieler</string>
     <string name="action_settings">Einstellungen</string>
 
+    <!-- Add/Edit player dialog window -->
     <string name="dialog_player_image">Spielerbild</string>
     <string name="dialog_player_name">Spielername</string>
     <string name="dialog_add_player_cancel">Zurück</string>
@@ -25,10 +33,12 @@
     <string name="dialog_edit_player_cancel">Zurück</string>
     <string name="dialog_edit_player_ok">Übernehmen</string>
 
+    <!-- Player options dialog window -->
     <string name="dialog_player_options_title">Spieleroptionen</string>
     <string name="dialog_player_options_delete">Spieler löschen</string>
     <string name="dialog_player_options_edit">Spieler bearbeiten</string>
 
+    <!-- Player image dialog window -->
     <string name="dialog_player_image_options_title">Spielerbild auswählen</string>
     <string name="dialog_player_image_options_camera">Bild aufnehmen</string>
     <string name="dialog_player_image_options_file">Bild auswählen</string>
@@ -36,11 +46,13 @@
     <string name="dialog_player_image_options_default">Standardbild auswählen</string>
     <string name="dialog_player_image_options_cancel">Zurück</string>
 
+    <!-- Player parameter -->
     <string name="player_name">Spielername</string>
     <string name="player_games_count">Anzahl Spiele</string>
     <string name="player_games_wins">Gewonnen</string>
     <string name="player_games_losses">Verloren</string>
 
+    <!-- Information window descriptions -->
     <string name="toast_player_added">Spieler hinzugefügt:</string>
     <string name="toast_player_add_canceled">Kein Spieler hinzugefügt</string>
     <string name="toast_player_edit">Spieler bearbeitet:</string>

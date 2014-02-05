@@ -74,6 +74,13 @@ public class PlayerList {
     }
 
     /**
+     * Get number of players in the player list
+     * @return number of players in list
+     */
+    public int getNumberOfPlayers() {
+        return mPlayerList.size();
+    }
+    /**
      * Get player from playerList by position in list
      * @param listPosition position of player to be received
      * @return selected player; null of invalid listPosition
