@@ -70,6 +70,12 @@ public class NavigationDrawerFragment extends Fragment {
     private ArrayList<NavigationDrawerItem> mNavDrawerItemList;
     private NavigationDrawerListAdapter mNavDrawerItemListAdapter;
 
+    // Fixed order of drawer element
+    private final int DRAWER_POSITION_TITLE_SCREEN      = 0;
+    private final int DRAWER_POSITION_PLAYERS           = 1;
+    private final int DRAWER_POSITION_CURRENT_SESSION   = 2;
+    private final int DRAWER_POSITION_SESSIONS          = 3;
+
     public NavigationDrawerFragment() {
     }
 
@@ -126,10 +132,10 @@ public class NavigationDrawerFragment extends Fragment {
         NavigationDrawerItem itemSessions = new NavigationDrawerItem(
                 getString(R.string.navigation_drawer_list_item_title_sessions),
                 R.id.navigation_drawer_list_item_icon_sessions);
-        mNavDrawerItemList.add(itemTitleScreen);
-        mNavDrawerItemList.add(itemPlayer);
-        mNavDrawerItemList.add(itemCurrentSession);
-        mNavDrawerItemList.add(itemSessions);
+        mNavDrawerItemList.add(itemTitleScreen);    // DRAWER_POSITION_TITLE_SCREEN
+        mNavDrawerItemList.add(itemPlayer);         // DRAWER_POSITION_PLAYERS
+        mNavDrawerItemList.add(itemCurrentSession); // DRAWER_POSITION_CURRENT_SESSION
+        mNavDrawerItemList.add(itemSessions);       // DRAWER_POSITION_SESSIONS
         // setting the nav drawer list adapter
         mNavDrawerItemListAdapter = new NavigationDrawerListAdapter(mNavDrawerItemList);
         mDrawerListView.setAdapter(mNavDrawerItemListAdapter);
@@ -140,6 +146,15 @@ public class NavigationDrawerFragment extends Fragment {
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+    }
+
+    public void updateNumberOfPlayersCounter(int numPlayers) {
+        // replace old count
+        NavigationDrawerItem countItem = mNavDrawerItemList.get(DRAWER_POSITION_PLAYERS);
+        countItem.setCount(String.valueOf(numPlayers));
+        mNavDrawerItemList.set(DRAWER_POSITION_PLAYERS, countItem);
+        // Show new count in drawer
+        mNavDrawerItemListAdapter.notifyDataSetChanged();
     }
 
     /**

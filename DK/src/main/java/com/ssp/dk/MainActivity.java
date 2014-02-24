@@ -3,6 +3,7 @@ package com.ssp.dk;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -89,6 +90,9 @@ public class MainActivity extends Activity
         actionBar.setTitle(mActionBarTitle);
     }
 
+    public void toastMessage(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -157,19 +161,15 @@ public class MainActivity extends Activity
                 break;
             case 2:
                 // TODO Show current session fragment
-                Toast.makeText(getApplicationContext(),
-                        getString(R.string.navigation_drawer_list_item_title_current_session),
-                        Toast.LENGTH_SHORT).show();
+                toastMessage(getString(R.string.navigation_drawer_list_item_title_current_session));
                 break;
             case 3:
                 // TODO show sessions fragment
-                Toast.makeText(getApplicationContext(),
-                        getString(R.string.navigation_drawer_list_item_title_sessions),
-                        Toast.LENGTH_SHORT).show();
+                toastMessage(getString(R.string.navigation_drawer_list_item_title_sessions));
                 break;
             default:
                 // TODO add exception
-                Toast.makeText(getApplicationContext(), "Drawer Selection Error!", Toast.LENGTH_SHORT).show();
+                toastMessage(getString(R.string.toast_drawer_selection_error));
                 return;
         }
 
@@ -186,18 +186,19 @@ public class MainActivity extends Activity
     @Override
     public void onPlayerAddDialogPositiveClick(String PlayerName, Drawable PlayerImage) {
         // save new player
-        mPlayerList.addPlayer(PlayerName, PlayerImage);
-        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_added) + " '" + PlayerName + "'.",
-                Toast.LENGTH_SHORT).show();
+        final int numPlayers = mPlayerList.addPlayer(PlayerName, PlayerImage);
+        toastMessage(getString(R.string.toast_player_added) + " '" + PlayerName + "'.");
 
         // Inform PlayerListView about new player - refresh list view
         mPlayerListFragment.updatePlayerListView();
+
+        // update Navigation Drawer player counter
+        mNavigationDrawerFragment.updateNumberOfPlayersCounter(numPlayers);
     }
 
     @Override
     public void onPlayerAddDialogNegativeClick() {
-        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_add_canceled) + ".",
-                Toast.LENGTH_SHORT).show();
+        toastMessage(getString(R.string.toast_player_add_canceled) + ".");
     }
 
     @Override
@@ -206,8 +207,7 @@ public class MainActivity extends Activity
         mPlayerList.editPlayer(playerId, playerName, playerImage);
 
         // Inform user about saved update
-        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_edit) + " '" + playerName + "'.",
-                Toast.LENGTH_SHORT).show();
+        toastMessage(getString(R.string.toast_player_edit) + " '" + playerName + "'.");
 
         // Inform PlayerListView about changed player - refresh list view
         mPlayerListFragment.updatePlayerListView();
@@ -215,8 +215,7 @@ public class MainActivity extends Activity
 
     @Override
     public void onPlayerEditDialogNegativeClick() {
-        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_edit_canceled) + ".",
-                Toast.LENGTH_SHORT).show();
+        toastMessage(getString(R.string.toast_player_edit_canceled) + ".");
     }
 
 
@@ -230,13 +229,15 @@ public class MainActivity extends Activity
         String name = mPlayerList.getPlayerById(playerId).getName();
 
         // remove player from list
-        mPlayerList.deletePlayer(playerId);
+        final int numPlayers = mPlayerList.deletePlayer(playerId);
 
-        Toast.makeText(getApplicationContext(), getText(R.string.toast_player_deleted) + " '" + name + "'.",
-                Toast.LENGTH_SHORT).show();
+        toastMessage(getString(R.string.toast_player_deleted) + " '" + name + "'.");
 
         // Inform PlayerListView about removed player - refresh list view
         mPlayerListFragment.updatePlayerListView();
+
+        // update Navigation Drawer player counter
+        mNavigationDrawerFragment.updateNumberOfPlayersCounter(numPlayers);
     }
 
     @Override
@@ -255,7 +256,12 @@ public class MainActivity extends Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        //Toast.makeText(getApplicationContext(), "onActivityResult called", Toast.LENGTH_SHORT).show();
+
+        final PlayerDialogFragment playerDialogFragment = (PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment");
+        if (playerDialogFragment == null) {
+            toastMessage(getString(R.string.toast_fragment_error));
+            return;
+        }
 
         // Check which request we're responding to
         switch (requestCode) {
@@ -265,26 +271,25 @@ public class MainActivity extends Activity
                 if (resultCode == Activity.RESULT_OK) {
                     // The user picked a contact - The Intent's data Uri identifies which contact was selected.
                     Uri resultUri = intent.getData();
-
-                    Cursor cursor =  getContentResolver().query(resultUri, null, null, null, null);
-                    if (cursor.moveToFirst()) {
-                        String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                        try {
-                            Uri imageUri = Uri.parse(cursor.getString(
-                                    cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
-                            // Inform PlayerDialogFragment about selected contact
-                            ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
-                                    setSelectedContact(name, imageUri);
-                        } catch (Exception e) {
-                            // Inform PlayerDialogFragment only about selected contact name
-                            ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
-                                    setSelectedContact(name, null);
+                    if (resultUri != null) {
+                        Cursor cursor =  getContentResolver().query(resultUri, null, null, null, null);
+                        if (cursor.moveToFirst()) {
+                            String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                            try {
+                                Uri imageUri = Uri.parse(cursor.getString(
+                                        cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));
+                                // Inform PlayerDialogFragment about selected contact
+                                playerDialogFragment.setSelectedContact(name, imageUri);
+                            } catch (Exception e) {
+                                // Inform PlayerDialogFragment only about selected contact name
+                                playerDialogFragment.setSelectedContact(name, null);
+                            }
+                            cursor.close();
+                            return;
                         }
-                        cursor.close();
-                        return;
                     }
                 }
-                Toast.makeText(getApplicationContext(), "No contact selected", Toast.LENGTH_SHORT).show();
+                toastMessage(getString(R.string.toast_no_contact_selected));
                 break;
             }
 
@@ -292,11 +297,10 @@ public class MainActivity extends Activity
                 if (resultCode == RESULT_OK){
                     Uri selectedImage = intent.getData();
                     // Inform PlayerDialogFragment about selected picture
-                    ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
-                            setSelectedPlayerImage(selectedImage);
+                    playerDialogFragment.setSelectedPlayerImage(selectedImage);
                     return;
                 }
-                Toast.makeText(getApplicationContext(), "No image selected", Toast.LENGTH_SHORT).show();
+                toastMessage(getString(R.string.toast_no_image_selected));
                 break;
             }
 
@@ -306,17 +310,17 @@ public class MainActivity extends Activity
                     Bundle extras = intent.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     // Inform PlayerDialogFragment about taken picture
-                    ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
-                            setSelectedPlayerImage(imageBitmap);
+                    playerDialogFragment.setSelectedPlayerImage(imageBitmap);
                     return;
                 }
-                Toast.makeText(getApplicationContext(), "No image captured", Toast.LENGTH_SHORT).show();
+                toastMessage(getString(R.string.toast_no_image_captured));
                 break;
             }
 
             default: {
-                Toast.makeText(getApplicationContext(), "No valid request", Toast.LENGTH_SHORT).show();
+                toastMessage(getString(R.string.toast_invalid_request));
             }
         }
     }
+
 }

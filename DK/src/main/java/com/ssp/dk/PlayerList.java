@@ -190,9 +190,9 @@ public class PlayerList {
      * Add a player to the permanent PlayerList
      * @param playerName name of player to be added
      * @param playerImage image of player to be added
-     * @return true if player was successfully stored
+     * @return number of players in list
      */
-    public boolean addPlayer(String playerName, Drawable playerImage) {
+    public int addPlayer(String playerName, Drawable playerImage) {
         // Open database
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         // Create a new map of values, where column names are the keys
@@ -220,15 +220,15 @@ public class PlayerList {
         //Toast.makeText(mContext, "Player " + player.getName() + " added with ID "
         //        + playerId, Toast.LENGTH_SHORT).show();
 
-        return true;
+        return getNumberOfPlayers();
     }
 
     /**
      * Permanently delete player from playerList
      * @param playerId ID of player to be deleted
-     * @return true if player was deleted
+     * @return number of players in list
      */
-    public boolean deletePlayer(long playerId) {
+    public int deletePlayer(long playerId) {
         // Remove from temporary PlayerList
         mPlayerList.remove(getPlayerListPositionByPlayerId(playerId));
 
@@ -246,7 +246,7 @@ public class PlayerList {
         // Delete playerImage on internal storage
         deletePlayerImageFromStorage(playerId);
 
-        return true;
+        return getNumberOfPlayers();
     }
 
     /**

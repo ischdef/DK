@@ -58,5 +58,13 @@
     <string name="toast_player_edit">Changed player</string>
     <string name="toast_player_edit_canceled">No player changed</string>
     <string name="toast_player_deleted">Deleted player</string>
+    <string name="toast_no_contact_selected">No contact selected</string>
+    <string name="toast_no_image_selected">No image selected</string>
+    <string name="toast_no_image_captured">No image captured</string>
+
+    <!-- Errors -->
+    <string name="toast_fragment_error">Fragment error</string>
+    <string name="toast_invalid_request">Invalid request</string>
+    <string name="toast_drawer_selection_error">Drawer Selection Error</string>
 
 </resources>

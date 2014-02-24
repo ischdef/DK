@@ -58,5 +58,13 @@
     <string name="toast_player_edit">Spieler bearbeitet:</string>
     <string name="toast_player_edit_canceled">Kein Spieler bearbeitet</string>
     <string name="toast_player_deleted">Spieler gelöscht:</string>
+    <string name="toast_no_contact_selected">Keinen Kontakt ausgewählt</string>
+    <string name="toast_no_image_selected">Kein Bild ausgewählt</string>
+    <string name="toast_no_image_captured">Kein Bild aufgenommen</string>
+
+    <!-- Errors -->
+    <string name="toast_fragment_error">Fragment Fehler</string>
+    <string name="toast_invalid_request">Ungültiger Auftrag</string>
+    <string name="toast_drawer_selection_error">Ungültige Schubladenauswahl</string>
 
 </resources>
