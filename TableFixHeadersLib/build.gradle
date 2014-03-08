@@ -1,3 +1,8 @@
+/******************************************************************************
+ * Copyright (c) 2014.                                                        *
+ * Stefan Schulze Programs.                                                   *
+ ******************************************************************************/
+
 buildscript {
     repositories {
         mavenCentral()
@@ -6,7 +11,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:0.9.+'
     }
 }
-apply plugin: 'android'
+apply plugin: 'android-library'
 
 repositories {
     mavenCentral()
@@ -14,12 +19,12 @@ repositories {
 
 android {
     compileSdkVersion 18
-    //buildToolsVersion '18.1.1'
+    //buildToolsVersion "18.1.1"
     buildToolsVersion '19.0.3'
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 19
+        minSdkVersion 7
+        targetSdkVersion 17
         versionCode 1
         versionName "1.0"
     }
@@ -32,6 +37,5 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:+'
-    compile project(':TableFixHeadersLib')
+    compile 'com.android.support:appcompat-v7:+'
 }

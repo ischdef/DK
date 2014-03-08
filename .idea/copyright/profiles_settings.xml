@@ -1,6 +1,5 @@
 <component name="CopyrightManager">
   <settings default="SSP">
-    <module2copyright />
     <LanguageOptions name="__TEMPLATE__">
       <option name="separateBefore" value="true" />
       <option name="separateAfter" value="true" />
