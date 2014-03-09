@@ -2,9 +2,10 @@ package com.ssp.dk;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -16,7 +17,6 @@ import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity
@@ -101,7 +101,7 @@ public class MainActivity extends Activity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             menu.clear();
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.title_screen, menu);
             restoreActionBar();
         }
         return super.onCreateOptionsMenu(menu);
@@ -113,7 +113,19 @@ public class MainActivity extends Activity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            // Show "About" popup window
+            AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+            helpBuilder.setTitle(R.string.app_name);
+            helpBuilder.setMessage(getString(R.string.dialog_about_copyright) + "\n" + getString(R.string.dialog_about_ssp));
+            helpBuilder.setPositiveButton(R.string.dialog_about_button,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do nothing but close the dialog
+                        }
+                    });
+            // Show the dialog
+            helpBuilder.create().show();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -160,12 +172,16 @@ public class MainActivity extends Activity
                         .commit();
                 break;
             case 2:
-                // TODO Show current session fragment
-                toastMessage(getString(R.string.navigation_drawer_list_item_title_current_session));
+                // Show current session fragment
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new CurrentSessionTableFragment())
+                        .commit();
                 break;
             case 3:
-                // TODO show sessions fragment
-                toastMessage(getString(R.string.navigation_drawer_list_item_title_sessions));
+                // Show sessions fragment
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new SessionsListFragment())
+                        .commit();
                 break;
             default:
                 // TODO add exception

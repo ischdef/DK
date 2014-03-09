@@ -23,7 +23,13 @@
 
     <!-- Menu bar actions -->
     <string name="action_add_player">Add Player</string>
-    <string name="action_settings">Settings</string>
+    <!--<string name="action_settings">Settings</string>-->
+    <string name="action_about">About</string>
+
+    <!-- About window -->
+    <string name="dialog_about_copyright">Copyright (c) 2014</string>
+    <string name="dialog_about_ssp">Stefan Schulze Programs</string>
+    <string name="dialog_about_button">Close</string>
 
     <!-- Add/Edit player dialog window -->
     <string name="dialog_player_image">Player Image</string>

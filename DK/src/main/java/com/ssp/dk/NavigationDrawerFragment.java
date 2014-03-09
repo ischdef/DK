@@ -4,8 +4,6 @@ package com.ssp.dk;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
-import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -282,11 +279,11 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         mMenuInflater = inflater;
-        // If the drawer is open, show the global app actions in the action bar. See also
+        // If the drawer is open, show no actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
             menu.clear();
-            inflater.inflate(R.menu.global, menu);
+            inflater.inflate(R.menu.open_drawer, menu);
             showGlobalContextActionBar();
         }
         super.onCreateOptionsMenu(menu, inflater);
@@ -295,10 +292,10 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         if (isDrawerOpen() && mMenuInflater != null) {
-            // If the drawer is open, show the global app actions in the action bar. See also
+            // If the drawer is open, show the no actions in the action bar. See also
             // showGlobalContextActionBar, which controls the top-left area of the action bar.
             menu.clear();
-            mMenuInflater.inflate(R.menu.global, menu);
+            mMenuInflater.inflate(R.menu.open_drawer, menu);
             //showGlobalContextActionBar();
         }
         super.onPrepareOptionsMenu(menu);
