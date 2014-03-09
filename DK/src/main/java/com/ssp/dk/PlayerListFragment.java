@@ -104,12 +104,10 @@ public class PlayerListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == R.id.action_player_list_new_player) {
             // Show 'add new player' dialog window
             DialogFragment dialog = new PlayerDialogFragment();
             dialog.show(getFragmentManager(), "PlayerDialogFragment");
-
             return true;
         }
 

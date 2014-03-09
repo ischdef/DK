@@ -1,7 +1,6 @@
 package com.ssp.dk;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -15,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
@@ -29,12 +27,6 @@ public class MainActivity extends Activity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mActionBarTitle;
-
 
     /**
      * List with all stored players
@@ -78,7 +70,7 @@ public class MainActivity extends Activity
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         // Set actionBarTitle to name of app
-        mActionBarTitle = getTitle();
+        //mActionBarTitle = getTitle();
 
         // Set up the drawer, align with layout (also calls onCreate())
         mNavigationDrawerFragment.setUp(
@@ -93,29 +85,8 @@ public class MainActivity extends Activity
                 .commit();
     }
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        // show selected navigation drawer (if any)
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mActionBarTitle);
-    }
-
     public void toastMessage(String text) {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            menu.clear();
-            getMenuInflater().inflate(R.menu.title_screen, menu);
-            restoreActionBar();
-        }
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -160,7 +131,7 @@ public class MainActivity extends Activity
      ******************************/
 
     @Override
-    public void onNavigationDrawerItemSelected(int position, String itemTitle) {
+    public void onNavigationDrawerItemSelected(int position) {
         if (mNavigationDrawerFragment == null) {
             //Toast.makeText(getApplicationContext(), "Drawer Fragment error.", Toast.LENGTH_SHORT).show();
             return;
@@ -199,10 +170,6 @@ public class MainActivity extends Activity
                 toastMessage(getString(R.string.toast_drawer_selection_error));
                 return;
         }
-
-        // Update action bar title to selected drawer title
-        mActionBarTitle = itemTitle;
-        getActionBar().setTitle(mActionBarTitle);
     }
 
 

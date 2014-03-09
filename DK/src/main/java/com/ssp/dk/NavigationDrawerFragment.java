@@ -171,6 +171,9 @@ public class NavigationDrawerFragment extends Fragment {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setTitle(R.string.app_name);
 
         // ActionBarDrawerToggle ties together the proper interactions
         // between the navigation drawer and the action bar app icon.
@@ -242,8 +245,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
         // Inform caller about selection -> trigger fragment change
         if (mCallbacks != null && mDrawerListView != null) {
-            String itemTitle = ((NavigationDrawerItem)mDrawerListView.getItemAtPosition(position)).getTitle();
-            mCallbacks.onNavigationDrawerItemSelected(position, itemTitle);
+            mCallbacks.onNavigationDrawerItemSelected(position);
         }
     }
 
@@ -279,12 +281,19 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         mMenuInflater = inflater;
-        // If the drawer is open, show no actions in the action bar. See also
-        // showGlobalContextActionBar, which controls the top-left area of the action bar.
-        if (mDrawerLayout != null && isDrawerOpen()) {
-            menu.clear();
-            inflater.inflate(R.menu.open_drawer, menu);
-            showGlobalContextActionBar();
+        // If the drawer is open, show no actions in the action bar.
+        if (mDrawerLayout != null) {
+            if (isDrawerOpen()) {
+                menu.clear();
+                inflater.inflate(R.menu.open_drawer, menu);
+                // Per the navigation drawer design guidelines, updates the action bar to show the global app
+                // 'context', rather than just what's in the current screen.
+                getActionBar().setTitle(R.string.app_name);
+            } else {
+                String itemTitle = ((NavigationDrawerItem)mDrawerListView.
+                        getItemAtPosition(mCurrentSelectedPosition)).getTitle();
+                getActionBar().setTitle(itemTitle);
+            }
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -292,11 +301,9 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         if (isDrawerOpen() && mMenuInflater != null) {
-            // If the drawer is open, show the no actions in the action bar. See also
-            // showGlobalContextActionBar, which controls the top-left area of the action bar.
+            // If the drawer is open, show the no actions in the action bar.
             menu.clear();
             mMenuInflater.inflate(R.menu.open_drawer, menu);
-            //showGlobalContextActionBar();
         }
         super.onPrepareOptionsMenu(menu);
     }
@@ -310,17 +317,6 @@ public class NavigationDrawerFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Per the navigation drawer design guidelines, updates the action bar to show the global app
-     * 'context', rather than just what's in the current screen.
-     */
-    private void showGlobalContextActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle(R.string.app_name);
-    }
-
     private ActionBar getActionBar() {
         return getActivity().getActionBar();
     }
@@ -331,8 +327,9 @@ public class NavigationDrawerFragment extends Fragment {
     public static interface NavigationDrawerCallbacks {
         /**
          * Called when an item in the navigation drawer is selected.
+         * @param position Selected drawer
          */
-        void onNavigationDrawerItemSelected(int position, String itemTitle);
+        void onNavigationDrawerItemSelected(int position);
     }
 
 
