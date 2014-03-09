@@ -7,6 +7,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -48,6 +49,8 @@ public class MainActivity extends Activity
     public static final int REQUEST_PICK_PHOTO    = 2; // Request code used for selecting a image from storage
     public static final int REQUEST_IMAGE_CAPTURE = 3; // Request code used for taking a photo via camera
 
+    // Application Details
+    String mVersionNumber = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,14 @@ public class MainActivity extends Activity
         // Create DB if not already available
         if (mPlayerList == null) {
             mPlayerList = PlayerList.createInstance(getApplicationContext());
+        }
+
+        try {
+            mVersionNumber = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            mVersionNumber = "(No version number yet)";
         }
 
         // Set the activity content from a layout resource.
@@ -116,7 +127,7 @@ public class MainActivity extends Activity
         if (id == R.id.action_about) {
             // Show "About" popup window
             AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
-            helpBuilder.setTitle(R.string.app_name);
+            helpBuilder.setTitle(getString(R.string.app_name) + " " + mVersionNumber);
             helpBuilder.setMessage(getString(R.string.dialog_about_copyright) + "\n" + getString(R.string.dialog_about_ssp));
             helpBuilder.setPositiveButton(R.string.dialog_about_button,
                     new DialogInterface.OnClickListener() {
