@@ -33,8 +33,14 @@ public class MainActivity extends Activity
      */
     private PlayerList mPlayerList = null;
 
+    /**
+     * List with all stored sessions
+     */
+    private SessionsList mSessionsList = null;
+
     // Shortcuts
     private PlayerListFragment mPlayerListFragment;
+    private SessionsListFragment mSessionsListFragment;
 
     // Content Resolver related parameter
     public static final int REQUEST_PICK_CONTACT  = 1; // Request code used for selecting a contact
@@ -48,11 +54,15 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Create DB if not already available
+        // Create DBs if not already available
         if (mPlayerList == null) {
             mPlayerList = PlayerList.createInstance(getApplicationContext());
         }
+        if (mSessionsList == null) {
+            mSessionsList = SessionsList.createInstance(getApplicationContext());
+        }
 
+        // Get version number from manifest file
         try {
             mVersionNumber = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         }
@@ -161,8 +171,9 @@ public class MainActivity extends Activity
                 break;
             case 3:
                 // Show sessions fragment
+                mSessionsListFragment = new SessionsListFragment();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, new SessionsListFragment())
+                        .replace(R.id.container, mSessionsListFragment)
                         .commit();
                 break;
             default:

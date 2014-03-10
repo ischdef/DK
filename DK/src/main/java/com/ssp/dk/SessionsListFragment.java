@@ -15,6 +15,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Created by Stefan Schulze on 2014/03/09.
@@ -39,8 +43,7 @@ public class SessionsListFragment extends Fragment {
         // set listView shortcut
         mSessionsListView = (ListView) mSessionsListFragmentView.findViewById(R.id.sessions_list);
 
-        /*
-        // populate player list by using adapter
+        // populate sessions list by using adapter
         mSessionsListAdapter = new SessionsListAdapter();
         mSessionsListView.setAdapter(mSessionsListAdapter);
 
@@ -49,13 +52,12 @@ public class SessionsListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int listPosition, long rowId) {
                 // get ID of selected session
-                long sessionId = SessionList.getInstance().getSessionByPosition(listPosition).getId();
-                // show menu to delete or change item
-                SessionOptionsDialogFragment dialog = new SessionOptionsDialogFragment(playerId);
-                dialog.show(getFragmentManager(), "SessionOptionsDialogFragment");
+                //long sessionId = SessionList.getInstance().getSessionByPosition(listPosition).getId();
+                // TODO show menu to use or delete selected session
+                //SessionOptionsDialogFragment dialog = new SessionOptionsDialogFragment(playerId);
+                //dialog.show(getFragmentManager(), "SessionOptionsDialogFragment");
             }
         });
-        */
 
         return mSessionsListFragmentView;
     }
@@ -75,5 +77,63 @@ public class SessionsListFragment extends Fragment {
         inflater.inflate(R.menu.sessions, menu);
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    /**
+     * Adapter
+     */
+
+    public void updateSessionsListView () {
+        mSessionsListAdapter.notifyDataSetChanged();
+    }
+
+    static class SessionsListItemViewHolder {
+        TextView name;
+        TextView playedGames;
+        TextView creationDate;
+        TextView numPlayers;
+    }
+
+    private class SessionsListAdapter extends ArrayAdapter<Session> {
+        public SessionsListAdapter() {
+            // Link with SessionsList and SessionsListLayout
+            super (getActivity().getApplicationContext(), R.layout.sessions_list_item,
+                    SessionsList.getInstance().getList());
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            SessionsListItemViewHolder holder; // used for faster view access
+
+            // Check for initial inflation
+            if (convertView == null) {
+                // inflate
+                convertView = mInflater.inflate(R.layout.sessions_list_item, parent, false);
+
+                // set shortcuts
+                holder = new SessionsListItemViewHolder();
+                holder.name = (TextView) convertView.findViewById(R.id.sessionName);
+                holder.playedGames = (TextView) convertView.findViewById(R.id.sessionGamesCount);
+                holder.creationDate = (TextView) convertView.findViewById(R.id.sessionCreationDate);
+                holder.numPlayers = (TextView) convertView.findViewById(R.id.sessionNumPlayers);
+
+                convertView.setTag(holder);
+            } else {
+                holder = (SessionsListItemViewHolder) convertView.getTag();
+            }
+
+            // Set session parameters to list view item
+            Session session = SessionsList.getInstance().getList().get(position);
+            holder.name.setText(session.getName());
+            holder.playedGames.setText(getString(R.string.session_players_count) + ": " + session.getPlayedGames());
+            holder.numPlayers.setText(getString(R.string.session_players_count) + ": " + session.getNumberOfPlayers());
+            // Convert creation time in date format
+            final long creationTime = session.getTimeOfCreation();
+            final String creationDate = DateFormat.getDateTimeInstance().format(new Date(creationTime));
+            holder.creationDate.setText(getString(R.string.session_creation_date) + ": " + creationDate);
+
+            return convertView;
+        }
     }
 }

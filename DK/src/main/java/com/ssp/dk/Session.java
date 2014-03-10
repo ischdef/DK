@@ -49,7 +49,9 @@ public class Session {
         return mNumGames;
     }
     public long getTimeOfCreation() { return mNumGames; }
-
+    public int getNumberOfPlayers() {
+        return mNumPlayers;
+    }
 
     /**
      * Add player to session before first game played

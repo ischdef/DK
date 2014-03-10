@@ -54,7 +54,7 @@
 
     <!-- Player parameter -->
     <string name="player_name">Spielername</string>
-    <string name="player_games_count">Anzahl Spiele</string>
+    <string name="player_games_count">Spiele</string>
     <string name="player_games_wins">Gewonnen</string>
     <string name="player_games_losses">Verloren</string>
 
@@ -67,6 +67,12 @@
     <string name="toast_no_contact_selected">Keinen Kontakt ausgewählt</string>
     <string name="toast_no_image_selected">Kein Bild ausgewählt</string>
     <string name="toast_no_image_captured">Kein Bild aufgenommen</string>
+
+    <!-- Session parameter-->
+    <string name="session_name">Name</string>
+    <string name="session_creation_date">Erstellungsdatum</string>
+    <string name="session_games_count">Anzahl Spiele</string>
+    <string name="session_players_count">Spieler</string>
 
     <!-- Errors -->
     <string name="toast_fragment_error">Fragment Fehler</string>

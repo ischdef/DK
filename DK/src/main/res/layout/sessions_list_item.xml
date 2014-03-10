@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2014.                                                       ~
+  ~ Stefan Schulze Programs.                                                  ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/session_name"
+        android:id="@+id/sessionName"
+        android:layout_gravity="left|center_vertical"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/session_creation_date"
+        android:id="@+id/sessionCreationDate"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginTop="5dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/session_games_count"
+        android:id="@+id/sessionGamesCount"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginTop="5dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/session_players_count"
+        android:id="@+id/sessionNumPlayers"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginTop="5dp"
+        android:singleLine="true" />
+</LinearLayout>
