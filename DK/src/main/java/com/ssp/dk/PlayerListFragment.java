@@ -4,7 +4,6 @@ package com.ssp.dk;
  * Created by Stefan Schulze on 2014/01/03.
  */
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -29,18 +28,6 @@ public class PlayerListFragment extends Fragment {
     private LayoutInflater mInflater;
 
     public PlayerListFragment() {
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // TODO ...
     }
 
     @Override
