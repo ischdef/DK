@@ -15,8 +15,6 @@ public class Session {
     // Session details
     private long mId;
     private String mName;
-    private int mNumGames;
-    private int mNumPlayers;
     private ArrayList<SessionPlayer> mPlayerList;
     private ArrayList<Game> mGames;
     private long mTimeOfCreation;
@@ -24,11 +22,8 @@ public class Session {
     public Session(long id, String sessionName) {
         mId = id;
         mName = sessionName;
-        mNumGames = 0;
-        mNumPlayers = 0;
         // get current time
-        final Date date = new Date();
-        mTimeOfCreation = date.getTime();
+        mTimeOfCreation = new Date().getTime();
         // init arrays
         mPlayerList = new ArrayList<SessionPlayer>();
         mGames = new ArrayList<Game>();
@@ -45,12 +40,10 @@ public class Session {
         return mName;
     }
     public void setName(String name) { mName = name; }
-    public int getPlayedGames() {
-        return mNumGames;
-    }
-    public long getTimeOfCreation() { return mNumGames; }
+    public int getPlayedGames() { return mGames.size(); }
+    public long getTimeOfCreation() { return mTimeOfCreation; }
     public int getNumberOfPlayers() {
-        return mNumPlayers;
+        return mPlayerList.size();
     }
 
     /**
@@ -59,13 +52,12 @@ public class Session {
      * @return true, if player was added;
      */
     public boolean addPlayer(long playerId) {
-        if (mNumGames > 0) {
+        if (mGames.size() > 0) {
             // players can only be added at the beginning of the session
             return false;
         }
         SessionPlayer player = new SessionPlayer(playerId);
         mPlayerList.add(player);
-        mNumPlayers++;
         return true;
     }
 
@@ -77,7 +69,7 @@ public class Session {
      */
     public boolean addGame(Game playedGame) {
         // Check if game fits with session configuration
-        if (mNumPlayers != playedGame.getNumPlayers()) {
+        if (mPlayerList.size() != playedGame.getNumPlayers()) {
             return false;
         }
 
@@ -85,11 +77,11 @@ public class Session {
         mGames.add(playedGame);
 
         // subtract information from game
-        for (int playerPosition = 0; playerPosition < mNumPlayers; playerPosition++) {
+        for (int playerPosition = 0; playerPosition < mPlayerList.size(); playerPosition++) {
             SessionPlayer player = mPlayerList.get(playerPosition);
-            if (playedGame.getmGameResults()[playerPosition] == Game.eGameResult.LOST) {
+            if (playedGame.getGameResults()[playerPosition] == Game.eGameResult.LOST) {
                 player.addLostGames();
-            } else if (playedGame.getmGameResults()[playerPosition] == Game.eGameResult.WON) {
+            } else if (playedGame.getGameResults()[playerPosition] == Game.eGameResult.WON) {
                 player.addWonGame();
             }
             mPlayerList.set(playerPosition, player);

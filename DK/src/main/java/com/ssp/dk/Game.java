@@ -32,7 +32,7 @@ public class Game {
         return mScores;
     }
 
-    public eGameResult[] getmGameResults() {
+    public eGameResult[] getGameResults() {
         return mGameResults;
     }
 

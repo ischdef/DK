@@ -70,6 +70,16 @@ public class SessionsList {
 
     // TODO init sessionsList
     private void initSessionsList() {
-
+        // TODO remove Debug code
+        // Add test sessions
+        Session testSession = new Session(0, "TestSession");
+        testSession.addPlayer(0);
+        testSession.addPlayer(1);
+        Game testGame = new Game(testSession.getNumberOfPlayers());
+        testGame.setScore(0, 5, Game.eGameResult.WON);
+        testGame.setScore(1, -5, Game.eGameResult.LOST);
+        testSession.addGame(testGame);
+        testSession.addGame(testGame);
+        mSessionsList.add(testSession);
     }
 }
