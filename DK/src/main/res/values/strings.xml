@@ -23,7 +23,8 @@
 
     <!-- Menu bar actions -->
     <string name="action_add_player">Add Player</string>
-    <!--<string name="action_settings">Settings</string>-->
+    <string name="action_add_session">Add Session</string>
+    <string name="action_add_game">Add Game</string>
     <string name="action_about">About</string>
 
     <!-- About window -->
@@ -52,6 +53,12 @@
     <string name="dialog_player_image_options_default">Default Image</string>
     <string name="dialog_player_image_options_cancel">Cancel</string>
 
+    <!-- Session add dialog window -->
+    <string name="dialog_session_add_title">Add session</string>
+    <string name="dialog_session_add_name">Session name</string>
+    <string name="dialog_session_add_ok">Add</string>
+    <string name="dialog_session_add_cancel">Cancel</string>
+
     <!-- Player parameter -->
     <string name="player_name">Player Name</string>
     <string name="player_games_count">Games</string>
@@ -67,6 +74,8 @@
     <string name="toast_no_contact_selected">No contact selected</string>
     <string name="toast_no_image_selected">No image selected</string>
     <string name="toast_no_image_captured">No image captured</string>
+    <string name="toast_session_added">Added session</string>
+    <string name="toast_session_add_canceled">No session added</string>
 
     <!-- Session parameter-->
     <string name="session_name">Name</string>

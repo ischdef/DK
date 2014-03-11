@@ -21,7 +21,8 @@ import android.widget.Toast;
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         PlayerDialogFragment.PlayerAddDialogCallbacks,
-        PlayerOptionsDialogFragment.PlayerOptionsDialogCallbacks {
+        PlayerOptionsDialogFragment.PlayerOptionsDialogCallbacks,
+        SessionsListFragment.SessionAddDialogCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -250,6 +251,30 @@ public class MainActivity extends Activity
         // Show 'edit player' dialog window
         DialogFragment dialog = new PlayerDialogFragment(playerId);
         dialog.show(getFragmentManager(), "PlayerDialogFragment");
+    }
+
+
+    /***********************************
+     * Callbacks SessionsOptionsDialog *
+     ***********************************/
+
+    @Override
+    public void onSessionAddDialogPositiveClick(String SessionName) {
+        // save new session if valid name
+        if (SessionName.trim().length() == 0) {
+            toastMessage(getString(R.string.toast_session_add_canceled) + ".");
+        } else {
+            mSessionsList.addSession(SessionName);
+            // Inform SessionsListView about new player - refresh list view
+            mSessionsListFragment.updateSessionsListView();
+
+            toastMessage(getString(R.string.toast_session_added) + " '" + SessionName + "'.");
+        }
+    }
+
+    @Override
+    public void onSessionAddDialogNegativeClick() {
+        toastMessage(getString(R.string.toast_session_add_canceled) + ".");
     }
 
 

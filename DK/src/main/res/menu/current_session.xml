@@ -9,6 +9,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ssp.dk.CurrentSessionTableFragment" >
 
+    <item android:id="@+id/action_current_session_new_game"
+        android:title="@string/action_add_game"
+        android:icon="@drawable/ic_action_add_to_queue"
+        android:showAsAction="withText|ifRoom" />
+
     <item android:id="@+id/action_about"
         android:title="@string/action_about"
         android:orderInCategory="100"

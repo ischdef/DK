@@ -82,4 +82,14 @@ public class SessionsList {
         testSession.addGame(testGame);
         mSessionsList.add(testSession);
     }
+
+    /**
+     * Add an empty session to the sessionsList
+     * @param sessionName Name of new session
+     */
+    public void addSession(String sessionName) {
+        // TODO set unique session ID
+        Session session = new Session(0, sessionName);
+        mSessionsList.add(session);
+    }
 }

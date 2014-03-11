@@ -5,15 +5,24 @@
 
 package com.ssp.dk;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +33,16 @@ import java.util.Date;
  * Created by Stefan Schulze on 2014/03/09.
  */
 public class SessionsListFragment extends Fragment {
+    /* The activity that creates an instance of this dialog fragment must
+     * implement this interface in order to receive event callbacks.
+     * Each method passes the DialogFragment in case the host needs to query it. */
+    public interface SessionAddDialogCallbacks {
+        public void onSessionAddDialogPositiveClick(String SessionName);
+        public void onSessionAddDialogNegativeClick();
+    }
+
+    // Instance of the interface to deliver action events
+    SessionAddDialogCallbacks mListener;
 
     private View mSessionsListFragmentView;
     private ListView mSessionsListView;
@@ -31,6 +50,20 @@ public class SessionsListFragment extends Fragment {
     private LayoutInflater mInflater;
 
     public SessionsListFragment() {
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the Listener so we can send events to the host
+            mListener = (SessionAddDialogCallbacks) activity;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(activity.toString()
+                    + " must implement SessionAddDialogListener");
+        }
     }
 
     @Override
@@ -78,6 +111,49 @@ public class SessionsListFragment extends Fragment {
 
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_sessions_list_add_session) {
+            // Show 'add new session' dialog window
+            AlertDialog.Builder helpBuilder = new AlertDialog.Builder(getActivity());
+            helpBuilder.setTitle(R.string.dialog_session_add_title);
+
+            LinearLayout layout = new LinearLayout(getActivity());
+            layout.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(20, 10, 30, 0);
+
+            final EditText SessionText = new EditText(getActivity());
+            SessionText.setHint(R.string.dialog_session_add_name);
+            layout.addView(SessionText, params);
+            helpBuilder.setView(layout);
+
+            helpBuilder.setPositiveButton(R.string.dialog_session_add_ok,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Send the positive button event back to the host activity
+                            mListener.onSessionAddDialogPositiveClick(SessionText.getText().toString());
+                        }
+                    });
+            helpBuilder.setNegativeButton(R.string.dialog_session_add_cancel,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            mListener.onSessionAddDialogNegativeClick();
+                        }
+                    });
+
+            // Show the dialog
+            //helpBuilder.create().show();
+            helpBuilder.show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
     /**

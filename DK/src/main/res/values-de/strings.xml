@@ -23,7 +23,8 @@
 
     <!-- Menu bar actions -->
     <string name="action_add_player">Neuer Spieler</string>
-    <!--<string name="action_settings">Einstellungen</string>-->
+    <string name="action_add_session">Neue Sitzung</string>
+    <string name="action_add_game">Neues Spiel</string>
     <string name="action_about">Über</string>
 
     <!-- About window -->
@@ -67,6 +68,8 @@
     <string name="toast_no_contact_selected">Keinen Kontakt ausgewählt</string>
     <string name="toast_no_image_selected">Kein Bild ausgewählt</string>
     <string name="toast_no_image_captured">Kein Bild aufgenommen</string>
+    <string name="toast_session_added">Sitzung hinzugefügt:</string>
+    <string name="toast_session_add_canceled">Keine Sitzung hinzugefügt</string>
 
     <!-- Session parameter-->
     <string name="session_name">Name</string>
