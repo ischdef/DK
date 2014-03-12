@@ -6,7 +6,6 @@
 package com.ssp.dk;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,9 +106,27 @@ public class SessionsList {
      */
     public int deleteSession(long sessionId) {
         // Remove from temporary SessionsList
-        mSessionsList.remove(getSessionsListPositionByPlayerId(sessionId));
+        mSessionsList.remove(getSessionsListPositionBySessionId(sessionId));
 
         // TODO Remove from database
+
+        return getNumberOfSessions();
+    }
+
+    /**
+     * Rename an existing session
+     * @param sessionName Name of new session
+     * @param sessionId Unique ID of session to be renamed
+     */
+    public int renameSession(String sessionName, long sessionId) {
+        // TODO update database
+        // ...
+
+        // Rename session in temporary SessionsList
+        int position = getSessionsListPositionBySessionId(sessionId);
+        Session session = getSessionByPosition(position);
+        session.setName(sessionName);
+        mSessionsList.set(position, session);
 
         return getNumberOfSessions();
     }
@@ -147,7 +164,7 @@ public class SessionsList {
      * @param sessionId ID of selected session
      * @return sessionsList position; -1 if invalid sessionId was given
      */
-    private int getSessionsListPositionByPlayerId(long sessionId) {
+    private int getSessionsListPositionBySessionId(long sessionId) {
         // check complete list till (first) session with sessionId is found
         int numSessions = getNumberOfSessions();
         for (int listPos = 0; listPos < numSessions; listPos++) {

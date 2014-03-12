@@ -39,6 +39,8 @@ public class SessionsListFragment extends Fragment {
     public interface SessionAddDialogCallbacks {
         public void onSessionAddDialogPositiveClick(String SessionName);
         public void onSessionAddDialogNegativeClick();
+        public void onSessionRenameDialogPositiveClick(String SessionName, long sessionid);
+        public void onSessionRenameDialogNegativeClick();
     }
 
     // Instance of the interface to deliver action events
@@ -116,44 +118,76 @@ public class SessionsListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_sessions_list_add_session) {
-            // Show 'add new session' dialog window
-            AlertDialog.Builder helpBuilder = new AlertDialog.Builder(getActivity());
-            helpBuilder.setTitle(R.string.dialog_session_add_title);
-
-            LinearLayout layout = new LinearLayout(getActivity());
-            layout.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(20, 10, 30, 0);
-
-            final EditText SessionText = new EditText(getActivity());
-            SessionText.setHint(R.string.dialog_session_add_name);
-            layout.addView(SessionText, params);
-            helpBuilder.setView(layout);
-
-            helpBuilder.setPositiveButton(R.string.dialog_session_add_ok,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Send the positive button event back to the host activity
-                            mListener.onSessionAddDialogPositiveClick(SessionText.getText().toString());
-                        }
-                    });
-            helpBuilder.setNegativeButton(R.string.dialog_session_add_cancel,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            mListener.onSessionAddDialogNegativeClick();
-                        }
-                    });
-
-            // Show the dialog
-            //helpBuilder.create().show();
-            helpBuilder.show();
+            showSessionNameDialog(true, -1);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void showSessionNameDialog(boolean isAdd, final long renameSessionId) {
+        // Show 'add new session' dialog window
+        AlertDialog.Builder helpBuilder = new AlertDialog.Builder(getActivity());
+        if (isAdd) {
+            helpBuilder.setTitle(R.string.dialog_session_add_title);
+        } else { // rename session
+            helpBuilder.setTitle(R.string.dialog_session_rename_title);
+        }
+
+        LinearLayout layout = new LinearLayout(getActivity());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(20, 10, 30, 0);
+
+        final EditText SessionText = new EditText(getActivity());
+        if (isAdd) {
+            SessionText.setHint(R.string.dialog_session_add_name);
+        } else { // rename session
+            SessionText.setHint(R.string.dialog_session_rename_name);
+            SessionText.setText(SessionsList.getInstance().getSessionById(renameSessionId).getName());
+        }
+        layout.addView(SessionText, params);
+        helpBuilder.setView(layout);
+
+        if (isAdd) {
+            helpBuilder.setPositiveButton(R.string.dialog_session_add_ok,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Send the positive button event back to the host activity
+                            mListener.onSessionAddDialogPositiveClick(SessionText.getText().toString());
+                        }
+                    }
+            );
+            helpBuilder.setNegativeButton(R.string.dialog_session_add_cancel,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            mListener.onSessionAddDialogNegativeClick();
+                        }
+                    }
+            );
+        } else { // rename session
+            helpBuilder.setPositiveButton(R.string.dialog_session_rename_ok,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Send the positive button event back to the host activity
+                            mListener.onSessionRenameDialogPositiveClick(
+                                    SessionText.getText().toString(), renameSessionId);
+                        }
+                    }
+            );
+            helpBuilder.setNegativeButton(R.string.dialog_session_rename_cancel,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            mListener.onSessionRenameDialogNegativeClick();
+                        }
+                    }
+            );
+        }
+
+        // Show the dialog
+        helpBuilder.show();
+    }
 
 
     /**

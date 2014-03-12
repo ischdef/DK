@@ -59,6 +59,12 @@
     <string name="dialog_session_add_ok">Add</string>
     <string name="dialog_session_add_cancel">Cancel</string>
 
+    <!-- Session rename dialog window -->
+    <string name="dialog_session_rename_title">Rename session</string>
+    <string name="dialog_session_rename_name">Session name</string>
+    <string name="dialog_session_rename_ok">Change</string>
+    <string name="dialog_session_rename_cancel">Cancel</string>
+
     <!-- Session options dialog window -->
     <string name="dialog_session_options_title">Session Options</string>
     <string name="dialog_session_options_start">Start session</string>
@@ -84,6 +90,8 @@
     <string name="toast_session_added">Added session</string>
     <string name="toast_session_add_canceled">No session added</string>
     <string name="toast_session_deleted">Deleted session</string>
+    <string name="toast_session_renamed">Renamed session</string>
+    <string name="toast_session_rename_canceled">No session renamed</string>
 
     <!-- Session parameter-->
     <string name="session_name">Name</string>

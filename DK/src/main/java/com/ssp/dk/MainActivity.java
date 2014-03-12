@@ -265,18 +265,18 @@ public class MainActivity extends Activity
      ******************************/
 
     @Override
-    public void onSessionAddDialogPositiveClick(String SessionName) {
+    public void onSessionAddDialogPositiveClick(String sessionName) {
         // save new session if valid name
-        if (SessionName.trim().length() == 0) {
+        if (sessionName.trim().length() == 0) {
             toastMessage(getString(R.string.toast_session_add_canceled) + ".");
         } else {
-            final int numSessions = mSessionsList.addSession(SessionName);
-            // Inform SessionsListView about new player - refresh list view
+            final int numSessions = mSessionsList.addSession(sessionName);
+            // Inform SessionsListView about new renamed - refresh list view
             mSessionsListFragment.updateSessionsListView();
             // update Navigation Drawer player counter
             mNavigationDrawerFragment.updateNumberOfSessionsCounter(numSessions);
 
-            toastMessage(getString(R.string.toast_session_added) + " '" + SessionName + "'.");
+            toastMessage(getString(R.string.toast_session_added) + " '" + sessionName + "'.");
         }
     }
 
@@ -285,6 +285,24 @@ public class MainActivity extends Activity
         toastMessage(getString(R.string.toast_session_add_canceled) + ".");
     }
 
+    @Override
+    public void onSessionRenameDialogPositiveClick(String sessionName, long sessionid) {
+        // save renamed session if valid name
+        if (sessionName.trim().length() == 0) {
+            toastMessage(getString(R.string.toast_session_rename_canceled) + ".");
+        } else {
+            mSessionsList.renameSession(sessionName, sessionid);
+            // Inform SessionsListView about renamed session - refresh list view
+            mSessionsListFragment.updateSessionsListView();
+
+            toastMessage(getString(R.string.toast_session_renamed) + " '" + sessionName + "'.");
+        }
+    }
+
+    @Override
+    public void onSessionRenameDialogNegativeClick() {
+        toastMessage(getString(R.string.toast_session_rename_canceled) + ".");
+    }
 
     /***********************************
      * Callbacks SessionOptionsDialog  *
@@ -305,7 +323,7 @@ public class MainActivity extends Activity
 
     @Override
     public void onSessionOptionsDialogRenameClick(long sessionId) {
-
+        mSessionsListFragment.showSessionNameDialog(false, sessionId);
     }
 
     @Override
