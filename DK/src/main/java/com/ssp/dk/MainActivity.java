@@ -270,9 +270,11 @@ public class MainActivity extends Activity
         if (SessionName.trim().length() == 0) {
             toastMessage(getString(R.string.toast_session_add_canceled) + ".");
         } else {
-            mSessionsList.addSession(SessionName);
+            final int numSessions = mSessionsList.addSession(SessionName);
             // Inform SessionsListView about new player - refresh list view
             mSessionsListFragment.updateSessionsListView();
+            // update Navigation Drawer player counter
+            mNavigationDrawerFragment.updateNumberOfSessionsCounter(numSessions);
 
             toastMessage(getString(R.string.toast_session_added) + " '" + SessionName + "'.");
         }
@@ -308,7 +310,19 @@ public class MainActivity extends Activity
 
     @Override
     public void onSessionOptionsDialogDeleteClick(long sessionId) {
+         // get session name
+        String name = mSessionsList.getSessionById(sessionId).getName();
 
+        // remove session from list
+        final int numSessions = mSessionsList.deleteSession(sessionId);
+
+        toastMessage(getString(R.string.toast_session_deleted) + " '" + name + "'.");
+
+        // Inform SessionsListView about removed session - refresh list view
+        mSessionsListFragment.updateSessionsListView();
+
+        // update Navigation Drawer player counter
+        mNavigationDrawerFragment.updateNumberOfSessionsCounter(numSessions);
     }
 
 

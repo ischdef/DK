@@ -83,6 +83,7 @@
     <string name="toast_no_image_captured">No image captured</string>
     <string name="toast_session_added">Added session</string>
     <string name="toast_session_add_canceled">No session added</string>
+    <string name="toast_session_deleted">Deleted session</string>
 
     <!-- Session parameter-->
     <string name="session_name">Name</string>

@@ -128,7 +128,8 @@ public class NavigationDrawerFragment extends Fragment {
                 R.id.navigation_drawer_list_item_icon_current_session);
         NavigationDrawerItem itemSessions = new NavigationDrawerItem(
                 getString(R.string.navigation_drawer_list_item_title_sessions),
-                R.id.navigation_drawer_list_item_icon_sessions);
+                R.id.navigation_drawer_list_item_icon_sessions,
+                true, String.valueOf(SessionsList.getInstance().getNumberOfSessions()));
         mNavDrawerItemList.add(itemTitleScreen);    // DRAWER_POSITION_TITLE_SCREEN
         mNavDrawerItemList.add(itemPlayer);         // DRAWER_POSITION_PLAYERS
         mNavDrawerItemList.add(itemCurrentSession); // DRAWER_POSITION_CURRENT_SESSION
@@ -153,10 +154,31 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(mCurrentSelectedPosition);
     }
 
+    /**
+     * Checks if NavigationDrawer is currently open
+     * @return Returns true if open, else false
+     */
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }
 
+    /**
+     * Inform NavigationDrawer about changed number of sessions
+     * @param numSessions Current number of sessions in SessionsList
+     */
+    public void updateNumberOfSessionsCounter(int numSessions) {
+        // replace old count
+        NavigationDrawerItem countItem = mNavDrawerItemList.get(DRAWER_POSITION_SESSIONS);
+        countItem.setCount(String.valueOf(numSessions));
+        mNavDrawerItemList.set(DRAWER_POSITION_SESSIONS, countItem);
+        // Show new count in drawer
+        mNavDrawerItemListAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Inform NavigationDrawer about changed number of players
+     * @param numPlayers Current number of players in PlayerList
+     */
     public void updateNumberOfPlayersCounter(int numPlayers) {
         // replace old count
         NavigationDrawerItem countItem = mNavDrawerItemList.get(DRAWER_POSITION_PLAYERS);

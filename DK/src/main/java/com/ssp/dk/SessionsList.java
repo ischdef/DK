@@ -6,6 +6,7 @@
 package com.ssp.dk;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,11 +87,31 @@ public class SessionsList {
     /**
      * Add an empty session to the sessionsList
      * @param sessionName Name of new session
+     * @return number of sessions in list
      */
-    public void addSession(String sessionName) {
-        // TODO set unique session ID
-        Session session = new Session(0, sessionName);
+    public int addSession(String sessionName) {
+        // TODO set unique session ID by creating session database
+        // ...
+
+        // Add session to temporary SessionsList (currently ID = getNumberOfSessions)
+        Session session = new Session(getNumberOfSessions(), sessionName);
         mSessionsList.add(session);
+
+        return getNumberOfSessions();
+    }
+
+    /**
+     * Permanently delete session from sessionList
+     * @param sessionId ID of session to be deleted
+     * @return number of sessions in list
+     */
+    public int deleteSession(long sessionId) {
+        // Remove from temporary SessionsList
+        mSessionsList.remove(getSessionsListPositionByPlayerId(sessionId));
+
+        // TODO Remove from database
+
+        return getNumberOfSessions();
     }
 
     /**
@@ -119,5 +140,21 @@ public class SessionsList {
         }
         // no session with sessionId was found
         return null;
+    }
+
+    /**
+     * Get sessionsList position of player with given sessionId
+     * @param sessionId ID of selected session
+     * @return sessionsList position; -1 if invalid sessionId was given
+     */
+    private int getSessionsListPositionByPlayerId(long sessionId) {
+        // check complete list till (first) session with sessionId is found
+        int numSessions = getNumberOfSessions();
+        for (int listPos = 0; listPos < numSessions; listPos++) {
+            if (mSessionsList.get(listPos).getId() == sessionId)
+                return listPos;
+        }
+        // no session with sessionId was found
+        return -1;
     }
 }
