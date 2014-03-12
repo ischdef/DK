@@ -22,7 +22,8 @@ public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         PlayerDialogFragment.PlayerAddDialogCallbacks,
         PlayerOptionsDialogFragment.PlayerOptionsDialogCallbacks,
-        SessionsListFragment.SessionAddDialogCallbacks {
+        SessionsListFragment.SessionAddDialogCallbacks,
+        SessionOptionsDialogFragment.SessionOptionsDialogCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -38,6 +39,11 @@ public class MainActivity extends Activity
      * List with all stored sessions
      */
     private SessionsList mSessionsList = null;
+
+    /**
+     * Unique session ID of currently active session
+     */
+    private long mCurrentSessionId = 0;
 
     // Shortcuts
     private PlayerListFragment mPlayerListFragment;
@@ -167,7 +173,7 @@ public class MainActivity extends Activity
             case 2:
                 // Show current session fragment
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, new CurrentSessionTableFragment())
+                        .replace(R.id.container, new CurrentSessionTableFragment(mCurrentSessionId))
                         .commit();
                 break;
             case 3:
@@ -254,9 +260,9 @@ public class MainActivity extends Activity
     }
 
 
-    /***********************************
-     * Callbacks SessionsOptionsDialog *
-     ***********************************/
+    /******************************
+     * Callbacks SessionAddDialog *
+     ******************************/
 
     @Override
     public void onSessionAddDialogPositiveClick(String SessionName) {
@@ -277,6 +283,33 @@ public class MainActivity extends Activity
         toastMessage(getString(R.string.toast_session_add_canceled) + ".");
     }
 
+
+    /***********************************
+     * Callbacks SessionOptionsDialog  *
+     ***********************************/
+
+    @Override
+    public void onSessionOptionsDialogStartClick(long sessionId) {
+        // Save selection
+        mCurrentSessionId = sessionId;
+        // inform NavigationDrawer about external drawer change
+        mNavigationDrawerFragment.changeToCurrentSessionDrawer(sessionId);
+    }
+
+    @Override
+    public void onSessionOptionsDialogPlayersClick(long sessionId) {
+
+    }
+
+    @Override
+    public void onSessionOptionsDialogRenameClick(long sessionId) {
+
+    }
+
+    @Override
+    public void onSessionOptionsDialogDeleteClick(long sessionId) {
+
+    }
 
 
     /****************************************

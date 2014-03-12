@@ -141,6 +141,18 @@ public class NavigationDrawerFragment extends Fragment {
         return mDrawerListView;
     }
 
+    public void changeToCurrentSessionDrawer(long sessionId) {
+        if (mDrawerLayout == null) {
+            // TODO exception
+            return;
+        }
+        // add/change drawer title to current session name
+        // ...
+        // Activate current session drawer
+        mCurrentSelectedPosition = DRAWER_POSITION_CURRENT_SESSION;
+        selectItem(mCurrentSelectedPosition);
+    }
+
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }

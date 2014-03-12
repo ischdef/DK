@@ -85,10 +85,10 @@ public class SessionsListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int listPosition, long rowId) {
                 // get ID of selected session
-                //long sessionId = SessionList.getInstance().getSessionByPosition(listPosition).getId();
-                // TODO show menu to use or delete selected session
-                //SessionOptionsDialogFragment dialog = new SessionOptionsDialogFragment(playerId);
-                //dialog.show(getFragmentManager(), "SessionOptionsDialogFragment");
+                long sessionId = SessionsList.getInstance().getSessionByPosition(listPosition).getId();
+                // show menu to start, rename, delete selected session or select players of selected session
+                SessionOptionsDialogFragment dialog = new SessionOptionsDialogFragment(sessionId);
+                dialog.show(getFragmentManager(), "SessionOptionsDialogFragment");
             }
         });
 

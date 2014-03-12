@@ -92,4 +92,32 @@ public class SessionsList {
         Session session = new Session(0, sessionName);
         mSessionsList.add(session);
     }
+
+    /**
+     * Get session from sessionsList by position in list
+     * @param listPosition position of session to be received
+     * @return selected session; null of invalid listPosition
+     */
+    public Session getSessionByPosition(int listPosition) {
+        try {
+            return mSessionsList.get(listPosition);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get session from sessionsList by unique session ID
+     * @param sessionId unique session ID
+     * @return selected session; null if session was not found
+     */
+    public Session getSessionById(long sessionId) {
+        // for-each loop of complete array of players
+        for (Session session : mSessionsList) {
+            if (session.getId() == sessionId)
+                return session;
+        }
+        // no session with sessionId was found
+        return null;
+    }
 }

@@ -32,7 +32,7 @@
     <string name="dialog_about_ssp">Stefan Schulze Programs</string>
     <string name="dialog_about_button">Schließen</string>
 
-    <!-- Add/Edit player dialog window -->
+    <!-- Player Add/Edit dialog window -->
     <string name="dialog_player_image">Spielerbild</string>
     <string name="dialog_player_name">Spielername</string>
     <string name="dialog_add_player_cancel">Zurück</string>
@@ -52,6 +52,19 @@
     <string name="dialog_player_image_options_contact">Bild von Kontakt auswählen</string>
     <string name="dialog_player_image_options_default">Standardbild auswählen</string>
     <string name="dialog_player_image_options_cancel">Zurück</string>
+
+    <!-- Session add dialog window -->
+    <string name="dialog_session_add_title">Sitzung hinzufügen</string>
+    <string name="dialog_session_add_name">Sitzungsname</string>
+    <string name="dialog_session_add_ok">Hinzufügen</string>
+    <string name="dialog_session_add_cancel">Zurück</string>
+
+    <!-- Session options dialog window -->
+    <string name="dialog_session_options_title">Sitzungsoptionen</string>
+    <string name="dialog_session_options_start">Start Sitzung</string>
+    <string name="dialog_session_options_players">Spieler auswählen</string>
+    <string name="dialog_session_options_rename">Sitzung umbenennen</string>
+    <string name="dialog_session_options_delete">Sitzung löschen</string>
 
     <!-- Player parameter -->
     <string name="player_name">Spielername</string>

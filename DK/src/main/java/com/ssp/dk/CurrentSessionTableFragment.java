@@ -14,8 +14,11 @@ import android.view.MenuInflater;
  * Created by Stefan Schulze on 2014/03/08.
  */
 public class CurrentSessionTableFragment extends Fragment {
+    // Unique session ID
+    private long mSessionId;
 
-    public CurrentSessionTableFragment() {
+    public CurrentSessionTableFragment(long sessionId) {
+        mSessionId = sessionId;
     }
 
     @Override
