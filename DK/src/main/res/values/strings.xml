@@ -72,6 +72,11 @@
     <string name="dialog_session_options_rename">Rename session</string>
     <string name="dialog_session_options_delete">Delete session</string>
 
+    <!-- Session player selection dialog window -->
+    <string name="dialog_session_player_selection_title">Player selection</string>
+    <string name="dialog_session_player_selection_ok">OK</string>
+    <string name="dialog_session_player_selection_cancel">Cancel</string>
+
     <!-- Player parameter -->
     <string name="player_name">Player Name</string>
     <string name="player_games_count">Games</string>
@@ -90,8 +95,13 @@
     <string name="toast_session_added">Added session</string>
     <string name="toast_session_add_canceled">No session added</string>
     <string name="toast_session_deleted">Deleted session</string>
+    <string name="toast_session_invalid_start">Without a player the session can\'t be started</string>
+    <string name="toast_session_select_players_invalid">Players can not be changed after session
+        has already been started</string>
     <string name="toast_session_renamed">Renamed session</string>
     <string name="toast_session_rename_canceled">No session renamed</string>
+    <string name="toast_session_options_player_selection_cancel">No change in player list</string>
+    <string name="toast_session_options_player_selection_ok">Player list changed of session</string>
 
     <!-- Session parameter-->
     <string name="session_name">Name</string>

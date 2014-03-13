@@ -67,10 +67,15 @@
 
     <!-- Session options dialog window -->
     <string name="dialog_session_options_title">Sitzungsoptionen</string>
-    <string name="dialog_session_options_start">Start Sitzung</string>
+    <string name="dialog_session_options_start">Starte Sitzung</string>
     <string name="dialog_session_options_players">Spieler auswählen</string>
     <string name="dialog_session_options_rename">Sitzung umbenennen</string>
     <string name="dialog_session_options_delete">Sitzung löschen</string>
+
+    <!-- Session player selection dialog window -->
+    <string name="dialog_session_player_selection_title">Spielerauswahl</string>
+    <string name="dialog_session_player_selection_ok">OK</string>
+    <string name="dialog_session_player_selection_cancel">Zurück</string>
 
     <!-- Player parameter -->
     <string name="player_name">Spielername</string>
@@ -90,8 +95,13 @@
     <string name="toast_session_added">Sitzung hinzugefügt:</string>
     <string name="toast_session_add_canceled">Keine Sitzung hinzugefügt</string>
     <string name="toast_session_deleted">Sitzung gelöscht:</string>
+    <string name="toast_session_invalid_start">Ohne Spieler kann die Sitzung nicht gestarted werden</string>
+    <string name="toast_session_select_players_invalid">Spieler können nicht mehr verändert werden
+        nach dem die Sitzung bereits gestarted wurde</string>
     <string name="toast_session_renamed">Sitzung umbenannt:</string>
     <string name="toast_session_rename_canceled">Keine Sitzung umbenannt</string>
+    <string name="toast_session_options_player_selection_cancel">Keine Veränderung der Spielerliste</string>
+    <string name="toast_session_options_player_selection_ok">Spielerliste verändert von Sitzung</string>
 
     <!-- Session parameter-->
     <string name="session_name">Name</string>

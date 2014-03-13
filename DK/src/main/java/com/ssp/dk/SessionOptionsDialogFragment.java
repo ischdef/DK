@@ -12,6 +12,9 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Stefan Schulze on 2014/03/12.
  */
@@ -57,7 +60,7 @@ public class SessionOptionsDialogFragment extends DialogFragment {
         // Set Player Options
         String[] options = {
                 getString(R.string.dialog_session_options_start),   // start   = 0
-                getString(R.string.dialog_session_options_players), // players = 1
+                getString(R.string.dialog_session_options_players),  // players = 1
                 getString(R.string.dialog_session_options_rename),  // rename  = 2
                 getString(R.string.dialog_session_options_delete)}; // delete  = 3
 

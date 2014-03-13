@@ -62,6 +62,27 @@ public class Session {
     }
 
     /**
+     * Get list with all players in session
+     * @return SessionPlayerList
+     */
+    public ArrayList<SessionPlayer> getSessionPlayerList() {
+        return mPlayerList;
+    }
+
+    /**
+     * Replace existing session player list with new players
+     * @param playerIds List with IDs of new players
+     */
+    public void replacePlayerList(long[] playerIds) {
+        // clean current list first
+        mPlayerList.clear();
+        // add new players
+        for (int i = 0; i < playerIds.length; i++) {
+            addPlayer(playerIds[i]);
+        }
+    }
+
+    /**
      * Add finished game to session
      * @param playedGame Finished game to be added
      * @return Returns true if added to end of session list. Return false if not added successfully.
@@ -93,7 +114,7 @@ public class Session {
     /**
      * Details of player in current session
      */
-    private class SessionPlayer {
+    public class SessionPlayer {
         // Player details
         private long mId;
         private int mWonGames;

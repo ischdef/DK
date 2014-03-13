@@ -73,8 +73,10 @@ public class SessionsList {
         // TODO remove Debug code
         // Add test sessions
         Session testSession = new Session(0, "TestSession");
-        testSession.addPlayer(0);
         testSession.addPlayer(1);
+        testSession.addPlayer(2);
+        testSession.addPlayer(3);
+        testSession.addPlayer(4);
         Game testGame = new Game(testSession.getNumberOfPlayers());
         testGame.setScore(0, 5, Game.eGameResult.WON);
         testGame.setScore(1, -5, Game.eGameResult.LOST);

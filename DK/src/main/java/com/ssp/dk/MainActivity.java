@@ -18,12 +18,15 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         PlayerDialogFragment.PlayerAddDialogCallbacks,
         PlayerOptionsDialogFragment.PlayerOptionsDialogCallbacks,
         SessionsListFragment.SessionAddDialogCallbacks,
-        SessionOptionsDialogFragment.SessionOptionsDialogCallbacks {
+        SessionOptionsDialogFragment.SessionOptionsDialogCallbacks,
+        SessionOptionsPlayerSelectionDialogFragment.SessionOptionsPlayerSelectionDialogCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -310,15 +313,28 @@ public class MainActivity extends Activity
 
     @Override
     public void onSessionOptionsDialogStartClick(long sessionId) {
-        // Save selection
-        mCurrentSessionId = sessionId;
-        // inform NavigationDrawer about external drawer change
-        mNavigationDrawerFragment.changeToCurrentSessionDrawer(sessionId);
+        // Check if at least one player in session
+        if (mSessionsList.getSessionById(sessionId).getNumberOfPlayers() == 0) {
+            toastMessage(getString(R.string.toast_session_invalid_start));
+        } else {
+            // Save selection
+            mCurrentSessionId = sessionId;
+            // inform NavigationDrawer about external drawer change
+            mNavigationDrawerFragment.changeToCurrentSessionDrawer(sessionId);
+        }
     }
 
     @Override
     public void onSessionOptionsDialogPlayersClick(long sessionId) {
-
+        // Check if session was already started
+        if (mSessionsList.getSessionById(sessionId).getPlayedGames() > 0) {
+            toastMessage(getString(R.string.toast_session_select_players_invalid));
+        } else {
+            // Show player selection window
+            SessionOptionsPlayerSelectionDialogFragment playerDialog =
+                    new SessionOptionsPlayerSelectionDialogFragment(sessionId);
+            playerDialog.show(getFragmentManager(), "SessionOptionsPlayerSelectionDialogFragment");
+        }
     }
 
     @Override
@@ -342,6 +358,28 @@ public class MainActivity extends Activity
         // update Navigation Drawer player counter
         mNavigationDrawerFragment.updateNumberOfSessionsCounter(numSessions);
     }
+
+
+    /**************************************************
+     * Callbacks SessionOptionsPlayerSelectionDialog  *
+     **************************************************/
+
+    @Override
+    public void onSessionOptionsPlayerSelectionDialogCancelClick() {
+        toastMessage(getString(R.string.toast_session_options_player_selection_cancel) + ".");
+    }
+
+    @Override
+    public void onSessionOptionsPlayerSelectionDialogOkClick(long sessionId, long[] selectedPlayerIds) {
+        // Inform session about updated players list
+        mSessionsList.getSessionById(sessionId).replacePlayerList(selectedPlayerIds);
+        // Inform SessionsListView about updated session - refresh list view
+        mSessionsListFragment.updateSessionsListView();
+
+        toastMessage(getString(R.string.toast_session_options_player_selection_ok) +
+                " '" + mSessionsList.getSessionById(sessionId).getName() + "'.");
+    }
+
 
 
     /****************************************
