@@ -7,9 +7,9 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/DK" />
-            <option value="$PROJECT_DIR$/TableFixHeadersLib" />
+            <option value="D:\Programmierung\Android\AndroidStudioProjects\DK" />
+            <option value="D:\Programmierung\Android\AndroidStudioProjects\DK\DK" />
+            <option value="D:\Programmierung\Android\AndroidStudioProjects\DK\TableFixHeadersLib" />
           </set>
         </option>
       </GradleProjectSettings>
