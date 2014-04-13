@@ -29,8 +29,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/player_games_count"
-            android:id="@+id/playerGamesCount"
+            android:text="@string/player_sessions_count"
+            android:id="@+id/playerSessionsCount"
             android:layout_gravity="left|center_vertical"
             android:layout_marginTop="5dp"
             android:singleLine="true" />
@@ -38,16 +38,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/player_games_wins"
-            android:id="@+id/playerGamesWins"
+            android:text="@string/player_sessions_wins"
+            android:id="@+id/playerSessionsWins"
             android:layout_gravity="left|center_vertical"
             android:singleLine="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/player_games_losses"
-            android:id="@+id/playerGamesLosses"
+            android:text="@string/player_sessions_losses"
+            android:id="@+id/playerSessionsLosses"
             android:layout_gravity="left|center_vertical"
             android:singleLine="true" />
     </LinearLayout>

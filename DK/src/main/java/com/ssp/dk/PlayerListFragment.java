@@ -116,9 +116,9 @@ public class PlayerListFragment extends Fragment {
     static class PlayerListItemViewHolder {
         ImageView image;
         TextView name;
-        TextView playedGames;
-        TextView wonGames;
-        TextView lostGames;
+        TextView playedSessions;
+        TextView wonSessions;
+        TextView lostSessions;
     }
 
     private class PlayerListAdapter extends ArrayAdapter<Player> {
@@ -143,9 +143,9 @@ public class PlayerListFragment extends Fragment {
                 holder = new PlayerListItemViewHolder();
                 holder.image = (ImageView) convertView.findViewById(R.id.playerImage);
                 holder.name = (TextView) convertView.findViewById(R.id.playerName);
-                holder.playedGames = (TextView) convertView.findViewById(R.id.playerGamesCount);
-                holder.wonGames = (TextView) convertView.findViewById(R.id.playerGamesWins);
-                holder.lostGames = (TextView) convertView.findViewById(R.id.playerGamesLosses);
+                holder.playedSessions = (TextView) convertView.findViewById(R.id.playerSessionsCount);
+                holder.wonSessions = (TextView) convertView.findViewById(R.id.playerSessionsWins);
+                holder.lostSessions = (TextView) convertView.findViewById(R.id.playerSessionsLosses);
 
                 convertView.setTag(holder);
             } else {
@@ -161,9 +161,9 @@ public class PlayerListFragment extends Fragment {
                 holder.image.setImageDrawable(player.getImage());
             }
             holder.name.setText(player.getName());
-            holder.playedGames.setText(getString(R.string.player_games_count) + ": " + player.getPlayedGames());
-            holder.wonGames.setText(getString(R.string.player_games_wins) + ": " + player.getWonGames());
-            holder.lostGames.setText(getString(R.string.player_games_losses) + ": " + player.getLostGames());
+            holder.playedSessions.setText(getString(R.string.player_sessions_count) + ": " + player.getPlayedSessions());
+            holder.wonSessions.setText(getString(R.string.player_sessions_wins) + ": " + player.getWonSessions());
+            holder.lostSessions.setText(getString(R.string.player_sessions_losses) + ": " + player.getLostSessions());
 
             return convertView;
         }

@@ -79,9 +79,9 @@
 
     <!-- Player parameter -->
     <string name="player_name">Player Name</string>
-    <string name="player_games_count">Games</string>
-    <string name="player_games_wins">Wins</string>
-    <string name="player_games_losses">Losses</string>
+    <string name="player_sessions_count">Sessions</string>
+    <string name="player_sessions_wins">Wins</string>
+    <string name="player_sessions_losses">Losses</string>
 
     <!-- Information window descriptions -->
     <string name="toast_player_added">Added player</string>

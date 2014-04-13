@@ -13,15 +13,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.provider.BaseColumns;
-import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,9 +132,9 @@ public class PlayerList {
         String[] projection = {
                 PlayerListDbEntry._ID,
                 PlayerListDbEntry.COLUMN_PLAYER_NAME,
-                PlayerListDbEntry.COLUMN_PLAYED_GAMES,
-                PlayerListDbEntry.COLUMN_WON_GAMES,
-                PlayerListDbEntry.COLUMN_LOST_GAMES
+                PlayerListDbEntry.COLUMN_PLAYED_COUNTER,
+                PlayerListDbEntry.COLUMN_WON_COUNTER,
+                PlayerListDbEntry.COLUMN_LOST_COUNTER
         };
         // Sort by ID in the resulting Cursor
         String sortOrder = PlayerListDbEntry._ID + " ASC";
@@ -162,9 +156,9 @@ public class PlayerList {
                 // Get player parameters from database
                 long playerId = cursor.getLong(cursor.getColumnIndexOrThrow(PlayerListDbEntry._ID));
                 String playerName = cursor.getString(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_PLAYER_NAME));
-                int playedGames = cursor.getInt(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_PLAYED_GAMES));
-                int wonGames = cursor.getInt(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_WON_GAMES));
-                int lostGames = cursor.getInt(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_LOST_GAMES));
+                int playedGames = cursor.getInt(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_PLAYED_COUNTER));
+                int wonGames = cursor.getInt(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_WON_COUNTER));
+                int lostGames = cursor.getInt(cursor.getColumnIndex(PlayerListDbEntry.COLUMN_LOST_COUNTER));
 
                 // Get player image from internal storage
                 Drawable playerImage = Drawable.createFromPath(getPlayerImageFilePath(playerId));
@@ -198,9 +192,9 @@ public class PlayerList {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(PlayerListDbEntry.COLUMN_PLAYER_NAME, playerName);
-        values.put(PlayerListDbEntry.COLUMN_PLAYED_GAMES, 0);
-        values.put(PlayerListDbEntry.COLUMN_WON_GAMES, 0);
-        values.put(PlayerListDbEntry.COLUMN_LOST_GAMES, 0);
+        values.put(PlayerListDbEntry.COLUMN_PLAYED_COUNTER, 0);
+        values.put(PlayerListDbEntry.COLUMN_WON_COUNTER, 0);
+        values.put(PlayerListDbEntry.COLUMN_LOST_COUNTER, 0);
         // Insert player as new row, returning the primary key value of the new row
         long playerId = db.insert(PlayerListDbEntry.TABLE_NAME, null, values);
         // Close database again after usage
@@ -252,25 +246,25 @@ public class PlayerList {
     /**
      * Update player statistics values
      * @param playerId Unique player ID
-     * @param playedGames Number of played games
-     * @param wonGames Number of won games
-     * @param lostGames Number of lost games
+     * @param playedSessions Number of played sessions
+     * @param wonSessions Number of won sessions
+     * @param lostSessions Number of lost sessions
      */
-    public void updatePlayerStats(long playerId, int playedGames, int wonGames, int lostGames) {
+    public void updatePlayerStats(long playerId, int playedSessions, int wonSessions, int lostSessions) {
         // Edit temporary playerList
         Player player = getPlayerById(playerId);
-        player.setPlayedGames(playedGames);
-        player.setWonGames(wonGames);
-        player.setLostGames(lostGames);
+        player.setPlayedSessions(playedSessions);
+        player.setWonSessions(wonSessions);
+        player.setLostSessions(lostSessions);
         mPlayerList.set(getPlayerListPositionByPlayerId(player.getId()), player);
 
         // Open database
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         // Create a new map of values, to only update stats values
         ContentValues values = new ContentValues();
-        values.put(PlayerListDbEntry.COLUMN_PLAYED_GAMES, playedGames);
-        values.put(PlayerListDbEntry.COLUMN_WON_GAMES, wonGames);
-        values.put(PlayerListDbEntry.COLUMN_LOST_GAMES, lostGames);
+        values.put(PlayerListDbEntry.COLUMN_PLAYED_COUNTER, playedSessions);
+        values.put(PlayerListDbEntry.COLUMN_WON_COUNTER, wonSessions);
+        values.put(PlayerListDbEntry.COLUMN_LOST_COUNTER, lostSessions);
         // Which row to update, based on the ID
         String selection = PlayerListDbEntry._ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(playerId) };
@@ -363,11 +357,11 @@ public class PlayerList {
      *  Implements BaseColumns to include "_ID" and "_COUNT"
      */
     public static abstract class PlayerListDbEntry implements BaseColumns {
-        public static final String TABLE_NAME = "entry";
+        public static final String TABLE_NAME = "playerlist";
         public static final String COLUMN_PLAYER_NAME  = "playername";
-        public static final String COLUMN_PLAYED_GAMES = "playedgames";
-        public static final String COLUMN_WON_GAMES    = "wongames";
-        public static final String COLUMN_LOST_GAMES   = "lostgames";
+        public static final String COLUMN_PLAYED_COUNTER = "playedcounter";
+        public static final String COLUMN_WON_COUNTER  = "woncounter";
+        public static final String COLUMN_LOST_COUNTER = "lostcounter";
     }
 
     private static final String TEXT_TYPE = " TEXT";
@@ -375,18 +369,18 @@ public class PlayerList {
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + PlayerListDbEntry.TABLE_NAME + " (" +
-                    PlayerListDbEntry._ID + " INTEGER PRIMARY KEY," +
-                    PlayerListDbEntry.COLUMN_PLAYER_NAME  + TEXT_TYPE + COMMA_SEP +
-                    PlayerListDbEntry.COLUMN_PLAYED_GAMES + INT_TYPE  + COMMA_SEP +
-                    PlayerListDbEntry.COLUMN_WON_GAMES    + INT_TYPE  + COMMA_SEP +
-                    PlayerListDbEntry.COLUMN_LOST_GAMES   + INT_TYPE  +
+                    PlayerListDbEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
+                    PlayerListDbEntry.COLUMN_PLAYER_NAME    + TEXT_TYPE + COMMA_SEP +
+                    PlayerListDbEntry.COLUMN_PLAYED_COUNTER + INT_TYPE  + COMMA_SEP +
+                    PlayerListDbEntry.COLUMN_WON_COUNTER    + INT_TYPE  + COMMA_SEP +
+                    PlayerListDbEntry.COLUMN_LOST_COUNTER   + INT_TYPE  +
             " )";
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + PlayerListDbEntry.TABLE_NAME;
 
     public class PlayerListDbHelper extends SQLiteOpenHelper {
         // If you change the database schema, you must increment the database version.
-        public static final int DATABASE_VERSION = 1;
+        public static final int DATABASE_VERSION = 2;
         public static final String DATABASE_NAME = "PlayerList.db";
 
         public PlayerListDbHelper(Context context) {
