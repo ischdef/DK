@@ -289,12 +289,12 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onSessionRenameDialogPositiveClick(String sessionName, long sessionid) {
+    public void onSessionRenameDialogPositiveClick(String sessionName, long sessionId) {
         // save renamed session if valid name
         if (sessionName.trim().length() == 0) {
             toastMessage(getString(R.string.toast_session_rename_canceled) + ".");
         } else {
-            mSessionsList.renameSession(sessionName, sessionid);
+            mSessionsList.renameSession(sessionName, sessionId);
             // Inform SessionsListView about renamed session - refresh list view
             mSessionsListFragment.updateSessionsListView();
 
@@ -372,12 +372,14 @@ public class MainActivity extends Activity
     @Override
     public void onSessionOptionsPlayerSelectionDialogOkClick(long sessionId, long[] selectedPlayerIds) {
         // Inform session about updated players list
-        mSessionsList.getSessionById(sessionId).replacePlayerList(selectedPlayerIds);
-        // Inform SessionsListView about updated session - refresh list view
-        mSessionsListFragment.updateSessionsListView();
-
-        toastMessage(getString(R.string.toast_session_options_player_selection_ok) +
-                " '" + mSessionsList.getSessionById(sessionId).getName() + "'.");
+        if (mSessionsList.replaceSessionPlayerList(sessionId, selectedPlayerIds)) {
+            // Inform SessionsListView about updated session - refresh list view
+            mSessionsListFragment.updateSessionsListView();
+            toastMessage(getString(R.string.toast_session_options_player_selection_ok) +
+                    " '" + mSessionsList.getSessionById(sessionId).getName() + "'.");
+        } else {
+            toastMessage(getString(R.string.toast_session_options_player_selection_cancel) + ".");
+        }
     }
 
 
@@ -420,6 +422,7 @@ public class MainActivity extends Activity
                             cursor.close();
                             return;
                         }
+                        cursor.close();
                     }
                 }
                 toastMessage(getString(R.string.toast_no_contact_selected));

@@ -28,12 +28,12 @@ public class Game {
         }
     }
 
-    public int[] getmScores() {
-        return mScores;
+    public int getScore(int playerPosition) {
+        return mScores[playerPosition];
     }
 
-    public eGameResult[] getGameResults() {
-        return mGameResults;
+    public eGameResult getGameResult(int playerPosition) {
+        return mGameResults[playerPosition];
     }
 
     public int getNumPlayers() {
@@ -45,7 +45,7 @@ public class Game {
      * @param playerPosition Position of player in the game
      * @param score Number of points (positive or negative)
      * @param gameResult Result of game for selected player
-     * @return true if score was set succesfully; returns false if invalid playerPosition
+     * @return true if score was set successfully; returns false if invalid playerPosition
      */
     public boolean setScore(int playerPosition, int score, eGameResult gameResult) {
         if (playerPosition >= mNumPlayers || playerPosition < 0) {

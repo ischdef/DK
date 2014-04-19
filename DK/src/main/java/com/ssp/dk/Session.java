@@ -6,7 +6,6 @@
 package com.ssp.dk;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Stefan Schulze on 2014/03/09.
@@ -19,11 +18,11 @@ public class Session {
     private ArrayList<Game> mGames;
     private long mTimeOfCreation;
 
-    public Session(long id, String sessionName) {
+    public Session(long id, String sessionName, long sessionCreationDate) {
         mId = id;
         mName = sessionName;
-        // get current time
-        mTimeOfCreation = new Date().getTime();
+        // set current time
+        mTimeOfCreation = sessionCreationDate;
         // init arrays
         mPlayerList = new ArrayList<SessionPlayer>();
         mGames = new ArrayList<Game>();
@@ -49,16 +48,10 @@ public class Session {
     /**
      * Add player to session before first game played
      * @param playerId Unique player ID taken from PlayerList
-     * @return true, if player was added;
      */
-    public boolean addPlayer(long playerId) {
-        if (mGames.size() > 0) {
-            // players can only be added at the beginning of the session
-            return false;
-        }
+    public void addPlayer(long playerId) {
         SessionPlayer player = new SessionPlayer(playerId);
         mPlayerList.add(player);
-        return true;
     }
 
     /**
@@ -72,14 +65,21 @@ public class Session {
     /**
      * Replace existing session player list with new players
      * @param playerIds List with IDs of new players
+     * @return true, if playersList was updated;
      */
-    public void replacePlayerList(long[] playerIds) {
+    public boolean replacePlayerList(long[] playerIds) {
+        if (mGames.size() > 0) {
+            // players can only be changed at the beginning of the session
+            return false;
+        }
+
         // clean current list first
         mPlayerList.clear();
         // add new players
         for (int i = 0; i < playerIds.length; i++) {
             addPlayer(playerIds[i]);
         }
+        return true;
     }
 
     /**
@@ -100,11 +100,12 @@ public class Session {
         // subtract information from game
         for (int playerPosition = 0; playerPosition < mPlayerList.size(); playerPosition++) {
             SessionPlayer player = mPlayerList.get(playerPosition);
-            if (playedGame.getGameResults()[playerPosition] == Game.eGameResult.LOST) {
+            if (playedGame.getGameResult(playerPosition) == Game.eGameResult.LOST) {
                 player.addLostGames();
-            } else if (playedGame.getGameResults()[playerPosition] == Game.eGameResult.WON) {
+            } else if (playedGame.getGameResult(playerPosition) == Game.eGameResult.WON) {
                 player.addWonGame();
             }
+            player.addScore(playedGame.getScore(playerPosition));
             mPlayerList.set(playerPosition, player);
         }
         return true;
@@ -119,11 +120,13 @@ public class Session {
         private long mId;
         private int mWonGames;
         private int mLostGames;
+        private int mScore;
 
         public SessionPlayer(long playerId) {
             mId = playerId;
             mWonGames = 0;
             mLostGames = 0;
+            mScore = 0;
         }
         private SessionPlayer() {
             // shall not be used
@@ -138,6 +141,9 @@ public class Session {
         public void addWonGame() {
             mWonGames++;
         }
+
+        public int getScore()  { return mScore; }
+        public void addScore(int gameScore)  { mScore =+ gameScore; }
 
         public long getId() { return mId; }
     }

@@ -167,17 +167,11 @@ public class PlayerList {
                 Player player = new Player(playerId, playerName, playerImage, playedGames, wonGames, lostGames);
                 mPlayerList.add(player);
             }
+            cursor.close();
         }
 
         // Close database again after usage
         db.close();
-
-        /* Add test players
-        Drawable playerImage = mContext.getResources().getDrawable(R.drawable.no_user_logo);
-        addPlayer("Test Player 2", playerImage);
-        addPlayer("Test Player 1", playerImage);
-        addPlayer("Test Player 3", playerImage);
-        */
     }
 
     /**
@@ -353,6 +347,11 @@ public class PlayerList {
     }
 
 
+
+    /***********************************
+     * Database for PlayerList table
+     ***********************************/
+
     /** Inner class that defines the database contents.
      *  Implements BaseColumns to include "_ID" and "_COUNT"
      */
@@ -364,35 +363,34 @@ public class PlayerList {
         public static final String COLUMN_LOST_COUNTER = "lostcounter";
     }
 
-    private static final String TEXT_TYPE = " TEXT";
-    private static final String INT_TYPE  = " INTEGER";
-    private static final String COMMA_SEP = ",";
-    private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + PlayerListDbEntry.TABLE_NAME + " (" +
-                    PlayerListDbEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
-                    PlayerListDbEntry.COLUMN_PLAYER_NAME    + TEXT_TYPE + COMMA_SEP +
-                    PlayerListDbEntry.COLUMN_PLAYED_COUNTER + INT_TYPE  + COMMA_SEP +
-                    PlayerListDbEntry.COLUMN_WON_COUNTER    + INT_TYPE  + COMMA_SEP +
-                    PlayerListDbEntry.COLUMN_LOST_COUNTER   + INT_TYPE  +
-            " )";
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + PlayerListDbEntry.TABLE_NAME;
-
     public class PlayerListDbHelper extends SQLiteOpenHelper {
         // If you change the database schema, you must increment the database version.
         public static final int DATABASE_VERSION = 2;
         public static final String DATABASE_NAME = "PlayerList.db";
 
+        private static final String TEXT_TYPE = " TEXT";
+        private static final String INT_TYPE  = " INTEGER";
+        private static final String COMMA_SEP = ",";
+
+        private static final String SQL_CREATE_PLAYERLIST_TABLE =
+                "CREATE TABLE " + PlayerListDbEntry.TABLE_NAME + " (" +
+                PlayerListDbEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
+                PlayerListDbEntry.COLUMN_PLAYER_NAME    + TEXT_TYPE + COMMA_SEP +
+                PlayerListDbEntry.COLUMN_PLAYED_COUNTER + INT_TYPE  + COMMA_SEP +
+                PlayerListDbEntry.COLUMN_WON_COUNTER    + INT_TYPE  + COMMA_SEP +
+                PlayerListDbEntry.COLUMN_LOST_COUNTER   + INT_TYPE  + " )";
+        private static final String SQL_DELETE_PLAYERLIST_TABLE = "DROP TABLE IF EXISTS " + PlayerListDbEntry.TABLE_NAME;
+
         public PlayerListDbHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(SQL_CREATE_ENTRIES);
+            db.execSQL(SQL_CREATE_PLAYERLIST_TABLE);
         }
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            // This database is only a cache for online data, so its upgrade policy is
-            // to simply to discard the data and start over
-            db.execSQL(SQL_DELETE_ENTRIES);
+            // on upgrade drop older tables first an recreate table in new format
+            // TODO do upgrade that old data is not lost but converted to new format instead
+            db.execSQL(SQL_DELETE_PLAYERLIST_TABLE);
             onCreate(db);
         }
         public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

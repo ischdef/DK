@@ -39,7 +39,7 @@ public class SessionsListFragment extends Fragment {
     public interface SessionAddDialogCallbacks {
         public void onSessionAddDialogPositiveClick(String SessionName);
         public void onSessionAddDialogNegativeClick();
-        public void onSessionRenameDialogPositiveClick(String SessionName, long sessionid);
+        public void onSessionRenameDialogPositiveClick(String SessionName, long sessionId);
         public void onSessionRenameDialogNegativeClick();
     }
 
