@@ -35,8 +35,10 @@
     <!-- Player Add/Edit dialog window -->
     <string name="dialog_player_image">Spielerbild</string>
     <string name="dialog_player_name">Spielername</string>
+    <string name="dialog_add_player_title">Neuen Spieler Hinzufügen</string>
     <string name="dialog_add_player_cancel">Zurück</string>
     <string name="dialog_add_player_ok">Hinzufügen</string>
+    <string name="dialog_edit_player_title">Spieler Bearbeiten</string>
     <string name="dialog_edit_player_cancel">Zurück</string>
     <string name="dialog_edit_player_ok">Übernehmen</string>
 
@@ -76,6 +78,18 @@
     <string name="dialog_session_player_selection_title">Spielerauswahl</string>
     <string name="dialog_session_player_selection_ok">OK</string>
     <string name="dialog_session_player_selection_cancel">Zurück</string>
+
+    <!-- Game dialog window -->
+    <string name="dialog_game_title">Spiel hinzufügen</string>
+    <string name="dialog_game_ok">OK</string>
+    <string name="dialog_game_cancel">Zurück</string>
+    <string name="dialog_game_prev_player">Zurück</string>
+    <string name="dialog_game_next_player">Weiter</string>
+    <string name="dialog_game_lost">Verloren</string>
+    <string name="dialog_game_neutral">Neutral</string>
+    <string name="dialog_game_won">Gewonnen</string>
+    <string name="dialog_game_score">Punkte: </string>
+    <string name="dialog_game_player">Spieler</string>
 
     <!-- Player parameter -->
     <string name="player_name">Spielername</string>

@@ -119,6 +119,7 @@ public class PlayerDialogFragment extends DialogFragment {
         // Add action buttons dependent on dialog type
         if (mDialogTypeAdd) {
             builder.setView(mDialogView)
+                    .setTitle(R.string.dialog_add_player_title)
                     .setPositiveButton(R.string.dialog_add_player_ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
@@ -136,6 +137,7 @@ public class PlayerDialogFragment extends DialogFragment {
                     });
         } else { // EditPlayerDialog
             builder.setView(mDialogView)
+                    .setTitle(R.string.dialog_edit_player_title)
                     .setPositiveButton(R.string.dialog_edit_player_ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {

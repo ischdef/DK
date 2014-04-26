@@ -26,7 +26,8 @@ public class MainActivity extends Activity
         PlayerOptionsDialogFragment.PlayerOptionsDialogCallbacks,
         SessionsListFragment.SessionAddDialogCallbacks,
         SessionOptionsDialogFragment.SessionOptionsDialogCallbacks,
-        SessionOptionsPlayerSelectionDialogFragment.SessionOptionsPlayerSelectionDialogCallbacks {
+        SessionOptionsPlayerSelectionDialogFragment.SessionOptionsPlayerSelectionDialogCallbacks,
+        GameDialogFragment.GameDialogCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -49,8 +50,10 @@ public class MainActivity extends Activity
     private long mCurrentSessionId = 0;
 
     // Shortcuts
+    private TitleFragment mTitleFragment;
     private PlayerListFragment mPlayerListFragment;
     private SessionsListFragment mSessionsListFragment;
+    private CurrentSessionTableFragment mCurrentSessionTableFragment;
 
     // Content Resolver related parameter
     public static final int REQUEST_PICK_CONTACT  = 1; // Request code used for selecting a contact
@@ -119,7 +122,8 @@ public class MainActivity extends Activity
             // Show "About" popup window
             AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
             helpBuilder.setTitle(getString(R.string.app_name) + " " + mVersionNumber);
-            helpBuilder.setMessage(getString(R.string.dialog_about_copyright) + "\n" + getString(R.string.dialog_about_ssp));
+            helpBuilder.setMessage(getString(R.string.dialog_about_copyright) + "\n"
+                    + getString(R.string.dialog_about_ssp));
             helpBuilder.setPositiveButton(R.string.dialog_about_button,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -162,8 +166,9 @@ public class MainActivity extends Activity
         switch (position) {
             case 0:
                 // Show Title fragment
+                mTitleFragment = new TitleFragment();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, new TitleFragment())
+                        .replace(R.id.container, mTitleFragment)
                         .commit();
                 break;
             case 1:
@@ -175,8 +180,9 @@ public class MainActivity extends Activity
                 break;
             case 2:
                 // Show current session fragment
+                mCurrentSessionTableFragment = new CurrentSessionTableFragment(mCurrentSessionId);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, new CurrentSessionTableFragment(mCurrentSessionId))
+                        .replace(R.id.container, mCurrentSessionTableFragment)
                         .commit();
                 break;
             case 3:
@@ -383,6 +389,23 @@ public class MainActivity extends Activity
     }
 
 
+    /************************
+     * Callbacks GameDialog *
+     ************************/
+
+    @Override
+    public void onGameDialogClick(int playerPosition, Game.eGameResult result, int score, boolean backButton) {
+        // Check for cancel button click
+        if (playerPosition == 0 && backButton) {
+            // TODO show toast
+        } else {
+            mCurrentSessionTableFragment.addPlayerGameResult(playerPosition, result, score, backButton);
+        }
+
+    }
+
+
+
 
     /****************************************
      * handle Intent results from Fragments *
@@ -392,7 +415,8 @@ public class MainActivity extends Activity
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        final PlayerDialogFragment playerDialogFragment = (PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment");
+        final PlayerDialogFragment playerDialogFragment =
+                (PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment");
         if (playerDialogFragment == null) {
             toastMessage(getString(R.string.toast_fragment_error));
             return;
@@ -409,7 +433,8 @@ public class MainActivity extends Activity
                     if (resultUri != null) {
                         Cursor cursor =  getContentResolver().query(resultUri, null, null, null, null);
                         if (cursor.moveToFirst()) {
-                            String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                            String name = cursor.getString(
+                                    cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                             try {
                                 Uri imageUri = Uri.parse(cursor.getString(
                                         cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI)));

@@ -368,16 +368,15 @@ public class SessionsList {
             mDbHelper.addGameList(db, sessionId, game.getNumPlayers());
         }
 
-
         // Add game to new row in the session's gameList table
+        ContentValues values = new ContentValues();
         for (int playerPosition = 0; playerPosition < game.getNumPlayers(); playerPosition++) {
             String scoreColumnName = mDbHelper.getGameListTableScoreColumnName(playerPosition);
             String resultColumnName = mDbHelper.getGameListTableResultColumnName(playerPosition);
-            ContentValues values = new ContentValues();
             values.put(scoreColumnName, game.getScore(playerPosition));
             values.put(resultColumnName, game.getGameResult(playerPosition).getValue());
-            db.insert(mDbHelper.getGameListTableName(sessionId), null, values);
         }
+        db.insert(mDbHelper.getGameListTableName(sessionId), null, values);
 
         // Close database again after usage
         db.close();
