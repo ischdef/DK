@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -13,12 +14,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -28,6 +28,11 @@ public class MainActivity extends Activity
         SessionOptionsDialogFragment.SessionOptionsDialogCallbacks,
         SessionOptionsPlayerSelectionDialogFragment.SessionOptionsPlayerSelectionDialogCallbacks,
         GameDialogFragment.GameDialogCallbacks {
+
+    /**
+     * Remember the last started session ID.
+     */
+    private static final String LAST_STARTED_SESSION_ID = "last_started_session_id";
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -53,7 +58,7 @@ public class MainActivity extends Activity
     private TitleFragment mTitleFragment;
     private PlayerListFragment mPlayerListFragment;
     private SessionsListFragment mSessionsListFragment;
-    private CurrentSessionTableFragment mCurrentSessionTableFragment;
+    private CurrentSessionFragment mCurrentSessionFragment;
 
     // Content Resolver related parameter
     public static final int REQUEST_PICK_CONTACT  = 1; // Request code used for selecting a contact
@@ -66,6 +71,10 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // get last started session
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        mCurrentSessionId = sp.getLong(LAST_STARTED_SESSION_ID, 0);
 
         // Create DBs if not already available
         if (mPlayerList == null) {
@@ -179,11 +188,20 @@ public class MainActivity extends Activity
                         .commit();
                 break;
             case 2:
-                // Show current session fragment
-                mCurrentSessionTableFragment = new CurrentSessionTableFragment(mCurrentSessionId);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, mCurrentSessionTableFragment)
-                        .commit();
+                // Check if valid session was selected first
+                Session currentSession = mSessionsList.getSessionById(mCurrentSessionId);
+                if (currentSession == null) {
+                    // inform user to select valid session first
+                    toastMessage(getString(R.string.toast_invalid_session));
+
+                    mNavigationDrawerFragment.changeToSessionsDrawer();
+                } else {
+                    // Show current session fragment
+                    mCurrentSessionFragment = new CurrentSessionFragment(mCurrentSessionId);
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, mCurrentSessionFragment)
+                            .commit();
+                }
                 break;
             case 3:
                 // Show sessions fragment
@@ -325,6 +343,9 @@ public class MainActivity extends Activity
         } else {
             // Save selection
             mCurrentSessionId = sessionId;
+            // Store selection for next app running
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            sp.edit().putLong(LAST_STARTED_SESSION_ID, mCurrentSessionId).apply();
             // inform NavigationDrawer about external drawer change
             mNavigationDrawerFragment.changeToCurrentSessionDrawer(sessionId);
         }
@@ -399,7 +420,7 @@ public class MainActivity extends Activity
         if (playerPosition == 0 && backButton) {
             // TODO show toast
         } else {
-            mCurrentSessionTableFragment.addPlayerGameResult(playerPosition, result, score, backButton);
+            mCurrentSessionFragment.addPlayerGameResult(playerPosition, result, score, backButton);
         }
 
     }

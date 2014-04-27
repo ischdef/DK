@@ -123,9 +123,16 @@
     <string name="session_games_count">Games</string>
     <string name="session_players_count">Players</string>
 
+    <!-- Current session fragment -->
+    <string name="current_session_name">Session:</string>
+    <string name="current_session_tab_overview">Overview</string>
+    <string name="current_session_tab_table">Table</string>
+    <string name="current_session_tab_statistics">Stats</string>
+
     <!-- Errors -->
     <string name="toast_fragment_error">Fragment error</string>
     <string name="toast_invalid_request">Invalid request</string>
     <string name="toast_drawer_selection_error">Drawer Selection Error</string>
+    <string name="toast_invalid_session">Start a valid session first</string>
 
 </resources>

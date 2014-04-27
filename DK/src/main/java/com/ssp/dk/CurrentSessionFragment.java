@@ -9,22 +9,27 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Created by Stefan Schulze on 2014/03/08.
  */
-public class CurrentSessionTableFragment extends Fragment {
+public class CurrentSessionFragment extends Fragment {
+    private LayoutInflater mInflater;
+    private View mCurrentSessionFragmentView;
 
     // session short cut
-    Session mSession;
+    private Session mSession;
 
     // Currently played game results
     private Game mCurrentGame;
 
-    public CurrentSessionTableFragment(long sessionId) {
+    public CurrentSessionFragment(long sessionId) {
         mSession = SessionsList.getInstance().getSessionById(sessionId);
     }
 
@@ -105,5 +110,14 @@ public class CurrentSessionTableFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        mInflater = inflater;
+        mCurrentSessionFragmentView = inflater.inflate(
+                R.layout.fragment_current_session, container, false);
 
+
+        return mCurrentSessionFragmentView;
+    }
 }

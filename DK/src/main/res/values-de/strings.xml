@@ -82,7 +82,7 @@
     <!-- Game dialog window -->
     <string name="dialog_game_title">Spiel hinzufügen</string>
     <string name="dialog_game_ok">OK</string>
-    <string name="dialog_game_cancel">Zurück</string>
+    <string name="dialog_game_cancel">Abbrechen</string>
     <string name="dialog_game_prev_player">Zurück</string>
     <string name="dialog_game_next_player">Weiter</string>
     <string name="dialog_game_lost">Verloren</string>
@@ -123,9 +123,16 @@
     <string name="session_games_count">Anzahl Spiele</string>
     <string name="session_players_count">Spieler</string>
 
+    <!-- Current session fragment -->
+    <string name="current_session_name">Sitzung:</string>
+    <string name="current_session_tab_overview">Überblick</string>
+    <string name="current_session_tab_table">Tabelle</string>
+    <string name="current_session_tab_statistics">Stats</string>
+
     <!-- Errors -->
     <string name="toast_fragment_error">Fragment Fehler</string>
     <string name="toast_invalid_request">Ungültiger Auftrag</string>
     <string name="toast_drawer_selection_error">Ungültige Schubladenauswahl</string>
+    <string name="toast_invalid_session">Starte zuerst eine gültige Sitzung</string>
 
 </resources>

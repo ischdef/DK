@@ -7,7 +7,7 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.ssp.dk.CurrentSessionTableFragment" >
+    tools:context="com.ssp.dk.CurrentSessionFragment" >
 
     <item android:id="@+id/action_current_session_new_game"
         android:title="@string/action_add_game"

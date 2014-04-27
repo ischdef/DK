@@ -154,6 +154,16 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(mCurrentSelectedPosition);
     }
 
+    public void changeToSessionsDrawer() {
+        if (mDrawerLayout == null) {
+            // TODO exception
+            return;
+        }
+        // Activate sessions drawer
+        mCurrentSelectedPosition = DRAWER_POSITION_SESSIONS;
+        selectItem(mCurrentSelectedPosition);
+    }
+
     /**
      * Checks if NavigationDrawer is currently open
      * @return Returns true if open, else false
