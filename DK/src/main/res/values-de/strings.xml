@@ -118,16 +118,21 @@
     <string name="toast_session_options_player_selection_ok">Spielerliste verändert von Sitzung</string>
 
     <!-- Session parameter-->
-    <string name="session_name">Name</string>
+    <string name="session_name">Sitzungsname</string>
     <string name="session_creation_date">Erstellungsdatum</string>
     <string name="session_games_count">Anzahl Spiele</string>
     <string name="session_players_count">Spieler</string>
 
     <!-- Current session fragment -->
-    <string name="current_session_name">Sitzung:</string>
     <string name="current_session_tab_overview">Überblick</string>
     <string name="current_session_tab_table">Tabelle</string>
     <string name="current_session_tab_statistics">Stats</string>
+    <string name="current_session_num_neutrals">Neutrale</string>
+    <string name="current_session_num_wins">Siege</string>
+    <string name="current_session_num_losses">Niederlagen</string>
+    <string name="current_session_score">Punkte</string>
+    <string name="current_session_player_name">Spielername</string>
+    <string name="current_session_player_image">Spielerbild</string>
 
     <!-- Errors -->
     <string name="toast_fragment_error">Fragment Fehler</string>

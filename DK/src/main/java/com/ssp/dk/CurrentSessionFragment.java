@@ -5,7 +5,6 @@
 
 package com.ssp.dk;
 
-import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -15,13 +14,28 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Created by Stefan Schulze on 2014/03/08.
  */
 public class CurrentSessionFragment extends Fragment {
     private LayoutInflater mInflater;
+
     private View mCurrentSessionFragmentView;
+    private TextView mCurrentSessionNameView;
+    private TextView mCurrentSessionCreationDateView;
+    private TextView mCurrentSessionGamesCountView;
+    private TextView mCurrentSessionNumPlayersView;
+    private ListView mSessionPlayerListView;
+
+    private SessionPlayerListAdapter mSessionPlayerListAdapter;
 
     // session short cut
     private Session mSession;
@@ -65,6 +79,9 @@ public class CurrentSessionFragment extends Fragment {
 
                 // TODO Show new results in current session table fragment
                 // ...
+
+                // Show new results in current session overview
+                updateCurrentSessionOverview();
 
                 return;
             } else {
@@ -115,9 +132,106 @@ public class CurrentSessionFragment extends Fragment {
                              Bundle savedInstanceState) {
         mInflater = inflater;
         mCurrentSessionFragmentView = inflater.inflate(
-                R.layout.fragment_current_session, container, false);
+                //R.layout.fragment_current_session, container, false);
+                R.layout.fragment_current_session_overview, container, false);
 
+        // set view shortcuts
+        mSessionPlayerListView = (ListView) mCurrentSessionFragmentView.findViewById(R.id.CurrentSessionOverview_PlayerResultList);
+        mCurrentSessionNameView = (TextView) mCurrentSessionFragmentView.findViewById(R.id.CurrentSessionOverview_Name);
+        mCurrentSessionCreationDateView = (TextView) mCurrentSessionFragmentView.findViewById(R.id.CurrentSessionOverview_CreationDate);
+        mCurrentSessionGamesCountView = (TextView) mCurrentSessionFragmentView.findViewById(R.id.CurrentSessionOverview_GamesCount);
+        mCurrentSessionNumPlayersView = (TextView) mCurrentSessionFragmentView.findViewById(R.id.CurrentSessionOverview_NumPlayers);
+
+        // populate player list by using adapter
+        mSessionPlayerListAdapter = new SessionPlayerListAdapter();
+        mSessionPlayerListView.setAdapter(mSessionPlayerListAdapter);
+
+        // Set session parameters
+        mCurrentSessionGamesCountView.setText(getString(R.string.session_games_count) + ": " + mSession.getPlayedGames());
+        mCurrentSessionNameView.setText(mSession.getName());
+        mCurrentSessionNumPlayersView.setText(getString(R.string.session_players_count) + ": " + mSession.getNumberOfPlayers());
+        // Convert creation time in date format
+        final long creationTime = mSession.getTimeOfCreation();
+        final String creationDate = DateFormat.getDateTimeInstance().format(new Date(creationTime));
+        mCurrentSessionCreationDateView.setText(getString(R.string.session_creation_date) + ": " + creationDate);
 
         return mCurrentSessionFragmentView;
     }
+
+
+    public void updateCurrentSessionOverview () {
+        // Update Session player list
+        mSessionPlayerListAdapter.notifyDataSetChanged();
+        // Update number of played games
+        mCurrentSessionGamesCountView.setText(getString(R.string.session_games_count) + ": " + mSession.getPlayedGames());
+    }
+
+
+
+    /**
+     * Adapter
+     */
+
+    static class SessionPlayerListItemViewHolder {
+        ImageView image;
+        TextView name;
+        TextView numNeutrals;
+        TextView numWins;
+        TextView numLosses;
+        TextView score;
+    }
+
+    private class SessionPlayerListAdapter extends ArrayAdapter<Session.SessionPlayer> {
+        public SessionPlayerListAdapter() {
+            // Link with PlayerList and PlayerListLayout
+            super (getActivity().getApplicationContext(), R.layout.session_player_list_item,
+                    mSession.getSessionPlayerList());
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            SessionPlayerListItemViewHolder holder; // used for faster view access
+
+            // Check for initial inflation
+            if (convertView == null) {
+                // inflate
+                convertView = mInflater.inflate(R.layout.session_player_list_item, parent, false);
+
+                // set shortcuts
+                holder = new SessionPlayerListItemViewHolder();
+                holder.image = (ImageView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_Image);
+                holder.name = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_PlayerName);
+                holder.numNeutrals = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_NumNeutrals);
+                holder.numWins = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_NumWins);
+                holder.numLosses = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_NumLosses);
+                holder.score = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_Score);
+
+                convertView.setTag(holder);
+            } else {
+                holder = (SessionPlayerListItemViewHolder) convertView.getTag();
+            }
+
+            // Set player parameters to list view item
+            Session.SessionPlayer sessionPlayer = mSession.getSessionPlayerList().get(position);
+            Player player = PlayerList.getInstance().getPlayerById(sessionPlayer.getId());
+            if (player.getImage() == null) {
+                // Picture is optional -> set default picture if no player picture is set
+                holder.image.setImageDrawable(getResources().getDrawable(R.drawable.no_user_logo));
+            } else {
+                holder.image.setImageDrawable(player.getImage());
+            }
+            holder.name.setText(player.getName());
+            holder.numNeutrals.setText(getString(R.string.current_session_num_neutrals) + ": " +
+                    (mSession.getPlayedGames() - sessionPlayer.getLostGames() - sessionPlayer.getWonGames()));
+            holder.numWins.setText(getString(R.string.current_session_num_wins) + ": " + sessionPlayer.getWonGames());
+            holder.numLosses.setText(getString(R.string.current_session_num_losses) + ": " + sessionPlayer.getLostGames());
+            holder.score.setText(getString(R.string.current_session_score) + ": " + sessionPlayer.getScore());
+
+            return convertView;
+        }
+    }
 }
+
+
+
+

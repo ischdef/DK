@@ -118,16 +118,21 @@
     <string name="toast_session_options_player_selection_ok">Player list changed of session</string>
 
     <!-- Session parameter-->
-    <string name="session_name">Name</string>
+    <string name="session_name">Session name</string>
     <string name="session_creation_date">Date of creation</string>
     <string name="session_games_count">Games</string>
     <string name="session_players_count">Players</string>
 
     <!-- Current session fragment -->
-    <string name="current_session_name">Session:</string>
     <string name="current_session_tab_overview">Overview</string>
     <string name="current_session_tab_table">Table</string>
     <string name="current_session_tab_statistics">Stats</string>
+    <string name="current_session_num_neutrals">Neutrals</string>
+    <string name="current_session_num_wins">Wins</string>
+    <string name="current_session_num_losses">Losses</string>
+    <string name="current_session_score">Score</string>
+    <string name="current_session_player_name">Player Name</string>
+    <string name="current_session_player_image">Player Image</string>
 
     <!-- Errors -->
     <string name="toast_fragment_error">Fragment error</string>

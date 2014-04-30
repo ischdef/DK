@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/session_name"
+        android:id="@+id/CurrentSessionOverview_Name"
+        android:layout_gravity="left|center_vertical"
+        android:singleLine="true"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/session_creation_date"
+        android:id="@+id/CurrentSessionOverview_CreationDate"
+        android:layout_gravity="left|center_vertical"
+        android:singleLine="true"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/session_games_count"
+        android:id="@+id/CurrentSessionOverview_GamesCount"
+        android:layout_gravity="left|center_vertical"
+        android:singleLine="true"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/session_players_count"
+        android:id="@+id/CurrentSessionOverview_NumPlayers"
+        android:layout_gravity="left|center_vertical"
+        android:singleLine="true"
+        android:paddingLeft="10dp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/navigation_drawer_divider" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/CurrentSessionOverview_PlayerResultList"
+        android:layout_gravity="top"/>
+</LinearLayout>

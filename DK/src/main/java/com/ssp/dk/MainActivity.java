@@ -3,6 +3,7 @@ package com.ssp.dk;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -111,9 +112,9 @@ public class MainActivity extends Activity
 
         // Show title screen
         FragmentManager fragmentManager = getFragmentManager();
-        TitleFragment fragment = new TitleFragment();
+        mTitleFragment = new TitleFragment();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(R.id.container, mTitleFragment)
                 .commit();
     }
 
