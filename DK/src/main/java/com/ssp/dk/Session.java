@@ -143,7 +143,7 @@ public class Session {
         }
 
         public int getScore()  { return mScore; }
-        public void addScore(int gameScore)  { mScore =+ gameScore; }
+        public void addScore(int gameScore)  { mScore += gameScore; }
 
         public long getId() { return mId; }
     }
