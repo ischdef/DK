@@ -86,7 +86,7 @@
     <string name="dialog_game_prev_player">Previous</string>
     <string name="dialog_game_next_player">Next</string>
     <string name="dialog_game_lost">Lost</string>
-    <string name="dialog_game_neutral">Neutral</string>
+    <string name="dialog_game_draw">Draw</string>
     <string name="dialog_game_won">Won</string>
     <string name="dialog_game_score">Score: </string>
     <string name="dialog_game_player">Player</string>
@@ -127,7 +127,7 @@
     <string name="current_session_tab_overview">Overview</string>
     <string name="current_session_tab_table">Table</string>
     <string name="current_session_tab_statistics">Stats</string>
-    <string name="current_session_num_neutrals">Neutrals</string>
+    <string name="current_session_num_draws">Draws</string>
     <string name="current_session_num_wins">Wins</string>
     <string name="current_session_num_losses">Losses</string>
     <string name="current_session_score">Score</string>

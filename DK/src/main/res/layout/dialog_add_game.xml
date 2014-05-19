@@ -54,9 +54,9 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_game_neutral"
+            android:text="@string/dialog_game_draw"
             android:checked="true"
-            android:id="@+id/DialogAddGame_ButtonNeutral" />
+            android:id="@+id/DialogAddGame_ButtonDraw" />
 
         <RadioButton
             android:layout_width="wrap_content"

@@ -24,7 +24,7 @@ public class Game {
         mGameResults = new eGameResult[numPlayers];
         for (int playerPosition = 0; playerPosition < numPlayers; playerPosition++) {
             mScores[playerPosition] = 0;
-            mGameResults[playerPosition] = eGameResult.NEUTRAL;
+            mGameResults[playerPosition] = eGameResult.DRAW;
         }
     }
 
@@ -57,7 +57,7 @@ public class Game {
     }
 
     public enum eGameResult {
-        NEUTRAL(0),
+        DRAW(0),
         LOST(1),
         WON(2);
         private final int mValue;

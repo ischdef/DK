@@ -121,7 +121,7 @@ public class CurrentSessionFragment extends Fragment {
             // Init current game
             mCurrentGame = new Game(mSession.getNumberOfPlayers());
             // Show 'add new game' dialog window for first player in session
-            DialogFragment dialog = new GameDialogFragment(mSession.getId(), 0, Game.eGameResult.NEUTRAL, 0);
+            DialogFragment dialog = new GameDialogFragment(mSession.getId(), 0, Game.eGameResult.DRAW, 0);
             dialog.show(getFragmentManager(), "GameDialogFragment");
             return true;
         }
@@ -177,7 +177,7 @@ public class CurrentSessionFragment extends Fragment {
     static class SessionPlayerListItemViewHolder {
         ImageView image;
         TextView name;
-        TextView numNeutrals;
+        TextView numDraws;
         TextView numWins;
         TextView numLosses;
         TextView score;
@@ -203,7 +203,7 @@ public class CurrentSessionFragment extends Fragment {
                 holder = new SessionPlayerListItemViewHolder();
                 holder.image = (ImageView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_Image);
                 holder.name = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_PlayerName);
-                holder.numNeutrals = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_NumNeutrals);
+                holder.numDraws = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_NumDraws);
                 holder.numWins = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_NumWins);
                 holder.numLosses = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_NumLosses);
                 holder.score = (TextView) convertView.findViewById(R.id.CurrentSessionOverview_SessionPlayer_Score);
@@ -223,7 +223,7 @@ public class CurrentSessionFragment extends Fragment {
                 holder.image.setImageDrawable(player.getImage());
             }
             holder.name.setText(player.getName());
-            holder.numNeutrals.setText(getString(R.string.current_session_num_neutrals) + ": " +
+            holder.numDraws.setText(getString(R.string.current_session_num_draws) + ": " +
                     (mSession.getPlayedGames() - sessionPlayer.getLostGames() - sessionPlayer.getWonGames()));
             holder.numWins.setText(getString(R.string.current_session_num_wins) + ": " + sessionPlayer.getWonGames());
             holder.numLosses.setText(getString(R.string.current_session_num_losses) + ": " + sessionPlayer.getLostGames());

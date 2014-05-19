@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -199,8 +198,8 @@ public class GameDialogFragment extends DialogFragment {
             buttonGroup.check(R.id.DialogAddGame_ButtonLost);
         } else if (mPlayerGameResult == Game.eGameResult.WON) {
             buttonGroup.check(R.id.DialogAddGame_ButtonWon);
-        } else { // Neutral
-            buttonGroup.check(R.id.DialogAddGame_ButtonNeutral);
+        } else { // Draw
+            buttonGroup.check(R.id.DialogAddGame_ButtonDraw);
         }
         // store game result selection change
         buttonGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -213,8 +212,8 @@ public class GameDialogFragment extends DialogFragment {
                     case R.id.DialogAddGame_ButtonWon:
                         mPlayerGameResult = Game.eGameResult.WON;
                         break;
-                    case R.id.DialogAddGame_ButtonNeutral:
-                        mPlayerGameResult = Game.eGameResult.NEUTRAL;
+                    case R.id.DialogAddGame_ButtonDraw:
+                        mPlayerGameResult = Game.eGameResult.DRAW;
                         break;
                     default:
                         // TODO error
