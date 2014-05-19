@@ -102,7 +102,7 @@ public class SessionsList {
                 // Get player parameters from database
                 long sessionId = sessionsCursor.getLong(sessionsCursor.getColumnIndexOrThrow(SessionsListDbEntry._ID));
                 String sessionName = sessionsCursor.getString(sessionsCursor.getColumnIndex(SessionsListDbEntry.COLUMN_SESSION_NAME));
-                int sessionDate = sessionsCursor.getInt(sessionsCursor.getColumnIndex(SessionsListDbEntry.COLUMN_SESSION_CREATION_DATE));
+                long sessionDate = sessionsCursor.getLong(sessionsCursor.getColumnIndex(SessionsListDbEntry.COLUMN_SESSION_CREATION_DATE));
                 int sessionStarted = sessionsCursor.getInt(sessionsCursor.getColumnIndex(SessionsListDbEntry.COLUMN_SESSION_STARTED));
 
                 // create session with parameters extracted from DB

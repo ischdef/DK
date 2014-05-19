@@ -16,13 +16,13 @@ public class Session {
     private String mName;
     private ArrayList<SessionPlayer> mPlayerList;
     private ArrayList<Game> mGames;
-    private long mTimeOfCreation;
+    private long mCreationDate;
 
     public Session(long id, String sessionName, long sessionCreationDate) {
         mId = id;
         mName = sessionName;
         // set current time
-        mTimeOfCreation = sessionCreationDate;
+        mCreationDate = sessionCreationDate;
         // init arrays
         mPlayerList = new ArrayList<SessionPlayer>();
         mGames = new ArrayList<Game>();
@@ -40,7 +40,7 @@ public class Session {
     }
     public void setName(String name) { mName = name; }
     public int getPlayedGames() { return mGames.size(); }
-    public long getTimeOfCreation() { return mTimeOfCreation; }
+    public long getTimeOfCreation() { return mCreationDate; }
     public int getNumberOfPlayers() {
         return mPlayerList.size();
     }
