@@ -3,7 +3,6 @@ package com.ssp.dk;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,8 +16,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends Activity

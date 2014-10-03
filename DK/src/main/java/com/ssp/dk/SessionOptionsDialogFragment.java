@@ -12,9 +12,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Stefan Schulze on 2014/03/12.
  */
