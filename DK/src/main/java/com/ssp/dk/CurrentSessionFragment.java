@@ -93,8 +93,14 @@ public class CurrentSessionFragment extends Fragment {
         }
 
         // Show 'add new game' dialog window for next selected player
-        DialogFragment dialog = new GameDialogFragment(mSession.getId(), nextPlayerPosition,
-                mCurrentGame.getGameResult(nextPlayerPosition), mCurrentGame.getScore(nextPlayerPosition));
+        DialogFragment dialog = new GameDialogFragment();
+        // Supply input arguments
+        Bundle args = new Bundle();
+        args.putLong("sessionId", mSession.getId());
+        args.putInt("playerPosition", nextPlayerPosition);
+        args.putParcelable("currentGame", mCurrentGame);
+        dialog.setArguments(args);
+        // trigger onCreateDialog()
         dialog.show(getFragmentManager(), "GameDialogFragment");
     }
 
@@ -120,9 +126,18 @@ public class CurrentSessionFragment extends Fragment {
         if (item.getItemId() == R.id.action_current_session_new_game) {
             // Init current game
             mCurrentGame = new Game(mSession.getNumberOfPlayers());
+
             // Show 'add new game' dialog window for first player in session
-            DialogFragment dialog = new GameDialogFragment(mSession.getId(), 0, Game.eGameResult.DRAW, 0);
+            DialogFragment dialog = new GameDialogFragment();
+            // Supply input arguments
+            Bundle args = new Bundle();
+            args.putLong("sessionId", mSession.getId());
+            args.putInt("playerPosition", 0); // first player
+            args.putParcelable("currentGame", mCurrentGame);
+            dialog.setArguments(args);
+            // trigger onCreateDialog()
             dialog.show(getFragmentManager(), "GameDialogFragment");
+
             return true;
         }
 

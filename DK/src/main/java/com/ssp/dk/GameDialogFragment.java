@@ -45,11 +45,8 @@ public class GameDialogFragment extends DialogFragment {
     int mPlayerScore;
 
 
-    public GameDialogFragment(long sessionId, int playerPosition, Game.eGameResult prevPlayerGameResult, int prevPlayerScore) {
-        mSessionId = sessionId;
-        mPlayerPosition = playerPosition;
-        mPlayerGameResult = prevPlayerGameResult;
-        mPlayerScore = prevPlayerScore;
+    public GameDialogFragment()
+    {
     }
 
     private void recalculatePlayerScore() {
@@ -96,6 +93,17 @@ public class GameDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final Bundle args = getArguments();
+        if (args == null) {
+            throw new RuntimeException();
+        }
+
+        mSessionId = args.getLong("sessionId");
+        mPlayerPosition = args.getInt("playerPosition");
+        final Game currentGame = args.getParcelable("currentGame");
+        mPlayerGameResult = currentGame.getGameResult(mPlayerPosition);
+        mPlayerScore = currentGame.getScore(mPlayerPosition);
+
         // Get player parameter
         final Session session = SessionsList.getInstance().getSessionById(mSessionId);
         final long playerId = session.getSessionPlayerList().get(mPlayerPosition).getId();

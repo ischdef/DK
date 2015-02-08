@@ -212,8 +212,6 @@ public class MainActivity extends Activity
                 break;
             default:
                 // TODO add exception
-                toastMessage(getString(R.string.toast_drawer_selection_error));
-                return;
         }
     }
 

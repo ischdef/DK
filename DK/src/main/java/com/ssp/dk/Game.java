@@ -5,10 +5,13 @@
 
 package com.ssp.dk;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Stefan Schulze on 2014/03/10.
  */
-public class Game {
+public class Game implements Parcelable {
     private int[] mScores;
     private eGameResult[] mGameResults;
     private int mNumPlayers;
@@ -71,4 +74,31 @@ public class Game {
         }
     }
 
+
+    protected Game(Parcel in) {
+        mNumPlayers = in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mNumPlayers);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Game> CREATOR = new Parcelable.Creator<Game>() {
+        @Override
+        public Game createFromParcel(Parcel in) {
+            return new Game(in);
+        }
+
+        @Override
+        public Game[] newArray(int size) {
+            return new Game[size];
+        }
+    };
 }
