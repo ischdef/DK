@@ -76,7 +76,7 @@ public class CurrentSessionFragment extends Fragment {
             if (playerPosition + 1 == mSession.getNumberOfPlayers()) {
                 // all player game results are stored in the game -> store game in session
                 if (!SessionsList.getInstance().addGameToSession(mSession.getId(), mCurrentGame)) {
-                    // TODO add game assert
+                    throw new RuntimeException("addPlayerGameResult failed, invalid number of players: " + mSession.getNumberOfPlayers());
                 }
 
                 // TODO Show new results in current session table fragment

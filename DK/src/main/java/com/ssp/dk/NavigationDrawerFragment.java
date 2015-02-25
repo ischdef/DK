@@ -145,11 +145,12 @@ public class NavigationDrawerFragment extends Fragment {
 
     public void changeToCurrentSessionDrawer(long sessionId) {
         if (mDrawerLayout == null) {
-            // TODO exception
-            return;
+            throw new RuntimeException("changeToCurrentSessionDrawer() without valid drawer layout: " + sessionId);
         }
+
         // add/change drawer title to current session name
         // ...
+
         // Activate current session drawer
         mCurrentSelectedPosition = DRAWER_POSITION_CURRENT_SESSION;
         selectItem(mCurrentSelectedPosition);
@@ -157,8 +158,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     public void changeToSessionsDrawer() {
         if (mDrawerLayout == null) {
-            // TODO exception
-            return;
+            throw new RuntimeException("changeToSessionsDrawer() without valid drawer layout");
         }
         // Activate sessions drawer
         mCurrentSelectedPosition = DRAWER_POSITION_SESSIONS;

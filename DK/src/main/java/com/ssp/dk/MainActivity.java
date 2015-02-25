@@ -154,7 +154,7 @@ public class MainActivity extends Activity
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // TODO Change to landscape mode -> always show drawer open?
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            // TODO Change back portrait mode -> close open drawer open?
+            // TODO Change back portrait mode -> close open drawer?
         }
 
     }
@@ -211,7 +211,7 @@ public class MainActivity extends Activity
                         .commit();
                 break;
             default:
-                // TODO add exception
+                throw new RuntimeException("Invalid drawer fragment selected: " + position);
         }
     }
 
@@ -343,7 +343,7 @@ public class MainActivity extends Activity
             mCurrentSessionId = sessionId;
             // Store selection for next app running
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            sp.edit().putLong(LAST_STARTED_SESSION_ID, mCurrentSessionId).apply();
+            sp.edit().putLong(LAST_STARTED_SESSION_ID, sessionId).apply();
             // inform NavigationDrawer about external drawer change
             mNavigationDrawerFragment.changeToCurrentSessionDrawer(sessionId);
         }

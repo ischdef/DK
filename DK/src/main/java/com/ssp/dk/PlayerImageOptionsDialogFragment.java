@@ -61,7 +61,7 @@ public class PlayerImageOptionsDialogFragment extends DialogFragment {
                                 // Start contact selection
                                 Intent pickContactIntent = new Intent( Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI );
                                 getActivity().startActivityForResult(pickContactIntent, MainActivity.REQUEST_PICK_CONTACT);
-
+                                break;
                             case 3: // default
                                 // Get default user log Uri
                                 int resId = R.drawable.no_user_logo;
@@ -73,11 +73,13 @@ public class PlayerImageOptionsDialogFragment extends DialogFragment {
                                 // Set default player image
                                 ((PlayerDialogFragment)getFragmentManager().findFragmentByTag("PlayerDialogFragment")).
                                         setSelectedPlayerImage(imageUri);
+                                break;
                             case 4: // Cancel
                                 // player image selection
                                 // Don't do anything - dialog will be closed automatically
+                                break;
                             default:
-                                // TODO exception
+                                throw new RuntimeException("Invalid option selected in PlayerImageDialog: " + which);
                         }
                     }
                 });

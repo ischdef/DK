@@ -69,7 +69,7 @@ public class PlayerOptionsDialogFragment extends DialogFragment {
                                 mListener.onPlayerOptionsDialogEditClick(mPlayerId);
                                 break;
                             default:
-                                // TODO exception
+                                throw new RuntimeException("Invalid option selected in PlayerOptionsDialog: " + which);
                         }
                     }
                 });

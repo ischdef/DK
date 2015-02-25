@@ -224,8 +224,7 @@ public class GameDialogFragment extends DialogFragment {
                         mPlayerGameResult = Game.eGameResult.DRAW;
                         break;
                     default:
-                        // TODO error
-                        break;
+                        throw new RuntimeException("GameDialog invalid radio result button selected: " + i);
                 }
             }
         });

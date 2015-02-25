@@ -28,7 +28,7 @@
     <string name="action_about">About</string>
 
     <!-- About window -->
-    <string name="dialog_about_copyright">Copyright (c) 2014</string>
+    <string name="dialog_about_copyright">Copyright (c) 2014-2015</string>
     <string name="dialog_about_ssp">Stefan Schulze Programs</string>
     <string name="dialog_about_button">Close</string>
 

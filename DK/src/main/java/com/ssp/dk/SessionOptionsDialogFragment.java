@@ -84,7 +84,7 @@ public class SessionOptionsDialogFragment extends DialogFragment {
                                 mListener.onSessionOptionsDialogDeleteClick(mSessionId);
                                 break;
                             default:
-                                // TODO exception
+                                throw new RuntimeException("Invalid option selected in SessionOptionDialog: " + which);
                         }
                     }
                 });
