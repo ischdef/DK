@@ -24,8 +24,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-;
-
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
@@ -119,17 +117,17 @@ public class NavigationDrawerFragment extends Fragment {
         mNavDrawerItemList = new ArrayList<NavigationDrawerItem>();
         NavigationDrawerItem itemTitleScreen = new NavigationDrawerItem(
                 getString(R.string.navigation_drawer_list_item_title_title_screen),
-                R.id.navigation_drawer_list_item_icon_title_screen);
+                R.drawable.navigation_drawer_list_item_icon_title_screen);
         NavigationDrawerItem itemPlayer = new NavigationDrawerItem(
                 getString(R.string.navigation_drawer_list_item_title_players),
-                R.id.navigation_drawer_list_item_icon_players,
+                R.drawable.navigation_drawer_list_item_icon_players,
                 true, String.valueOf(PlayerList.getInstance().getNumberOfPlayers()));
         NavigationDrawerItem itemCurrentSession = new NavigationDrawerItem(
                 getString(R.string.navigation_drawer_list_item_title_current_session),
-                R.id.navigation_drawer_list_item_icon_current_session);
+                R.drawable.navigation_drawer_list_item_icon_current_session);
         NavigationDrawerItem itemSessions = new NavigationDrawerItem(
                 getString(R.string.navigation_drawer_list_item_title_sessions),
-                R.id.navigation_drawer_list_item_icon_sessions,
+                R.drawable.navigation_drawer_list_item_icon_sessions,
                 true, String.valueOf(SessionsList.getInstance().getNumberOfSessions()));
         mNavDrawerItemList.add(itemTitleScreen);    // DRAWER_POSITION_TITLE_SCREEN
         mNavDrawerItemList.add(itemPlayer);         // DRAWER_POSITION_PLAYERS
@@ -369,7 +367,7 @@ public class NavigationDrawerFragment extends Fragment {
     /**
      * Callbacks interface that all activities using this fragment must implement.
      */
-    public static interface NavigationDrawerCallbacks {
+    public interface NavigationDrawerCallbacks {
         /**
          * Called when an item in the navigation drawer is selected.
          * @param position Selected drawer

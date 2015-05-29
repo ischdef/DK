@@ -16,10 +16,10 @@
     <string name="navigation_drawer_list_item_title_players">Spieler</string>
     <string name="navigation_drawer_list_item_title_current_session">Aktuelle Sitzung</string>
     <string name="navigation_drawer_list_item_title_sessions">Sitzungen</string>
-    <item type="id" name="navigation_drawer_list_item_icon_title_screen">@drawable/no_user_logo</item>
-    <item type="id" name="navigation_drawer_list_item_icon_players">@drawable/no_user_logo</item>
-    <item type="id" name="navigation_drawer_list_item_icon_current_session">@drawable/no_user_logo</item>
-    <item type="id" name="navigation_drawer_list_item_icon_sessions">@drawable/no_user_logo</item>
+    <item type="drawable" name="navigation_drawer_list_item_icon_title_screen">@drawable/no_user_logo</item>
+    <item type="drawable" name="navigation_drawer_list_item_icon_players">@drawable/no_user_logo</item>
+    <item type="drawable" name="navigation_drawer_list_item_icon_current_session">@drawable/no_user_logo</item>
+    <item type="drawable" name="navigation_drawer_list_item_icon_sessions">@drawable/no_user_logo</item>
 
     <!-- Menu bar actions -->
     <string name="action_add_player">Neuer Spieler</string>
