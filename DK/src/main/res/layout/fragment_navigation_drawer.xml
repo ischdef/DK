@@ -7,4 +7,4 @@
     android:dividerHeight="1dp"
     android:listSelector="@drawable/navigation_drawer_list_selector"
     android:background="@color/navigation_drawer_bg"
-    tools:context="com.ssp.dk.NavigationDrawerFragment" />
+    tools:context="com.ssp.dk.NavigationDrawer.NavigationDrawerFragment" />

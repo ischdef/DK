@@ -3,7 +3,7 @@
  * Stefan Schulze Programs.                                                   *
  ******************************************************************************/
 
-package com.ssp.dk;
+package com.ssp.dk.NavigationDrawer;
 
 /**
  * Created by Stefan Schulze on 2014/02/04.

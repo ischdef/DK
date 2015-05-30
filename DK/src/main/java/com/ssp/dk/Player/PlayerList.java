@@ -3,7 +3,7 @@
  * Stefan Schulze Programs.                                                   *
  ******************************************************************************/
 
-package com.ssp.dk;
+package com.ssp.dk.Player;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.provider.BaseColumns;
+
+import com.ssp.dk.R;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;

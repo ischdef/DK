@@ -3,7 +3,7 @@
  * Stefan Schulze Programs.                                                   *
  ******************************************************************************/
 
-package com.ssp.dk;
+package com.ssp.dk.NavigationDrawer;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.ssp.dk.R;
 
 /**
  * Created by Stefan Schulze on 2014/01/13.

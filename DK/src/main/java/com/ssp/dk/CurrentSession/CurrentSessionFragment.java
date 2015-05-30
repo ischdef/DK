@@ -3,7 +3,7 @@
  * Stefan Schulze Programs.                                                   *
  ******************************************************************************/
 
-package com.ssp.dk;
+package com.ssp.dk.CurrentSession;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -18,6 +18,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ssp.dk.Game.Game;
+import com.ssp.dk.Game.GameDialogFragment;
+import com.ssp.dk.Player.Player;
+import com.ssp.dk.Player.PlayerList;
+import com.ssp.dk.R;
+import com.ssp.dk.Session.Session;
+import com.ssp.dk.Session.SessionsList;
 
 import java.text.DateFormat;
 import java.util.Date;

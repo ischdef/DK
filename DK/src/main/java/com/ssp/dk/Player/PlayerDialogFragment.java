@@ -3,7 +3,7 @@
  * Stefan Schulze Programs.                                                   *
  ******************************************************************************/
 
-package com.ssp.dk;
+package com.ssp.dk.Player;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +20,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.ssp.dk.R;
 
 /**
  * Created by Stefan Schulze on 2014/01/14.

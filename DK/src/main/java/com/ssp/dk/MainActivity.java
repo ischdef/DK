@@ -20,6 +20,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.ssp.dk.CurrentSession.CurrentSessionFragment;
+import com.ssp.dk.Game.Game;
+import com.ssp.dk.Game.GameDialogFragment;
+import com.ssp.dk.NavigationDrawer.NavigationDrawerFragment;
+import com.ssp.dk.NavigationDrawer.TitleFragment;
+import com.ssp.dk.Player.PlayerDialogFragment;
+import com.ssp.dk.Player.PlayerList;
+import com.ssp.dk.Player.PlayerListFragment;
+import com.ssp.dk.Player.PlayerOptionsDialogFragment;
+import com.ssp.dk.Session.Session;
+import com.ssp.dk.Session.SessionOptionsDialogFragment;
+import com.ssp.dk.Session.SessionOptionsPlayerSelectionDialogFragment;
+import com.ssp.dk.Session.SessionsList;
+import com.ssp.dk.Session.SessionsListFragment;
+
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         PlayerDialogFragment.PlayerAddDialogCallbacks,

@@ -3,7 +3,7 @@
  * Stefan Schulze Programs.                                                   *
  ******************************************************************************/
 
-package com.ssp.dk;
+package com.ssp.dk.Session;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+
+import com.ssp.dk.Game.Game;
 
 import java.util.ArrayList;
 import java.util.Date;

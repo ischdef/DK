@@ -3,7 +3,9 @@
  * Stefan Schulze Programs.                                                   *
  ******************************************************************************/
 
-package com.ssp.dk;
+package com.ssp.dk.Session;
+
+import com.ssp.dk.Game.Game;
 
 import java.util.ArrayList;
 

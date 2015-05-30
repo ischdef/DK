@@ -1,4 +1,4 @@
-package com.ssp.dk;
+package com.ssp.dk.NavigationDrawer;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -21,6 +21,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ssp.dk.Player.PlayerList;
+import com.ssp.dk.R;
+import com.ssp.dk.Session.SessionsList;
 
 import java.util.ArrayList;
 

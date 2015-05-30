@@ -1,4 +1,4 @@
-package com.ssp.dk;
+package com.ssp.dk.Player;
 
 /**
  * Created by Stefan Schulze on 2014/01/03.
@@ -18,6 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ssp.dk.R;
 
 
 public class PlayerListFragment extends Fragment {

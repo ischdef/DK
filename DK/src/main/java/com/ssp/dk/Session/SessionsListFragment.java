@@ -3,7 +3,7 @@
  * Stefan Schulze Programs.                                                   *
  ******************************************************************************/
 
-package com.ssp.dk;
+package com.ssp.dk.Session;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ssp.dk.R;
 
 import java.text.DateFormat;
 import java.util.Date;
