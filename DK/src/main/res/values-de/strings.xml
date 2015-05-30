@@ -11,7 +11,7 @@
     <!-- Navigation Drawer -->
     <string name="navigation_drawer_open">Öffne Schublade</string>
     <string name="navigation_drawer_close">Schließe Schublade</string>
-    <string name="navigation_drawer_list_item_icon">Logo</string>
+    <string name="navigation_drawer_list_item_icon_description">Logo</string>
     <string name="navigation_drawer_list_item_title_title_screen">Titelbild</string>
     <string name="navigation_drawer_list_item_title_players">Spieler</string>
     <string name="navigation_drawer_list_item_title_current_session">Aktuelle Sitzung</string>
