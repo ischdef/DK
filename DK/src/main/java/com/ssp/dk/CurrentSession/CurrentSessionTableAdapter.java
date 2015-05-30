@@ -9,7 +9,7 @@ package com.ssp.dk.CurrentSession;
  * Created by Stefan on 30.05.2015.
  */
 
-import com.ssp.dk.Table.Adapters.BaseTableAdapter;
+import com.ssp.dk.Table.BaseTableAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
