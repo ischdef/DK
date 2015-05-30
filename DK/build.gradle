@@ -14,8 +14,6 @@ repositories {
 
 android {
     compileSdkVersion 18
-    //buildToolsVersion '18.1.1'
-    //buildToolsVersion '19.1.0'
     buildToolsVersion '21.1.2'
 
     defaultConfig {
@@ -26,5 +24,4 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:20.+'
-    compile project(':TableFixHeadersLib')
 }

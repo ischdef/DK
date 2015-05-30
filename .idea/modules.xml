@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DK.iml" filepath="$PROJECT_DIR$/DK.iml" />
       <module fileurl="file://$PROJECT_DIR$/DK/DK-DK.iml" filepath="$PROJECT_DIR$/DK/DK-DK.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TableFixHeadersLib/TableFixHeadersLib.iml" filepath="$PROJECT_DIR$/TableFixHeadersLib/TableFixHeadersLib.iml" />
     </modules>
   </component>
 </project>
-
