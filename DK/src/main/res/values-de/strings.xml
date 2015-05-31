@@ -25,6 +25,8 @@
     <string name="action_add_player">Neuer Spieler</string>
     <string name="action_add_session">Neue Sitzung</string>
     <string name="action_add_game">Neues Spiel</string>
+    <string name="action_show_table">Tabelle</string>
+    <string name="action_show_current_session_overview">Übersicht</string>
     <string name="action_about">Über</string>
 
     <!-- About window -->
@@ -133,6 +135,9 @@
     <string name="current_session_score">Punkte</string>
     <string name="current_session_player_name">Spielername</string>
     <string name="current_session_player_image">Spielerbild</string>
+
+    <!-- Current session table fragment -->
+    <string name="current_session_table_game_number">Spiel</string>
 
     <!-- Errors -->
     <string name="toast_fragment_error">Fragment Fehler</string>

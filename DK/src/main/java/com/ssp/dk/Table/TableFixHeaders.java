@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.Scroller;
 
 import com.ssp.dk.R;
-import com.ssp.dk.Table.TableAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

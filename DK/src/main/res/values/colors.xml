@@ -14,6 +14,8 @@
     <color name="navigation_drawer_item_counter">#ff000000</color>
     <color name="navigation_drawer_item_text">#ff000000</color>
 
+    <color name="current_session_table_cell">#ff000000</color>
+    <color name="current_session_table_header">#ff000000</color>
     <color name="shadow_start">#80000000</color>
     <color name="shadow_end">#00000000</color>
 </resources>

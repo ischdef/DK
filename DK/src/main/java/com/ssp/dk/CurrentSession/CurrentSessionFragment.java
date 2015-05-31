@@ -7,6 +7,7 @@ package com.ssp.dk.CurrentSession;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -47,11 +48,17 @@ public class CurrentSessionFragment extends Fragment {
 
     // session short cut
     private Session mSession;
+    private long mSessionId;
 
     // Currently played game results
     private Game mCurrentGame;
 
+    public CurrentSessionFragment() {
+        // TODO read sessionId via getArguments() and remove constructor below
+    }
+
     public CurrentSessionFragment(long sessionId) {
+        mSessionId = sessionId;
         mSession = SessionsList.getInstance().getSessionById(sessionId);
     }
 
@@ -131,25 +138,33 @@ public class CurrentSessionFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_current_session_new_game) {
-            // Init current game
-            mCurrentGame = new Game(mSession.getNumberOfPlayers());
+        switch (item.getItemId()) {
+            case R.id.action_current_session_new_game:
+                // Init current game
+                mCurrentGame = new Game(mSession.getNumberOfPlayers());
 
-            // Show 'add new game' dialog window for first player in session
-            DialogFragment dialog = new GameDialogFragment();
-            // Supply input arguments
-            Bundle args = new Bundle();
-            args.putLong("sessionId", mSession.getId());
-            args.putInt("playerPosition", 0); // first player
-            args.putParcelable("currentGame", mCurrentGame);
-            dialog.setArguments(args);
-            // trigger onCreateDialog()
-            dialog.show(getFragmentManager(), "GameDialogFragment");
+                // Show 'add new game' dialog window for first player in session
+                DialogFragment dialog = new GameDialogFragment();
+                // Supply input arguments
+                Bundle args = new Bundle();
+                args.putLong("sessionId", mSession.getId());
+                args.putInt("playerPosition", 0); // first player
+                args.putParcelable("currentGame", mCurrentGame);
+                dialog.setArguments(args);
+                // trigger onCreateDialog()
+                dialog.show(getFragmentManager(), "GameDialogFragment");
 
-            return true;
+                return true;
+            case R.id.action_current_session_table:
+                // Show CurrentSessionTableFragment
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new CurrentSessionTableFragment(mSessionId))
+                        .commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

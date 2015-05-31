@@ -3,9 +3,13 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-        <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
-         https://developer.android.com/design/patterns/navigation-drawer.html -->
+    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+     https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="navigation_drawer_width">240dp</dimen>
 
     <dimen name="shadow_size">8dip</dimen>
+    
+    <dimen name="current_session_table_cell_width_name">100dp</dimen>
+    <dimen name="current_session_table_cell_width_score">60dp</dimen>
+    <dimen name="current_session_table_cell_height">40dp</dimen>
 </resources>

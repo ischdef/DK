@@ -9,18 +9,24 @@ package com.ssp.dk.CurrentSession;
  * Created by Stefan on 30.05.2015.
  */
 
+import com.ssp.dk.R;
 import com.ssp.dk.Table.BaseTableAdapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-public abstract class CurrentSessionTableAdapter extends BaseTableAdapter {
-    private final Context context;
-    private final LayoutInflater inflater;
+public class CurrentSessionTableAdapter extends BaseTableAdapter {
+    private final Context mContext;
+    private final LayoutInflater mInflater;
+
+    private final int mWidthName;
+    private final int mWidthScore;
+    private final int mHeight;
 
     /**
      * Constructor
@@ -28,8 +34,13 @@ public abstract class CurrentSessionTableAdapter extends BaseTableAdapter {
      * @param context The current context.
      */
     public CurrentSessionTableAdapter(Context context) {
-        this.context = context;
-        inflater = LayoutInflater.from(context);
+        mContext = context;
+        mInflater = LayoutInflater.from(context);
+
+        Resources resources = context.getResources();
+        mWidthName = resources.getDimensionPixelSize(R.dimen.current_session_table_cell_width_name);
+        mWidthScore = resources.getDimensionPixelSize(R.dimen.current_session_table_cell_width_score);
+        mHeight = resources.getDimensionPixelSize(R.dimen.current_session_table_cell_height);
     }
 
     /**
@@ -39,7 +50,7 @@ public abstract class CurrentSessionTableAdapter extends BaseTableAdapter {
      * @return The Context associated with this adapter.
      */
     public Context getContext() {
-        return context;
+        return mContext;
     }
 
     /**
@@ -49,13 +60,13 @@ public abstract class CurrentSessionTableAdapter extends BaseTableAdapter {
      * @return The shared LayoutInflater.
      */
     public LayoutInflater getInflater() {
-        return inflater;
+        return mInflater;
     }
 
     @Override
     public View getView(int row, int column, View converView, ViewGroup parent) {
         if (converView == null) {
-            converView = inflater.inflate(getLayoutResource(row, column), parent, false);
+            converView = mInflater.inflate(getLayoutResource(row, column), parent, false);
         }
         setText(converView, getCellString(row, column));
         return converView;
@@ -71,6 +82,39 @@ public abstract class CurrentSessionTableAdapter extends BaseTableAdapter {
         ((TextView) view.findViewById(android.R.id.text1)).setText(text);
     }
 
+    @Override
+    public int getRowCount() {
+        // TODO return num of games
+        return 5;
+    }
+
+    @Override
+    public int getColumnCount() {
+        // TODO return num of players
+        return 5;
+    }
+
+    @Override
+    public int getWidth(int column) {
+        // TODO return max. width of given column (longest playername or longest score) in pixels
+        /* Example:
+        Rect bounds = new Rect();
+        Paint textPaint = textView.getPaint();
+        textPaint.getTextBounds(text,0,text.length(),bounds);
+        int width = bounds.width();  */
+
+        if (column < 0) {
+            return mWidthName;
+        } else {
+            return mWidthScore;
+        }
+    }
+
+    @Override
+    public int getHeight(int row) {
+        return mHeight;
+    }
+
     /**
      * @param row    the title of the row of this header. If the column is -1
      *               returns the title of the row header.
@@ -78,8 +122,59 @@ public abstract class CurrentSessionTableAdapter extends BaseTableAdapter {
      *               returns the title of the column header.
      * @return the string for the cell [row, column]
      */
-    public abstract String getCellString(int row, int column);
+    public String getCellString(int row, int column) {
+        String cellText;
+        if (row < 0) {
+            // Table head
+            if (column < 0) {
+                // Upper-left corner
+                cellText = mContext.getString(R.string.current_session_table_game_number);
+            } else {
+                cellText = "#" + (column + 1);
+            }
+        }
+        else {
+            if (column < 0) {
+                // TODO header string
+                cellText = "Player name" + row;
+            } else {
+                // TODO add score or header string
+                return "Score: " + row + "/" + column;
+            }
+        }
 
-    public abstract int getLayoutResource(int row, int column);
+        return cellText;
+    }
+
+    public int getLayoutResource(int row, int column) {
+        final int layoutResource;
+        switch (getItemViewType(row, column)) {
+            case 0:
+                layoutResource = R.layout.current_session_table_header;
+                break;
+            case 1:
+                layoutResource = R.layout.current_session_table_cell;
+                break;
+            default:
+                throw new RuntimeException("CurrentSessionTableAdapter: Invalid getItemViewType() result");
+        }
+        return layoutResource;
+    }
+
+    @Override
+    public int getItemViewType(int row, int column) {
+        if (row < 0) {
+            // table header
+            return 0;
+        } else {
+            // normal table cell
+            return 1;
+        }
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
 }
 
