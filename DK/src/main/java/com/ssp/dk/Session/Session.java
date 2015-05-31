@@ -41,7 +41,8 @@ public class Session {
         return mName;
     }
     public void setName(String name) { mName = name; }
-    public int getPlayedGames() { return mGames.size(); }
+    public int getNumberOfGames() { return mGames.size(); }
+    public ArrayList<Game> getGames() { return mGames; }
     public long getTimeOfCreation() { return mCreationDate; }
     public int getNumberOfPlayers() {
         return mPlayerList.size();

@@ -220,7 +220,7 @@ public class SessionsList {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         // If session was already started, remove SessionGamList table
-        if (session.getPlayedGames() > 0) {
+        if (session.getNumberOfGames() > 0) {
             mDbHelper.removeGameList(db, sessionId);
         }
         // Remove SessionPlayerList table
@@ -357,7 +357,7 @@ public class SessionsList {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         // if this is the first game added to the session, start session
-        if (session.getPlayedGames() == 1) {
+        if (session.getNumberOfGames() == 1) {
             // set "session started" in DB
             ContentValues values = new ContentValues();
             values.put(SessionsListDbEntry.COLUMN_SESSION_STARTED, 1); // 1 = Session started

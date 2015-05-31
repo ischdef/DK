@@ -31,11 +31,9 @@ public class CurrentSessionTableFragment extends Fragment {
     private CurrentSessionTableAdapter mCurrentSessionTableAdapter;
 
     // session short cut
-    private Session mSession;
     private long mSessionId;
 
     public CurrentSessionTableFragment(long sessionId) {
-        mSession = SessionsList.getInstance().getSessionById(sessionId);
         mSessionId = sessionId;
     }
 
@@ -79,7 +77,7 @@ public class CurrentSessionTableFragment extends Fragment {
                 R.layout.fragment_current_session_table, container, false);
 
         // populate current session table by using adapter
-        mCurrentSessionTableAdapter = new CurrentSessionTableAdapter(getActivity().getApplicationContext());
+        mCurrentSessionTableAdapter = new CurrentSessionTableAdapter(getActivity().getApplicationContext(), mSessionId);
         mCurrentSessionTableFragmentView.setAdapter(mCurrentSessionTableAdapter);
 
         return mCurrentSessionTableFragmentView;

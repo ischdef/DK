@@ -367,7 +367,7 @@ public class MainActivity extends Activity
     @Override
     public void onSessionOptionsDialogPlayersClick(long sessionId) {
         // Check if session was already started
-        if (mSessionsList.getSessionById(sessionId).getPlayedGames() > 0) {
+        if (mSessionsList.getSessionById(sessionId).getNumberOfGames() > 0) {
             toastMessage(getString(R.string.toast_session_select_players_invalid));
         } else {
             // Show player selection window

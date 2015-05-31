@@ -187,7 +187,7 @@ public class CurrentSessionFragment extends Fragment {
         mSessionPlayerListView.setAdapter(mSessionPlayerListAdapter);
 
         // Set session parameters
-        mCurrentSessionGamesCountView.setText(getString(R.string.session_games_count) + ": " + mSession.getPlayedGames());
+        mCurrentSessionGamesCountView.setText(getString(R.string.session_games_count) + ": " + mSession.getNumberOfGames());
         mCurrentSessionNameView.setText(mSession.getName());
         mCurrentSessionNumPlayersView.setText(getString(R.string.session_players_count) + ": " + mSession.getNumberOfPlayers());
         // Convert creation time in date format
@@ -203,7 +203,7 @@ public class CurrentSessionFragment extends Fragment {
         // Update Session player list
         mSessionPlayerListAdapter.notifyDataSetChanged();
         // Update number of played games
-        mCurrentSessionGamesCountView.setText(getString(R.string.session_games_count) + ": " + mSession.getPlayedGames());
+        mCurrentSessionGamesCountView.setText(getString(R.string.session_games_count) + ": " + mSession.getNumberOfGames());
     }
 
 
@@ -262,7 +262,7 @@ public class CurrentSessionFragment extends Fragment {
             }
             holder.name.setText(player.getName());
             holder.numDraws.setText(getString(R.string.current_session_num_draws) + ": " +
-                    (mSession.getPlayedGames() - sessionPlayer.getLostGames() - sessionPlayer.getWonGames()));
+                    (mSession.getNumberOfGames() - sessionPlayer.getLostGames() - sessionPlayer.getWonGames()));
             holder.numWins.setText(getString(R.string.current_session_num_wins) + ": " + sessionPlayer.getWonGames());
             holder.numLosses.setText(getString(R.string.current_session_num_losses) + ": " + sessionPlayer.getLostGames());
             holder.score.setText(getString(R.string.current_session_score) + ": " + sessionPlayer.getScore());

@@ -235,7 +235,7 @@ public class SessionsListFragment extends Fragment {
             // Set session parameters to list view item
             Session session = SessionsList.getInstance().getList().get(position);
             holder.name.setText(session.getName());
-            holder.playedGames.setText(getString(R.string.session_games_count) + ": " + session.getPlayedGames());
+            holder.playedGames.setText(getString(R.string.session_games_count) + ": " + session.getNumberOfGames());
             holder.numPlayers.setText(getString(R.string.session_players_count) + ": " + session.getNumberOfPlayers());
             // Convert creation time in date format
             final long creationTime = session.getTimeOfCreation();

@@ -9,7 +9,11 @@ package com.ssp.dk.CurrentSession;
  * Created by Stefan on 30.05.2015.
  */
 
+import com.ssp.dk.Player.Player;
+import com.ssp.dk.Player.PlayerList;
 import com.ssp.dk.R;
+import com.ssp.dk.Session.Session;
+import com.ssp.dk.Session.SessionsList;
 import com.ssp.dk.Table.BaseTableAdapter;
 
 import android.content.Context;
@@ -28,14 +32,19 @@ public class CurrentSessionTableAdapter extends BaseTableAdapter {
     private final int mWidthScore;
     private final int mHeight;
 
+    private Session mSession;
+
+
     /**
      * Constructor
      *
      * @param context The current context.
      */
-    public CurrentSessionTableAdapter(Context context) {
+    public CurrentSessionTableAdapter(Context context, long sessionId) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
+
+        mSession = SessionsList.getInstance().getSessionById(sessionId);
 
         Resources resources = context.getResources();
         mWidthName = resources.getDimensionPixelSize(R.dimen.current_session_table_cell_width_name);
@@ -53,15 +62,6 @@ public class CurrentSessionTableAdapter extends BaseTableAdapter {
         return mContext;
     }
 
-    /**
-     * Quick access to the LayoutInflater instance that this Adapter retreived
-     * from its Context.
-     *
-     * @return The shared LayoutInflater.
-     */
-    public LayoutInflater getInflater() {
-        return mInflater;
-    }
 
     @Override
     public View getView(int row, int column, View converView, ViewGroup parent) {
@@ -84,14 +84,12 @@ public class CurrentSessionTableAdapter extends BaseTableAdapter {
 
     @Override
     public int getRowCount() {
-        // TODO return num of games
-        return 5;
+        return mSession.getNumberOfPlayers();
     }
 
     @Override
     public int getColumnCount() {
-        // TODO return num of players
-        return 5;
+        return mSession.getNumberOfGames();
     }
 
     @Override
@@ -130,16 +128,18 @@ public class CurrentSessionTableAdapter extends BaseTableAdapter {
                 // Upper-left corner
                 cellText = mContext.getString(R.string.current_session_table_game_number);
             } else {
+                // Game number
                 cellText = "#" + (column + 1);
             }
-        }
-        else {
+        }  else {
             if (column < 0) {
-                // TODO header string
-                cellText = "Player name" + row;
+                // Fill player name
+                final long playerId = mSession.getSessionPlayerList().get(row).getId();
+                Player player = PlayerList.getInstance().getPlayerById(playerId);
+                cellText = player.getName();
             } else {
-                // TODO add score or header string
-                return "Score: " + row + "/" + column;
+                // Fill score
+                cellText = String.valueOf(mSession.getGames().get(column).getScore(row));
             }
         }
 
