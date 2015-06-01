@@ -5,6 +5,7 @@
 
 package com.ssp.dk.CurrentSession;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -35,6 +36,17 @@ import java.util.Date;
  * Created by Stefan Schulze on 2014/03/08.
  */
 public class CurrentSessionFragment extends Fragment {
+
+    /** The activity that creates an instance of this dialog fragment must
+     * implement this interface in order to receive event callbacks.
+     * Each method passes the DialogFragment in case the host needs to query it. */
+    public interface CurrentSessionFragmentCallbacks {
+        void onShowCurrentSessionTable(long sessionId);
+    }
+
+    // Instance of the interface to deliver action events
+    CurrentSessionFragmentCallbacks mListener;
+
     private LayoutInflater mInflater;
 
     private View mCurrentSessionFragmentView;
@@ -62,6 +74,20 @@ public class CurrentSessionFragment extends Fragment {
         mSession = SessionsList.getInstance().getSessionById(sessionId);
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the Listener so we can send events to the host
+            mListener = (CurrentSessionFragmentCallbacks) activity;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(activity.toString()
+                    + " must implement CurrentSessionFragmentListener");
+        }
+    }
+
     /**
      * Store result of GameDialog for selected player.
      * If this is the last player in the list, the complete game will be stored to session.
@@ -72,8 +98,8 @@ public class CurrentSessionFragment extends Fragment {
      * @param showPrevious if true the previous player game dialog will be shown again
      *                     if false the next player (if any) game dialog will be shown
      */
-    public void addPlayerGameResult(int playerPosition, Game.eGameResult result, int score,
-                                          boolean showPrevious) {
+    public void addPlayerGameResult(int playerPosition, Game.eGameResult result,
+                                    int score, boolean showPrevious) {
         // store new game result for selected player
         mCurrentGame.setScore(playerPosition, score, result);
 
@@ -156,11 +182,7 @@ public class CurrentSessionFragment extends Fragment {
 
                 return true;
             case R.id.action_current_session_table:
-                // Show CurrentSessionTableFragment
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, new CurrentSessionTableFragment(mSessionId))
-                        .commit();
+                mListener.onShowCurrentSessionTable(mSessionId);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

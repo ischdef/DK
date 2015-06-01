@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ssp.dk.CurrentSession.CurrentSessionFragment;
+import com.ssp.dk.CurrentSession.CurrentSessionTableFragment;
 import com.ssp.dk.Game.Game;
 import com.ssp.dk.Game.GameDialogFragment;
 import com.ssp.dk.NavigationDrawer.NavigationDrawerFragment;
@@ -42,7 +43,9 @@ public class MainActivity extends Activity
         SessionsListFragment.SessionAddDialogCallbacks,
         SessionOptionsDialogFragment.SessionOptionsDialogCallbacks,
         SessionOptionsPlayerSelectionDialogFragment.SessionOptionsPlayerSelectionDialogCallbacks,
-        GameDialogFragment.GameDialogCallbacks {
+        GameDialogFragment.GameDialogCallbacks,
+        CurrentSessionFragment.CurrentSessionFragmentCallbacks,
+        CurrentSessionTableFragment.CurrentSessionTableFragmentCallbacks {
 
     /**
      * Remember the last started session ID.
@@ -439,6 +442,30 @@ public class MainActivity extends Activity
     }
 
 
+    /************************************
+     * Callbacks CurrentSessionFragment *
+     ************************************/
+
+    @Override
+    public void onShowCurrentSessionTable(long sessionId) {
+        // Show CurrentSessionTableFragment instead of CurrentSessionFragment
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, new CurrentSessionTableFragment(sessionId))
+                .commit();
+    }
+
+
+    /*****************************************
+     * Callbacks CurrentSessionTableFragment *
+     *****************************************/
+
+    @Override
+    public void onShowCurrentSessionOverview(long sessionId) {
+        // Show CurrentSessionFragment instead of CurrentSessionTableFragment
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, new CurrentSessionFragment(sessionId))
+                .commit();
+    }
 
 
     /****************************************

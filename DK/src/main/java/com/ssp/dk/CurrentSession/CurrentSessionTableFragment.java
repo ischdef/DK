@@ -5,6 +5,7 @@
 
 package com.ssp.dk.CurrentSession;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -24,6 +25,17 @@ import com.ssp.dk.Table.TableFixHeaders;
  * Created by Stefan Schulze on 2014/05/31.
  */
 public class CurrentSessionTableFragment extends Fragment {
+
+    /** The activity that creates an instance of this dialog fragment must
+     * implement this interface in order to receive event callbacks.
+     * Each method passes the DialogFragment in case the host needs to query it. */
+    public interface CurrentSessionTableFragmentCallbacks {
+        void onShowCurrentSessionOverview(long sessionId);
+    }
+
+    // Instance of the interface to deliver action events
+    CurrentSessionTableFragmentCallbacks mListener;
+
     private LayoutInflater mInflater;
 
     private TableFixHeaders mCurrentSessionTableFragmentView;
@@ -37,7 +49,21 @@ public class CurrentSessionTableFragment extends Fragment {
         mSessionId = sessionId;
     }
 
-      @Override
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the Listener so we can send events to the host
+            mListener = (CurrentSessionTableFragmentCallbacks) activity;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(activity.toString()
+                    + " must implement CurrentSessionTableFragmentListener");
+        }
+    }
+
+    @Override
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -59,10 +85,7 @@ public class CurrentSessionTableFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_current_session_overview:
                 // Return to CurrentSessionFragment
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, new CurrentSessionFragment(mSessionId))
-                        .commit();
+                mListener.onShowCurrentSessionOverview(mSessionId);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
