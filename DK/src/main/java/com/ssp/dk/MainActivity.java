@@ -77,6 +77,7 @@ public class MainActivity extends Activity
     private PlayerListFragment mPlayerListFragment;
     private SessionsListFragment mSessionsListFragment;
     private CurrentSessionFragment mCurrentSessionFragment;
+    private CurrentSessionTableFragment mCurrentSessionTableFragment;
 
     // Content Resolver related parameter
     public static final int REQUEST_PICK_CONTACT  = 1; // Request code used for selecting a contact
@@ -449,8 +450,9 @@ public class MainActivity extends Activity
     @Override
     public void onShowCurrentSessionTable(long sessionId) {
         // Show CurrentSessionTableFragment instead of CurrentSessionFragment
+        mCurrentSessionTableFragment = new CurrentSessionTableFragment(sessionId);
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, new CurrentSessionTableFragment(sessionId))
+                .replace(R.id.container, mCurrentSessionTableFragment)
                 .commit();
     }
 
@@ -462,8 +464,9 @@ public class MainActivity extends Activity
     @Override
     public void onShowCurrentSessionOverview(long sessionId) {
         // Show CurrentSessionFragment instead of CurrentSessionTableFragment
+        mCurrentSessionFragment = new CurrentSessionFragment(sessionId);
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, new CurrentSessionFragment(sessionId))
+                .replace(R.id.container, mCurrentSessionFragment)
                 .commit();
     }
 
